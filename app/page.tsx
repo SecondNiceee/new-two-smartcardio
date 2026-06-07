@@ -10,7 +10,6 @@ import { FaqSection } from "@/components/faq-section"
 import { GradientDecorations } from "@/components/gradient-decorations"
 import { PatentsSection } from "@/components/patents-section"
 
-import { IndicatorsSection } from "@/components/indicators-section"
 import { RecordingsSection } from "@/components/recordings-section"
 import { ReviewsSection } from "@/components/reviews-section"
 import { GenerationsSection } from "@/components/generations-section"
@@ -25,7 +24,6 @@ export default function Page() {
         <SiteHeader />
         <HeroSection />
         <AppSection />
-        <IndicatorsSection />
         <GenerationsSection />
         <HowItWorksSection />
         <ViolationsSection />
