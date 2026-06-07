@@ -25,6 +25,17 @@ export function GenerationsSection() {
     >
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         <div className="rounded-2xl bg-background px-8 py-8 shadow-2xl ring-1 ring-black/10 md:px-12 md:py-10">
+          {/* Header on top of the whole block */}
+          <div className="mb-10 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
+              <HeartPulse className="h-4 w-4" />
+              Для всей семьи
+            </span>
+            <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              Кому подходит СмартКардио®
+            </h2>
+          </div>
+
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
             {/* Image */}
             <div className="order-1 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-foreground/5 lg:order-none">
@@ -41,15 +52,7 @@ export function GenerationsSection() {
 
             {/* Content */}
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-                <HeartPulse className="h-4 w-4" />
-                Для всей семьи
-              </span>
-              <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                Кому подходит СмартКардио®
-              </h2>
-
-              <ul className="mt-8 space-y-4">
+              <ul className="space-y-4">
                 {audiences.map((item) => (
                   <li key={item} className="flex items-center gap-4">
                     <span
