@@ -34,7 +34,7 @@ export function ContactsSection() {
           </h2>
           <a
             href="mailto:support@smartcardio.ru"
-            className="mt-3 inline-block text-lg text-white/70 transition-colors hover:text-white"
+            className="mt-3 inline-block text-2xl font-semibold text-white/70 transition-colors hover:text-white md:text-3xl"
           >
             support@smartcardio.ru
           </a>

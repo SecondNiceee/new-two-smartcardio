@@ -25,18 +25,18 @@ export default function Page() {
         <SiteHeader />
         <HeroSection />
         <AppSection />
-        <HowItWorksSection />
         <IndicatorsSection />
-        <ViolationsSection />
+        <HowItWorksSection />
         <RecordingsSection />
-        <AdvantagesSection />
-        <PatentsSection />
-        <ReviewsSection />
+        <ViolationsSection />
         <GenerationsSection />
+        <AdvantagesSection />
+        <ReviewsSection />
+        <AudienceSlider />
         <FaqSection />
+        <PatentsSection />
         <OrderSection />
         <ContactsSection />
-        <AudienceSlider />
         <CtaFooter />
       </div>
     </main>

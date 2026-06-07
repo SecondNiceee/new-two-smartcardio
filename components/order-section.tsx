@@ -21,7 +21,7 @@ export function OrderSection() {
         className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/40 to-black/70"
       />
 
-      <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-24 text-center md:px-8 md:py-32 lg:py-40">
+      <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-12 text-center md:px-8 md:py-16 lg:py-20">
         <h2
           id="order-heading"
           className="text-balance text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl"
