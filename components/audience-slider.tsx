@@ -32,8 +32,8 @@ export function AudienceSlider() {
           <div className="grid items-stretch gap-0 md:grid-cols-2">
             <div className="relative min-h-80 bg-secondary md:min-h-[32rem]">
               <Image
-                src="/media/for-users.png"
-                alt="Мужчина держит прибор СмартКардио"
+                src="/media/generations.png"
+                alt="Три поколения держат прибор СмартКардио"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover object-top"
