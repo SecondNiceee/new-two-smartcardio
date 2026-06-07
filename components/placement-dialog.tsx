@@ -35,6 +35,7 @@ const uniqueSlides = [
 const slides = [...uniqueSlides, ...uniqueSlides]
 
 export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
+  const [open, setOpen] = useState(false)
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "center",
@@ -64,8 +65,17 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
     }
   }, [emblaApi, onSelect])
 
+  // Re-measure the carousel once the dialog is actually visible.
+  // Embla can't measure slide widths while the dialog is display:none,
+  // which causes slides to overlap/overflow until a resize occurs.
+  useEffect(() => {
+    if (!open || !emblaApi) return
+    const timer = setTimeout(() => emblaApi.reInit(), 50)
+    return () => clearTimeout(timer)
+  }, [open, emblaApi])
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
