@@ -30,8 +30,8 @@ export default function Page() {
         <RecordingsSection />
         <ViolationsSection />
         <GenerationsSection />
-        <AdvantagesSection />
         <ReviewsSection />
+        <AdvantagesSection />
         <AudienceSlider />
         <FaqSection />
         <PatentsSection />
