@@ -18,10 +18,10 @@ export function ViolationsSection() {
         {/* Section header */}
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-            ИИ-диагностика
+            Приложение
           </span>
           <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Распознавание нарушений
+            Удобное приложение
           </h2>
         </div>
 
@@ -55,10 +55,10 @@ export function ViolationsSection() {
               />
 
               <h3 className="text-xl font-bold tracking-tight text-foreground md:text-2xl">
-                Цветовая индикация для быстрого восприятия
+                Удобное приложение с ИИ-диагностикой
               </h3>
               <p className="mt-5 text-pretty text-lg leading-relaxed text-muted-foreground">
-                Приложение СмартКардио® содержит автоматическое распознавание широкого спектра нарушений с помощью искусственного интеллекта. Цветовая индикация способствует лучшему восприятию данных.
+                Приложение СмартКардио® — это простой и понятный инструмент для работы с кардиограммами. Оно мгновенно отображает запись ЭКГ, сохраняет все измерения в личном архиве и помогает отслеживать динамику и делиться данными с врачом. Встроенная ИИ-диагностика автоматически распознаёт широкий спектр нарушений ритма, а наглядная цветовая индикация помогает быстро понять результат.
               </p>
 
               {/* Color indicators */}
