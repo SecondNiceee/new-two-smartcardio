@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { DownloadDialog } from "@/components/download-dialog"
+import { PlacementDialog } from "@/components/placement-dialog"
 import { GalleryDialog, type GalleryImage } from "@/components/gallery-dialog"
 import { VideoDialog } from "@/components/video-dialog"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
@@ -164,17 +165,17 @@ export function HowItWorksSection() {
                         title="Примеры записей с прибора"
                       />
                     ) : step.number === "2" ? (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground"
-                        onClick={() => {
-                          const target = document.querySelector("#recordings")
-                          target?.scrollIntoView({ behavior: "smooth" })
-                        }}
-                      >
-                        {step.action.label}
-                      </Button>
+                      <PlacementDialog
+                        trigger={
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground"
+                          >
+                            {step.action.label}
+                          </Button>
+                        }
+                      />
                     ) : null}
                   </div>
                 </div>
