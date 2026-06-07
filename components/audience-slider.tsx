@@ -81,7 +81,7 @@ export function AudienceSlider() {
             Кому подходит
           </span>
           <h2 className="mt-6 text-pretty text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Одно решение для каждого
+            Единое решение для пользователей и организаций
           </h2>
         </div>
 
