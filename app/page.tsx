@@ -26,15 +26,15 @@ export default function Page() {
         <HeroSection />
         <AppSection />
         <IndicatorsSection />
-        <HowItWorksSection />
-        <RecordingsSection />
-        <ViolationsSection />
         <GenerationsSection />
-        <ReviewsSection />
+        <HowItWorksSection />
+        <ViolationsSection />
+        <RecordingsSection />
         <AdvantagesSection />
+        <ReviewsSection />
+        <PatentsSection />
         <AudienceSlider />
         <FaqSection />
-        <PatentsSection />
         <OrderSection />
         <ContactsSection />
         <CtaFooter />
