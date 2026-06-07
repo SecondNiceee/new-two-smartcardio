@@ -174,34 +174,28 @@ export function AppSection() {
                 <h3 className="text-xl font-bold tracking-tight text-foreground md:text-2xl">
                   Портативный кардиограф СмартКардио®
                 </h3>
-                <p className="mt-5 text-pretty text-lg leading-relaxed text-muted-foreground">
-                  Полноценное ЭКГ в 6 отведениях — и всегда под рукой. Компактный прибор снимает кардиограмму за считанные секунды, а удобное приложение наглядно отображает запись и сохраняет её в личном архиве. Встроенный ИИ помогает обратить внимание на возможные нарушения ритма.
-                </p>
 
-                {/* Feature highlights */}
-                <div className="mt-8 grid gap-4 sm:grid-cols-2" style={{ marginBottom: '1.5rem' }}>
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-foreground">6 отведений</p>
-                      <p className="text-sm text-muted-foreground">Полный охват данных</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-foreground">Личный архив</p>
-                      <p className="text-sm text-muted-foreground">История измерений</p>
-                    </div>
-                  </div>
+                {/* Indicators list */}
+                <div className="mt-6">
+                  <p className="text-sm font-semibold uppercase tracking-wide text-primary">Показатели</p>
+                  <ul className="mt-4 space-y-3">
+                    {["ЭКГ в шести отведениях", "Пульсовая волна", "Дыхательные движения"].map((item) => (
+                      <li key={item} className="flex items-center gap-3">
+                        <span
+                          aria-hidden="true"
+                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-inset ring-primary/20"
+                        >
+                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                          </svg>
+                        </span>
+                        <span className="text-base font-medium text-foreground md:text-lg">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-6 text-sm text-muted-foreground" style={{ marginBottom: "1.5rem" }}>
+                    Данные передаются и сохраняются на смартфоне в режиме онлайн
+                  </p>
                 </div>
 
                 {/* Order button */}
