@@ -2,22 +2,13 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, HeartPulse } from "lucide-react"
 
-const points = [
-  {
-    title: "Сердце требует внимания в любом возрасте",
-    description:
-      "Нарушения работы сердца всё чаще встречаются не только у пожилых, но и у молодых, активных людей — нередко без явных симптомов.",
-  },
-  {
-    title: "Ранняя диагностика спасает жизни",
-    description:
-      "Регулярный контроль ЭКГ помогает заметить отклонения вовремя, когда вмешательство наиболее эффективно.",
-  },
-  {
-    title: "Забота о близких — это просто",
-    description:
-      "Один прибор для всей семьи: проверяйте здоровье детей, родителей и бабушек с дедушками, не выходя из дома.",
-  },
+const audiences = [
+  "людям с аритмией",
+  "спортсменам",
+  "пожилым людям",
+  "детям с заболеваниями сердца",
+  "для домашнего контроля",
+  "для наблюдения в динамике",
 ]
 
 export function GenerationsSection() {
@@ -45,30 +36,21 @@ export function GenerationsSection() {
               Для всей семьи
             </span>
             <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              СмартКардио® — забота о здоровье поколений
+              Кому подходит СмартКардио®
             </h2>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
-              Проблемы с сердцем могут возникнуть у каждого — независимо от возраста и образа жизни. Поэтому забота о
-              сердце должна стать привычкой для всей семьи, от мала до велика.
-            </p>
 
-            <ul className="mt-8 space-y-5">
-              {points.map((point) => (
-                <li key={point.title} className="flex gap-4">
+            <ul className="mt-8 space-y-4">
+              {audiences.map((item) => (
+                <li key={item} className="flex items-center gap-4">
                   <span
                     aria-hidden="true"
-                    className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-inset ring-primary/20"
+                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-inset ring-primary/20"
                   >
                     <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </span>
-                  <div>
-                    <p className="font-semibold text-foreground">{point.title}</p>
-                    <p className="mt-1 text-pretty text-sm leading-relaxed text-muted-foreground">
-                      {point.description}
-                    </p>
-                  </div>
+                  <p className="text-pretty text-base font-medium text-foreground md:text-lg">{item}</p>
                 </li>
               ))}
             </ul>
