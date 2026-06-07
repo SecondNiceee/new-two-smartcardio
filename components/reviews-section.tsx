@@ -1,0 +1,259 @@
+"use client"
+
+import { useState, useEffect, useCallback } from "react"
+import Image from "next/image"
+import useEmblaCarousel from "embla-carousel-react"
+import { Star, MessageSquarePlus } from "lucide-react"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+
+type Review = {
+  id: string
+  name: string
+  source: string
+  rating: number
+  text: string
+  initials: string
+  image?: string
+}
+
+const reviews: Review[] = [
+  {
+    id: "olga",
+    name: "Ольга Е.",
+    source: "Яндекс.Маркет",
+    rating: 5,
+    initials: "О",
+    text: "Прибор очень понравился, мне как врачу очень важно, что шесть отведений, и есть дополнительная информация с пульсовой волной и сатурацией. В целом интуитивно понятно, как пользоваться.",
+    image: "/images/Feedback1.png",
+  },
+  {
+    id: "sergey-o",
+    name: "Сергей Овчинников",
+    source: "Email",
+    rating: 5,
+    initials: "С",
+    text: "Купил прибор папе для контроля аритмии — это было лучшее вложение средств за последние месяцы. Полностью ушла тревога и неизвестность по поводу его ритма, а также проблемы с тем, как записать плёнку для врача.",
+    image: "/images/Feedback2.png",
+  },
+  {
+    id: "anon-ecg",
+    name: "Пользователь",
+    source: "Email",
+    rating: 5,
+    initials: "П",
+    text: "После проблем с сердцем врач посоветовал регулярно проверять ЭКГ. СмартКардио стал настоящим спасением — не нужно тратить время на походы в больницу. Всё делается за пару минут дома. Приложение сохраняет данные для врача.",
+    image: "/images/Feedback3.png",
+  },
+  {
+    id: "viktor",
+    name: "Виктор С.",
+    source: "Email",
+    rating: 5,
+    initials: "В",
+    text: "СмартКардио приятно удивил своей точностью. Уже несколько раз сверял результаты с больничным ЭКГ — данные совпадают! Очень простое управление, всё понятно и интуитивно. Пять звёзд!",
+    image: "/images/Feedback4.png",
+  },
+  {
+    id: "gennady",
+    name: "Геннадий В.",
+    source: "Яндекс.Маркет",
+    rating: 5,
+    initials: "Г",
+    text: "Аппарат прекрасен. Отлично снимает кардиограмму. Куплен на маркете у продавца СмартКардио. Рекомендую.",
+    image: "/images/Feedback5.png",
+  },
+  {
+    id: "veronika",
+    name: "Вероника Юрьевна",
+    source: "Яндекс.Маркет",
+    rating: 5,
+    initials: "В",
+    text: "Лёгкий, удобный, быстрый, результат сразу в телефоне! Для меня это мега удобно, я ещё не встречала такого прибора в онлайн-магазинах. Недостатков нет.",
+    image: "/images/Feedback6.png",
+  },
+  {
+    id: "michael",
+    name: "Михаил А.",
+    source: "Яндекс.Маркет",
+    rating: 5,
+    initials: "М",
+    text: "Отличный, очень нужный прибор. Внучке посоветовали в НИИ педиатрии приобрести смарт-кардио. Прибор оказался очень удобным и простым в использовании. Никаких присосок и проводов не нужно. Только мобильный телефон и регистрируй ЭКГ и частоту пульса.",
+    image: "/images/Feedback7.png",
+  },
+  {
+    id: "darya",
+    name: "Дарья",
+    source: "Email",
+    rating: 5,
+    initials: "Д",
+    text: "Здравствуйте, я хотела бы поделиться своим опытом использования прибора СмартКардио. В первую очередь хочу выразить огромную благодарность службе поддержки, которая оперативно помогла установить приложение. Пользоваться прибором очень удобно, он компактный, всегда под рукой, долго держит зарядку.",
+    image: "/images/Feedback8.png",
+  },
+]
+
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-0.5" aria-label={`Оценка: ${rating} из 5`}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={`h-4 w-4 ${i < rating ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
+        />
+      ))}
+    </div>
+  )
+}
+
+export function ReviewsSection() {
+  const { ref, style } = useScrollAnimation({ direction: "bottom" })
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    dragFree: true,
+  })
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi])
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    onSelect()
+    emblaApi.on("select", onSelect)
+    emblaApi.on("reInit", onSelect)
+    return () => {
+      emblaApi.off("select", onSelect)
+      emblaApi.off("reInit", onSelect)
+    }
+  }, [emblaApi, onSelect])
+
+  return (
+    <section
+      id="reviews"
+      ref={ref as React.RefObject<HTMLElement>}
+      style={style}
+      className="py-12 md:py-16"
+    >
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        {/* Heading */}
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
+            Отзывы
+          </span>
+          <h2 className="mt-6 text-pretty text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            Отзывы наших покупателей
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+            Реальные истории людей, которые уже заботятся о своём сердце вместе со СмартКардио
+          </p>
+        </div>
+
+        {/* Embla Carousel */}
+        <div className="relative mt-10">
+          {/* Navigation arrows */}
+          <button
+            onClick={scrollPrev}
+            aria-label="Предыдущий отзыв"
+            className="absolute left-0 top-1/2 z-20 hidden -translate-x-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:flex"
+          >
+            <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <button
+            onClick={scrollNext}
+            aria-label="Следующий отзыв"
+            className="absolute right-0 top-1/2 z-20 hidden translate-x-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:flex"
+          >
+            <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+
+          {/* Carousel Track */}
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex will-change-transform">
+              {reviews.map((review, i) => (
+                <div
+                  key={review.id}
+                  className="min-w-0 shrink-0 grow-0 basis-[85%] pl-4 sm:basis-[50%] lg:basis-[33.333%]"
+                >
+                  <article className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col gap-4">
+                    {/* Header */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-base">
+                        {review.initials}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-foreground truncate">{review.name}</p>
+                        <p className="text-xs text-muted-foreground">{review.source}</p>
+                      </div>
+                    </div>
+
+                    {/* Stars */}
+                    <StarRating rating={review.rating} />
+
+                    {/* Text */}
+                    <p className="text-sm leading-relaxed text-muted-foreground flex-1">
+                      &laquo;{review.text}&raquo;
+                    </p>
+
+                    {/* Screenshot */}
+                    {review.image && (
+                      <div className="mt-2 overflow-hidden rounded-xl border border-border">
+                        <Image
+                          src={review.image}
+                          alt={`Скриншот отзыва от ${review.name}`}
+                          width={360}
+                          height={240}
+                          className="w-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </article>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Dots */}
+          <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Слайды">
+            {reviews.map((r, i) => (
+              <button
+                key={r.id}
+                role="tab"
+                aria-selected={i === selectedIndex}
+                aria-label={`Перейти к отзыву ${i + 1}`}
+                onClick={() => scrollTo(i)}
+                className={[
+                  "h-2.5 rounded-full transition-all duration-300",
+                  i === selectedIndex
+                    ? "w-6 bg-primary"
+                    : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60",
+                ].join(" ")}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Button */}
+        <div className="mt-10 flex justify-center">
+          <a
+            href="mailto:support@smartcardio.ru?subject=Мой отзыв о СмартКардио"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <MessageSquarePlus className="h-4 w-4" />
+            Оставить свой отзыв
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}

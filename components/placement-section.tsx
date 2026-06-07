@@ -1,0 +1,173 @@
+"use client"
+
+import { useState, useEffect, useCallback } from "react"
+import Image from "next/image"
+import useEmblaCarousel from "embla-carousel-react"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+
+const uniqueSlides = [
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xvxvTVVaDnRWoAvfeqO1tPvvf7QRVC.png",
+    title: "Лодыжка левой ноги",
+    description: "Приложите прибор к лодыжке для быстрой регистрации показателей.",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-BTOW02BMQAlGnf8j4Dg71MZct4gCKp.png",
+    title: "Колено левой ноги",
+    description: "Для комфортной записи из положения сидя разместите прибор на колене левой ноги.",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xTdHDUzqNrb63c0Omq2PCZgJsxBLYj.png",
+    title: "Левая область живота",
+    description:
+      "Положение прибора в левой области живота позволяет измерять не только основные показатели, но и дыхательные движения.",
+  },
+]
+
+// Duplicate slides to create 6 total (3 unique + 3 duplicates)
+const slides = [...uniqueSlides, ...uniqueSlides]
+
+export function PlacementSection() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "center",
+    containScroll: false,
+    skipSnaps: false,
+    startIndex: 2,
+  })
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const { ref, style } = useScrollAnimation({ direction: "bottom" })
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi])
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    onSelect()
+    emblaApi.on("select", onSelect)
+    emblaApi.on("reInit", onSelect)
+    return () => {
+      emblaApi.off("select", onSelect)
+      emblaApi.off("reInit", onSelect)
+    }
+  }, [emblaApi, onSelect])
+
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-hidden py-12 md:py-14">
+      <div className="relative mx-auto max-w-7xl px-4 md:px-8">
+        {/* Section header */}
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
+            Размещение
+          </span>
+          <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            Куда именно приложить прибор
+          </h2>
+          <p className="mt-4 text-pretty text-base leading-relaxed text-muted-foreground">
+            Прибор можно использовать в нескольких удобных положениях. Выберите то, что подходит именно вам.
+          </p>
+        </div>
+
+        {/* Embla carousel */}
+        <div className="relative mx-auto mt-10 max-w-6xl">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex touch-pan-y">
+              {slides.map((slide, i) => {
+                const isActive = i === selectedIndex
+                return (
+                  <div key={i} className="min-w-0 shrink-0 grow-0 basis-[85%] pl-4 sm:basis-[60%] md:basis-[35%]">
+                    <div
+                      className={[
+                        "overflow-hidden rounded-2xl bg-background transition-all duration-500 ease-out",
+                        isActive ? "scale-100 opacity-100 shadow-2xl ring-2 ring-primary/20" : "scale-[0.9] opacity-40",
+                      ].join(" ")}
+                    >
+                      <div className="relative aspect-[3/4] w-full">
+                        <Image
+                          src={slide.src || "/placeholder.svg"}
+                          alt={slide.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 85vw, (max-width: 768px) 60vw, 35vw"
+                          priority={i === 0}
+                          draggable={false}
+                        />
+                      </div>
+                      <div className="bg-foreground/90 px-5 py-4">
+                        <p className="text-center text-base font-semibold text-background md:text-lg">{slide.title}</p>
+                        <p className="mt-1.5 text-pretty text-center text-sm leading-relaxed text-background/70">
+                          {slide.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Nav arrows */}
+          <button
+            onClick={scrollPrev}
+            aria-label="Предыдущее положение"
+            className="absolute left-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:left-4"
+          >
+            <svg
+              className="h-5 w-5 text-foreground"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <button
+            onClick={scrollNext}
+            aria-label="Следующее положение"
+            className="absolute right-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:right-4"
+          >
+            <svg
+              className="h-5 w-5 text-foreground"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Dot indicators - show only 3 dots for unique slides */}
+        <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Положения прибора">
+          {uniqueSlides.map((_, i) => {
+            // Map selectedIndex to unique slide index (0-2)
+            const uniqueSelectedIndex = selectedIndex % uniqueSlides.length
+            return (
+              <button
+                key={i}
+                role="tab"
+                aria-selected={i === uniqueSelectedIndex}
+                aria-label={`Положение ${i + 1}`}
+                onClick={() => scrollTo(i)}
+                className={[
+                  "h-2.5 rounded-full transition-all duration-300",
+                  i === uniqueSelectedIndex ? "w-6 bg-primary" : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60",
+                ].join(" ")}
+              />
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
