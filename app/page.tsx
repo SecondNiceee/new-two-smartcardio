@@ -12,7 +12,6 @@ import { PatentsSection } from "@/components/patents-section"
 
 import { RecordingsSection } from "@/components/recordings-section"
 import { ReviewsSection } from "@/components/reviews-section"
-import { GenerationsSection } from "@/components/generations-section"
 import { OrderSection } from "@/components/order-section"
 import { ContactsSection } from "@/components/contacts-section"
 
@@ -24,7 +23,6 @@ export default function Page() {
         <SiteHeader />
         <HeroSection />
         <AppSection />
-        <GenerationsSection />
         <HowItWorksSection />
         <ViolationsSection />
         <RecordingsSection />
