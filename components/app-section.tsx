@@ -49,7 +49,7 @@ export function AppSection() {
 
                 <p className="mt-5 text-lg leading-relaxed text-foreground md:text-xl">
                   СмартКардио® — это кардиомонитор, доступный в любом месте. Снимайте ЭКГ
-                  без визита в поликлинику и получайте данные, готовые для врача.
+                  когда угодно и получайте данные, готовые для врача.
                 </p>
                 <p className="mt-4 text-base font-semibold text-primary md:text-lg">
                   Результат за 20 секунд.
@@ -57,13 +57,13 @@ export function AppSection() {
 
                 {/* Indicators list */}
                 <div className="mt-8">
-                  <p className="text-base font-semibold uppercase tracking-wide text-primary">Показатели</p>
+                  <p className="text-base font-semibold uppercase tracking-wide text-teal-600">Показатели</p>
                   <ul className="mt-4 space-y-3">
                     {["ЭКГ в шести отведениях", "Пульсовая волна", "Дыхательные движения"].map((item) => (
                       <li key={item} className="flex items-center gap-3">
                         <span
                           aria-hidden="true"
-                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-inset ring-primary/20"
+                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-500/10 text-teal-600 ring-1 ring-inset ring-teal-500/20"
                         >
                           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
