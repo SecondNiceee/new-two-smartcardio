@@ -42,10 +42,10 @@ export function AppSection() {
               />
 
               <h3 className="text-xl font-bold tracking-tight text-foreground md:text-2xl">
-                Удобный интерфейс для записи ЭКГ
+                Портативный кардиограф СмартКардио®
               </h3>
               <p className="mt-5 text-pretty text-lg leading-relaxed text-muted-foreground">
-                Удобное приложение записывает сигнал в 6 отведениях, сразу отображает результат и сохраняет все измерения в личном архиве. Смотрите записи, отслеживайте изменения, делитесь с врачом при необходимости.
+                СмартКардио® — это компактный персональный прибор для записи ЭКГ, который всегда под рукой. Достаточно приложить устройство к телу, чтобы за считанные секунды снять кардиограмму в 6 отведениях. Прибор работает в связке с мобильным приложением: оно мгновенно отображает результат, помогает выявлять нарушения ритма и сохраняет все измерения в личном архиве, чтобы вы могли отслеживать динамику и делиться данными с врачом.
               </p>
 
               {/* Feature highlights */}
@@ -74,9 +74,15 @@ export function AppSection() {
                 </div>
               </div>
 
-              {/* Download button */}
-              <button className="mt-6 inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90">
-                Скачать
+              {/* Order button */}
+              <button
+                onClick={() => {
+                  const target = document.querySelector("#order")
+                  target?.scrollIntoView({ behavior: "smooth" })
+                }}
+                className="mt-6 inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+              >
+                Заказать
               </button>
             </div>
 
