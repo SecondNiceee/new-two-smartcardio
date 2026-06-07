@@ -5,7 +5,6 @@ import { HowItWorksSection } from "@/components/how-it-works-section"
 import { AppSection } from "@/components/app-section"
 import { GenerationsSection } from "@/components/generations-section"
 import { AdvantagesSection } from "@/components/advantages-section"
-import { ViolationsSection } from "@/components/violations-section"
 import { CtaFooter } from "@/components/cta-footer"
 import { FaqSection } from "@/components/faq-section"
 import { GradientDecorations } from "@/components/gradient-decorations"
@@ -26,7 +25,6 @@ export default function Page() {
         <AppSection />
         <GenerationsSection />
         <HowItWorksSection />
-        <ViolationsSection />
         <RecordingsSection />
         <AdvantagesSection />
         <ReviewsSection />
