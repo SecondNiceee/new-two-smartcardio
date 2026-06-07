@@ -43,13 +43,24 @@ export function AppSection() {
                   className="pointer-events-none absolute -bottom-2 -right-2 h-16 w-16 rounded-br-[2rem] border-b-2 border-r-2 border-primary/40"
                 />
 
-                <h3 className="text-xl font-bold tracking-tight text-foreground md:text-2xl">
+                <h3 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
                   Портативный кардиограф СмартКардио®
                 </h3>
 
+                <p className="mt-5 text-lg leading-relaxed text-foreground md:text-xl">
+                  СмартКардио® — это компактный персональный кардиограф, который позволяет
+                  снимать электрокардиограмму в любом месте и в любое время, без визита в
+                  поликлинику. Прибор помещается в ладони и работает в связке со смартфоном.
+                </p>
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                  За считанные секунды устройство регистрирует работу сердца, сосудов и дыхания,
+                  а результаты автоматически сохраняются в приложении. Это даёт возможность
+                  следить за здоровьем сердца регулярно и вовремя замечать изменения.
+                </p>
+
                 {/* Indicators list */}
-                <div className="mt-6">
-                  <p className="text-sm font-semibold uppercase tracking-wide text-primary">Показатели</p>
+                <div className="mt-8">
+                  <p className="text-base font-semibold uppercase tracking-wide text-primary">Показатели</p>
                   <ul className="mt-4 space-y-3">
                     {["ЭКГ в шести отведениях", "Пульсовая волна", "Дыхательные движения"].map((item) => (
                       <li key={item} className="flex items-center gap-3">
@@ -65,7 +76,7 @@ export function AppSection() {
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-6 text-sm text-muted-foreground" style={{ marginBottom: "1.5rem" }}>
+                  <p className="mt-6 text-base text-muted-foreground" style={{ marginBottom: "1.5rem" }}>
                     Данные передаются и сохраняются на смартфоне в режиме онлайн
                   </p>
                 </div>
