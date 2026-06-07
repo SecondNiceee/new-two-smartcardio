@@ -26,9 +26,9 @@ const galleryImages: GalleryImage[] = [
 const steps = [
   {
     number: "1",
-    title: "Скачайте и откройте приложение Smartcardio",
+    title: "Скачайте и откройте приложение СмартКардио®",
     image: "/media/step-app.png",
-    imageAlt: "Девушка открывает приложение Smartcardio на смартфоне",
+    imageAlt: "Девушка открывает приложение СмартКардио® на смартфоне",
     action: { label: "Скачать", href: "#contact", download: true },
   },
   {
@@ -188,7 +188,7 @@ export function HowItWorksSection() {
         <div className="mt-10 flex justify-center">
           <VideoDialog
             src="/videos/how-to-use.mp4"
-            title="Как пользоваться Smartcardio"
+            title="Как пользоваться СмартКардио®"
             trigger={
               <Button
                 size="lg"

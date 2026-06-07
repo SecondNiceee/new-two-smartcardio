@@ -20,7 +20,7 @@ export function AppSection() {
             Что это?
           </span>
           <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Смарткардио
+            СмартКардио®
           </h2>
         </div>
 
