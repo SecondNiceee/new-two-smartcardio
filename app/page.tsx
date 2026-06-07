@@ -12,7 +12,6 @@ import { PatentsSection } from "@/components/patents-section"
 
 import { IndicatorsSection } from "@/components/indicators-section"
 import { RecordingsSection } from "@/components/recordings-section"
-import { PlacementSection } from "@/components/placement-section"
 import { ReviewsSection } from "@/components/reviews-section"
 import { GenerationsSection } from "@/components/generations-section"
 import { OrderSection } from "@/components/order-section"
@@ -25,13 +24,11 @@ export default function Page() {
       <div className="relative z-10">
         <SiteHeader />
         <HeroSection />
-        <AudienceSlider />
-        <HowItWorksSection />
-        <PlacementSection />
         <AppSection />
+        <HowItWorksSection />
         <IndicatorsSection />
-        <RecordingsSection />
         <ViolationsSection />
+        <RecordingsSection />
         <AdvantagesSection />
         <PatentsSection />
         <ReviewsSection />
@@ -39,6 +36,7 @@ export default function Page() {
         <FaqSection />
         <OrderSection />
         <ContactsSection />
+        <AudienceSlider />
         <CtaFooter />
       </div>
     </main>

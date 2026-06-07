@@ -1,9 +1,16 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, type ReactNode } from "react"
 import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
-import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 const uniqueSlides = [
   {
@@ -27,7 +34,7 @@ const uniqueSlides = [
 // Duplicate slides to create 6 total (3 unique + 3 duplicates)
 const slides = [...uniqueSlides, ...uniqueSlides]
 
-export function PlacementSection() {
+export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "center",
@@ -36,7 +43,6 @@ export function PlacementSection() {
     startIndex: 2,
   })
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const { ref, style } = useScrollAnimation({ direction: "bottom" })
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
@@ -59,29 +65,24 @@ export function PlacementSection() {
   }, [emblaApi, onSelect])
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-hidden py-12 md:py-14">
-      <div className="relative mx-auto max-w-7xl px-4 md:px-8">
-        {/* Section header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-            Размещение
-          </span>
-          <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Куда именно приложить прибор
-          </h2>
-          <p className="mt-4 text-pretty text-base leading-relaxed text-muted-foreground">
+    <Dialog>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className="sm:max-w-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-center text-xl">Куда именно приложить прибор</DialogTitle>
+          <DialogDescription className="text-center">
             Прибор можно использовать в нескольких удобных положениях. Выберите то, что подходит именно вам.
-          </p>
-        </div>
+          </DialogDescription>
+        </DialogHeader>
 
         {/* Embla carousel */}
-        <div className="relative mx-auto mt-10 max-w-6xl">
+        <div className="relative mx-auto mt-4 w-full">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex touch-pan-y">
               {slides.map((slide, i) => {
                 const isActive = i === selectedIndex
                 return (
-                  <div key={i} className="min-w-0 shrink-0 grow-0 basis-[85%] pl-4 sm:basis-[60%] md:basis-[35%]">
+                  <div key={i} className="min-w-0 shrink-0 grow-0 basis-[80%] pl-4 sm:basis-[55%]">
                     <div
                       className={[
                         "overflow-hidden rounded-2xl bg-background transition-all duration-500 ease-out",
@@ -94,7 +95,7 @@ export function PlacementSection() {
                           alt={slide.title}
                           fill
                           className="object-cover"
-                          sizes="(max-width: 640px) 85vw, (max-width: 768px) 60vw, 35vw"
+                          sizes="(max-width: 640px) 80vw, 55vw"
                           priority={i === 0}
                           draggable={false}
                         />
@@ -150,7 +151,6 @@ export function PlacementSection() {
         {/* Dot indicators - show only 3 dots for unique slides */}
         <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Положения прибора">
           {uniqueSlides.map((_, i) => {
-            // Map selectedIndex to unique slide index (0-2)
             const uniqueSelectedIndex = selectedIndex % uniqueSlides.length
             return (
               <button
@@ -161,13 +161,15 @@ export function PlacementSection() {
                 onClick={() => scrollTo(i)}
                 className={[
                   "h-2.5 rounded-full transition-all duration-300",
-                  i === uniqueSelectedIndex ? "w-6 bg-primary" : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60",
+                  i === uniqueSelectedIndex
+                    ? "w-6 bg-primary"
+                    : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60",
                 ].join(" ")}
               />
             )
           })}
         </div>
-      </div>
-    </section>
+      </DialogContent>
+    </Dialog>
   )
 }

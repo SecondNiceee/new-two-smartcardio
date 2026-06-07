@@ -50,8 +50,8 @@ type StoreItem = {
 
 const stores: StoreItem[] = [
   {
-    name: "App Store",
-    caption: "Загрузите в",
+    name: "TestFlight",
+    caption: "Загрузить в",
     href: "#",
     tile: "bg-gradient-to-br from-sky-500 to-blue-600",
     logo: <AppStoreLogo />,
