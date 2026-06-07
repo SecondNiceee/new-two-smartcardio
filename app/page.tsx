@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/hero-section"
 import { AudienceSlider } from "@/components/audience-slider"
 import { HowItWorksSection } from "@/components/how-it-works-section"
 import { AppSection } from "@/components/app-section"
+import { GenerationsSection } from "@/components/generations-section"
 import { AdvantagesSection } from "@/components/advantages-section"
 import { ViolationsSection } from "@/components/violations-section"
 import { CtaFooter } from "@/components/cta-footer"
@@ -23,6 +24,7 @@ export default function Page() {
         <SiteHeader />
         <HeroSection />
         <AppSection />
+        <GenerationsSection />
         <HowItWorksSection />
         <ViolationsSection />
         <RecordingsSection />
