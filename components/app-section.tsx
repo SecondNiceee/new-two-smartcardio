@@ -57,13 +57,13 @@ export function AppSection() {
 
                 {/* Indicators list */}
                 <div className="mt-8">
-                  <p className="text-base font-semibold uppercase tracking-wide text-teal-600">Показатели</p>
+                  <p className="text-base font-semibold uppercase tracking-wide text-accent">Показатели</p>
                   <ul className="mt-4 space-y-3">
                     {["ЭКГ в шести отведениях", "Пульсовая волна", "Дыхательные движения"].map((item) => (
                       <li key={item} className="flex items-center gap-3">
                         <span
                           aria-hidden="true"
-                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-500/10 text-teal-600 ring-1 ring-inset ring-teal-500/20"
+                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent ring-1 ring-inset ring-accent/20"
                         >
                           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
