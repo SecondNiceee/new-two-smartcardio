@@ -85,7 +85,7 @@ export function DownloadDialog({ trigger }: { trigger: ReactNode }) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-center text-xl">Скачайте приложение Smartcardio</DialogTitle>
+          <DialogTitle className="text-center text-xl">Скачайте приложение СмартКардио®</DialogTitle>
           <DialogDescription className="text-center">
             Выберите магазин приложений для вашего устройства
           </DialogDescription>
