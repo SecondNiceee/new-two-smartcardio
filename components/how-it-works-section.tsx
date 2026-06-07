@@ -4,46 +4,31 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { DownloadDialog } from "@/components/download-dialog"
 import { PlacementDialog } from "@/components/placement-dialog"
-import { GalleryDialog, type GalleryImage } from "@/components/gallery-dialog"
 import { VideoDialog } from "@/components/video-dialog"
+import { AppInfoDialog } from "@/components/app-info-dialog"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
-
-const galleryImages: GalleryImage[] = [
-  {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image.png-Zq2OBOOaxRwy4cCxS5l3duFEVe83Dt.jpeg",
-    caption: "Синусовый ритм, вариант нормы",
-  },
-  {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-qEatb2pnLqJaFqSgxgXAwZuKUIvGQ7.png",
-    caption: "Синусовый ритм, вариант нормы",
-  },
-  {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image.png-kVzBSNPHSDFK3O8rjBfxv9K1U8VFHL.jpeg",
-    caption: "Желудочковая бигеминия с дефицитом пульса",
-  },
-]
 
 const steps = [
   {
     number: "1",
-    title: "Скачайте и откройте приложение СмартКардио®",
+    title: "Установите приложение",
     image: "/media/step-app.png",
     imageAlt: "Девушка открывает приложение СмартКардио® на смартфоне",
     action: { label: "Скачать", href: "#contact", download: true },
   },
   {
     number: "2",
-    title: "Приложите прибор к себе, чтобы снять ЭКГ",
+    title: "Снимите ЭКГ за 20 секунд",
     image: "/media/step-device.jpeg",
     imageAlt: "Женщина прикладывает прибор СмартКардио к телу",
     action: { label: "Куда именно приложить прибор?", href: "#recordings", scrollTo: true },
   },
   {
     number: "3",
-    title: "Подождите пока запись закончится и посмотрите результаты",
+    title: "Запись сохраняется в личном архиве",
     image: "/media/step-results.png",
     imageAlt: "Смартфон с готовой ЭКГ на столе",
-    action: { label: "Посмотреть примеры", gallery: true },
+    action: { label: "Как приложение анализирует запись?" },
   },
 ] as const
 
@@ -151,7 +136,7 @@ export function HowItWorksSection() {
                         }
                       />
                     ) : step.number === "3" ? (
-                      <GalleryDialog
+                      <AppInfoDialog
                         trigger={
                           <Button
                             variant="outline"
@@ -161,8 +146,6 @@ export function HowItWorksSection() {
                             {step.action.label}
                           </Button>
                         }
-                        images={galleryImages}
-                        title="Примеры записей с прибора"
                       />
                     ) : step.number === "2" ? (
                       <PlacementDialog
