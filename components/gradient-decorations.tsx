@@ -2,6 +2,26 @@
 
 import { useEffect, useState } from "react"
 
+/** Reusable neat ECG / heartbeat trace */
+function EcgLine({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 600 80"
+      fill="none"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M0 40 H120 l10 0 6 -22 8 44 7 -52 6 60 7 -30 H210 l8 0 5 -12 5 12 H600"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 export function GradientDecorations() {
   const [isVisible, setIsVisible] = useState(false)
 
@@ -25,7 +45,7 @@ export function GradientDecorations() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      {/* Subtle dot grid - primary purple, very light */}
+      {/* Subtle dot grid - primary, very light */}
       <svg className="absolute inset-0 h-full w-full text-primary/[0.04]">
         <defs>
           <pattern
@@ -42,71 +62,28 @@ export function GradientDecorations() {
         <rect width="100%" height="100%" fill="url(#dot-grid)" />
       </svg>
 
-      {/* Concentric rotated squares - top right (primary purple) */}
-      <svg
-        className="absolute -right-24 -top-24 h-[420px] w-[420px] rotate-12 text-primary/[0.05] md:h-[520px] md:w-[520px]"
-        viewBox="0 0 200 200"
-        fill="none"
-      >
-        <rect x="14" y="14" width="172" height="172" rx="24" stroke="currentColor" strokeWidth="1" />
-        <rect x="40" y="40" width="120" height="120" rx="18" stroke="currentColor" strokeWidth="1" />
-        <rect x="66" y="66" width="68" height="68" rx="12" stroke="currentColor" strokeWidth="1" />
-      </svg>
+      {/* ECG trace - top, primary */}
+      <EcgLine className="absolute left-0 top-[14%] h-12 w-full text-primary/[0.06] md:h-16" />
 
-      {/* Long ECG / heartbeat line - bottom left (teal accent) */}
-      <svg
-        className="absolute -left-28 bottom-[8%] h-[360px] w-[360px] text-accent/[0.06] md:h-[460px] md:w-[460px]"
-        viewBox="0 0 200 200"
-        fill="none"
-      >
-        <path
-          d="M10 110 H58 l8 -30 9 60 9 -44 7 30 H128 l8 -16 8 16 H200"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M10 150 H70 l6 -16 6 16 H200"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      {/* ECG trace - middle, teal accent */}
+      <EcgLine className="absolute left-0 top-1/2 h-10 w-full -translate-y-1/2 text-accent/[0.05] md:h-14" />
 
-      {/* Hexagon - top right area (teal accent) */}
-      <svg
-        className="absolute right-[12%] top-[26%] h-16 w-16 text-accent/[0.10] md:h-20 md:w-20"
-        viewBox="0 0 100 100"
-        fill="none"
-      >
-        <polygon points="50,6 88,28 88,72 50,94 12,72 12,28" stroke="currentColor" strokeWidth="2" />
-      </svg>
+      {/* ECG trace - lower area, primary */}
+      <EcgLine className="absolute left-0 top-[82%] h-12 w-full text-primary/[0.05] md:h-16" />
 
-      {/* Plus / cross mark (primary purple) */}
-      <svg
-        className="absolute left-[18%] top-[68%] h-12 w-12 rotate-12 text-primary/[0.08]"
-        viewBox="0 0 100 100"
-        fill="none"
-      >
-        <path
-          d="M50 18 V82 M18 50 H82"
-          stroke="currentColor"
-          strokeWidth="6"
-          strokeLinecap="round"
-        />
-      </svg>
+      {/* Subtle brand logo watermark - bottom right */}
+      <img
+        src="/media/logo.png"
+        alt=""
+        className="absolute -right-6 bottom-[6%] h-24 w-auto opacity-[0.05] md:h-32"
+      />
 
-      {/* Triangle outline (teal accent) */}
-      <svg
-        className="absolute right-[24%] bottom-[14%] h-14 w-14 -rotate-6 text-accent/[0.09]"
-        viewBox="0 0 100 100"
-        fill="none"
-      >
-        <polygon points="50,12 90,84 10,84" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-      </svg>
+      {/* Subtle brand logo watermark - top left */}
+      <img
+        src="/media/logo.png"
+        alt=""
+        className="absolute -left-4 top-[8%] h-16 w-auto opacity-[0.04] md:h-20"
+      />
     </div>
   )
 }
-
