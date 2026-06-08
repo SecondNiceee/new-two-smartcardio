@@ -144,103 +144,110 @@ export function ReviewsSection() {
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             Реальные истории людей, которые уже заботятся о своём сердце вместе со СмартКардио
           </p>
-          <div className="mt-8 flex justify-center">
-            <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+        </div>
+
+        {/* Two-column layout: reviews left, photo right */}
+        <div className="mt-12 grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_minmax(300px,380px)] lg:gap-12">
+          {/* Reviews (left) */}
+          <div className="order-2 min-w-0 lg:order-1">
+            <div className="relative">
+              {/* Navigation arrows */}
+              <button
+                onClick={scrollPrev}
+                aria-label="Предыдущий отзыв"
+                className="absolute left-0 top-1/2 z-20 hidden -translate-x-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:flex"
+              >
+                <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+              <button
+                onClick={scrollNext}
+                aria-label="Следующий отзыв"
+                className="absolute right-0 top-1/2 z-20 hidden translate-x-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:flex"
+              >
+                <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+
+              {/* Carousel Track */}
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex will-change-transform">
+                  {reviews.map((review) => (
+                    <div
+                      key={review.id}
+                      className="min-w-0 shrink-0 grow-0 basis-[90%] pl-4 sm:basis-[55%] xl:basis-[48%]"
+                    >
+                      <article className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col gap-4">
+                        {/* Header */}
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-base">
+                            {review.initials}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="font-semibold text-foreground truncate">{review.name}</p>
+                            <p className="text-xs text-muted-foreground">{review.source}</p>
+                          </div>
+                        </div>
+
+                        {/* Stars */}
+                        <StarRating rating={review.rating} />
+
+                        {/* Text */}
+                        <p className="text-sm leading-relaxed text-muted-foreground flex-1">
+                          &laquo;{review.text}&raquo;
+                        </p>
+                      </article>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Dots */}
+              <div className="mt-6 flex items-center justify-center gap-2 lg:justify-start" role="tablist" aria-label="Слайды">
+                {reviews.map((r, i) => (
+                  <button
+                    key={r.id}
+                    role="tab"
+                    aria-selected={i === selectedIndex}
+                    aria-label={`Перейти к отзыву ${i + 1}`}
+                    onClick={() => scrollTo(i)}
+                    className={[
+                      "h-2.5 rounded-full transition-all duration-300",
+                      i === selectedIndex
+                        ? "w-6 bg-primary"
+                        : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60",
+                    ].join(" ")}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="mt-8 flex justify-center lg:justify-start">
+              <a
+                href="mailto:support@smartcardio.ru?subject=Мой отзыв о СмартКардио"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <MessageSquarePlus className="h-4 w-4" />
+                Оставить свой отзыв
+              </a>
+            </div>
+          </div>
+
+          {/* Photo (right) */}
+          <div className="order-1 lg:order-2 lg:sticky lg:top-24">
+            <div className="mx-auto max-w-xs overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:max-w-none">
               <Image
                 src="/images/review-customer.png"
                 alt="Покупатель СмартКардио держит прибор в руке"
                 width={420}
                 height={525}
-                className="h-auto w-full max-w-xs object-cover"
+                className="h-auto w-full object-cover"
               />
             </div>
           </div>
-        </div>
-
-        {/* Embla Carousel */}
-        <div className="relative mt-10">
-          {/* Navigation arrows */}
-          <button
-            onClick={scrollPrev}
-            aria-label="Предыдущий отзыв"
-            className="absolute left-0 top-1/2 z-20 hidden -translate-x-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:flex"
-          >
-            <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-          </button>
-          <button
-            onClick={scrollNext}
-            aria-label="Следующий отзыв"
-            className="absolute right-0 top-1/2 z-20 hidden translate-x-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:flex"
-          >
-            <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-          </button>
-
-          {/* Carousel Track */}
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex will-change-transform">
-              {reviews.map((review) => (
-                <div
-                  key={review.id}
-                  className="min-w-0 shrink-0 grow-0 basis-[85%] pl-4 sm:basis-[50%] lg:basis-[33.333%]"
-                >
-                  <article className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col gap-4">
-                    {/* Header */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-base">
-                        {review.initials}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="font-semibold text-foreground truncate">{review.name}</p>
-                        <p className="text-xs text-muted-foreground">{review.source}</p>
-                      </div>
-                    </div>
-
-                    {/* Stars */}
-                    <StarRating rating={review.rating} />
-
-                    {/* Text */}
-                    <p className="text-sm leading-relaxed text-muted-foreground flex-1">
-                      &laquo;{review.text}&raquo;
-                    </p>
-                  </article>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Dots */}
-          <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Слайды">
-            {reviews.map((r, i) => (
-              <button
-                key={r.id}
-                role="tab"
-                aria-selected={i === selectedIndex}
-                aria-label={`Перейти к отзыву ${i + 1}`}
-                onClick={() => scrollTo(i)}
-                className={[
-                  "h-2.5 rounded-full transition-all duration-300",
-                  i === selectedIndex
-                    ? "w-6 bg-primary"
-                    : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60",
-                ].join(" ")}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* CTA Button */}
-        <div className="mt-10 flex justify-center">
-          <a
-            href="mailto:support@smartcardio.ru?subject=Мой отзыв о СмартКардио"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <MessageSquarePlus className="h-4 w-4" />
-            Оставить свой отзыв
-          </a>
         </div>
       </div>
     </section>
