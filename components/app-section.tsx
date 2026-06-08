@@ -56,7 +56,11 @@ export function AppSection() {
                 <div className="mt-8">
                   <p className="text-base font-semibold uppercase tracking-wide text-accent">Показатели</p>
                   <ul className="mt-4 space-y-3">
-                    {["ЭКГ в шести отведениях (I, II, III, aVL, aVR, aVF)"].map((item) => (
+                    {[
+                      "ЭКГ в шести отведениях (I, II, III, aVL, aVR, aVF)",
+                      "Пульсовую волну с расчетом сатурации крови кислородом",
+                      "Дыхательные движения (график дыхания)",
+                    ].map((item) => (
                       <li key={item} className="flex items-center gap-3">
                         <span
                           aria-hidden="true"
