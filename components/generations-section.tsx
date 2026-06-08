@@ -5,12 +5,11 @@ import { HeartPulse } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const audiences = [
-  "людям с аритмией",
-  "спортсменам",
-  "пожилым людям",
-  "детям с заболеваниями сердца",
-  "для домашнего контроля",
-  "для наблюдения в динамике",
+  'Люди с жалобами на "нарушения" в работе сердца',
+  "Пациенты, которым необходим регулярный контроль ЭКГ",
+  "Люди старшего возраста, заботящиеся о здоровье сердца",
+  "Люди с семейной историей заболеваний сердца",
+  "Пользователи телемедицинских сервисов",
 ]
 
 export function GenerationsSection() {
@@ -28,10 +27,10 @@ export function GenerationsSection() {
         <div className="mb-10 text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
             <HeartPulse className="h-4 w-4" />
-            Для всей семьи
+            Кому подходит
           </span>
           <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Кому подходит СмартКардио®
+            Для кого создан СмартКардио
           </h2>
         </div>
 
