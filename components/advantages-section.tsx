@@ -1,7 +1,6 @@
 "use client"
 
 import { MousePointerClick, Activity, Stethoscope, Layers, BatteryCharging, Wallet } from "lucide-react"
-import Image from "next/image"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const advantages = [
@@ -46,19 +45,6 @@ export function AdvantagesSection() {
 
   return (
     <section id="advantages" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-x-hidden bg-slate-900 py-12 md:py-14">
-      {/* Background photo */}
-      <div className="pointer-events-none absolute inset-0">
-        <Image
-          src="/media/footerBg.png"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority={false}
-        />
-        <div className="absolute inset-0 bg-slate-900/80" />
-      </div>
-
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
