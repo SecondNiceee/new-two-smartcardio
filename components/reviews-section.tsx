@@ -133,23 +133,37 @@ export function ReviewsSection() {
       className="py-12 md:py-16"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        {/* Heading */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-            Отзывы
-          </span>
-          <h2 className="mt-6 text-pretty text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Отзывы наших покупателей
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Реальные истории людей, которые уже заботятся о своём сердце вместе со СмартКардио
-          </p>
-        </div>
+        {/* Two-column layout: photo left, reviews right */}
+        <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[minmax(320px,420px)_1fr] lg:gap-12">
+          {/* Photo (left) */}
+          <div className="order-1 hidden lg:block">
+            <div className="h-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+              <Image
+                src="/images/review-customer.png"
+                alt="Покупатель СмартКардио держит прибор в руке"
+                width={420}
+                height={600}
+                className="h-full w-full object-cover object-top"
+              />
+            </div>
+          </div>
 
-        {/* Two-column layout: reviews left, photo right */}
-        <div className="mt-12 grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_minmax(300px,380px)] lg:gap-12">
-          {/* Reviews (left) */}
-          <div className="order-2 min-w-0 lg:order-1">
+          {/* Reviews (right) */}
+          <div className="order-2 min-w-0 flex flex-col">
+            {/* Heading */}
+            <div>
+              <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
+                Отзывы
+              </span>
+              <h2 className="mt-6 text-pretty text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                Отзывы наших покупателей
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                Реальные истории людей, которые уже заботятся о своём сердце вместе со СмартКардио
+              </p>
+            </div>
+
+            <div className="mt-8 flex-1 flex flex-col">
             <div className="relative">
               {/* Navigation arrows */}
               <button
@@ -225,7 +239,7 @@ export function ReviewsSection() {
             </div>
 
             {/* CTA Button */}
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex justify-start">
               <a
                 href="mailto:support@smartcardio.ru?subject=Мой отзыв о СмартКардио"
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -234,18 +248,6 @@ export function ReviewsSection() {
                 Оставить свой отзыв
               </a>
             </div>
-          </div>
-
-          {/* Photo (right) */}
-          <div className="order-1 lg:order-2 lg:sticky lg:top-24">
-            <div className="mx-auto max-w-xs overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:max-w-none">
-              <Image
-                src="/images/review-customer.png"
-                alt="Покупатель СмартКардио держит прибор в руке"
-                width={420}
-                height={525}
-                className="h-auto w-full object-cover"
-              />
             </div>
           </div>
         </div>
