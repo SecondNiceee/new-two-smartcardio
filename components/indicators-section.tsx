@@ -152,8 +152,8 @@ export function IndicatorsSection() {
     <section ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-x-hidden bg-slate-900 py-12 md:py-16">
       {/* Decorative background elements */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-32 top-1/4 h-64 w-64 rounded-full bg-brand-teal/20 blur-3xl" />
-        <div className="absolute -right-32 bottom-1/4 h-64 w-64 rounded-full bg-brand-cyan/20 blur-3xl" />
+        <div className="absolute -left-32 top-1/4 h-64 w-64 rotate-12 rounded-[42%_58%_70%_30%/45%_45%_55%_55%] bg-brand-teal/20 blur-3xl" />
+        <div className="absolute -right-32 bottom-1/4 h-64 w-64 -rotate-12 rounded-[63%_37%_30%_70%/57%_58%_42%_43%] bg-brand-cyan/20 blur-3xl" />
         <div className="absolute left-1/2 top-0 h-px w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-brand-teal/50 to-transparent" />
       </div>
 
