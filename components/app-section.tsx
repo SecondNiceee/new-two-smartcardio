@@ -48,18 +48,15 @@ export function AppSection() {
                 </h3>
 
                 <p className="mt-5 text-lg leading-relaxed text-foreground md:text-xl">
-                  СмартКардио® — это кардиомонитор, доступный в любом месте. Снимайте ЭКГ
-                  когда угодно и получайте данные, готовые для врача.
-                </p>
-                <p className="mt-4 text-base font-semibold text-primary md:text-lg">
-                  Результат за 20 секунд.
+                  Прибор для регистрации данных о работе сердца. Все записи автоматически
+                  сохраняются и отображаются в мобильном приложении.
                 </p>
 
                 {/* Indicators list */}
                 <div className="mt-8">
                   <p className="text-base font-semibold uppercase tracking-wide text-accent">Показатели</p>
                   <ul className="mt-4 space-y-3">
-                    {["ЭКГ в шести отведениях", "Пульсовая волна", "Дыхательные движения"].map((item) => (
+                    {["ЭКГ в шести отведениях (I, II, III, aVL, aVR, aVF)"].map((item) => (
                       <li key={item} className="flex items-center gap-3">
                         <span
                           aria-hidden="true"
@@ -84,9 +81,9 @@ export function AppSection() {
                     const target = document.querySelector("#order")
                     target?.scrollIntoView({ behavior: "smooth" })
                   }}
-                  className="mt-6 inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
                 >
-                  Заказать
+                  Заказать за 15 600 ₽
                 </button>
               </div>
 

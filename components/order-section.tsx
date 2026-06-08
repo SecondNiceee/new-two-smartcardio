@@ -51,7 +51,7 @@ export function OrderSection() {
                 className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"
               />
               <span className="relative flex items-center gap-2">
-                Заказать
+                Заказать за 15 600 ₽
                 <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
             </a>
