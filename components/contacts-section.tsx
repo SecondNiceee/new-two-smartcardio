@@ -43,7 +43,7 @@ export function ContactsSection() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {socials.map((social) => (
             <a
               key={social.name}
@@ -51,7 +51,7 @@ export function ContactsSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${social.name} — ${social.network}`}
-              className="group relative flex aspect-[16/9] items-center justify-center overflow-hidden rounded-2xl ring-1 ring-white/10 transition-transform duration-300 hover:-translate-y-1 hover:ring-white/25"
+              className="group relative flex aspect-[3/2] items-center justify-center overflow-hidden rounded-xl ring-1 ring-white/10 transition-transform duration-300 hover:-translate-y-1 hover:ring-white/25"
             >
               <Image
                 src={social.bg || "/placeholder.svg"}
@@ -61,15 +61,15 @@ export function ContactsSection() {
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/20" />
-              <div className="relative flex flex-col items-center gap-3 px-4 text-center">
+              <div className="relative flex flex-col items-center gap-2 px-3 text-center">
                 <Image
                   src={social.icon || "/placeholder.svg"}
                   alt=""
-                  width={56}
-                  height={56}
-                  className="h-12 w-12 drop-shadow-lg md:h-14 md:w-14"
+                  width={40}
+                  height={40}
+                  className="h-9 w-9 drop-shadow-lg md:h-10 md:w-10"
                 />
-                <span className="text-balance text-2xl font-bold text-white drop-shadow-md md:text-3xl">
+                <span className="text-balance text-base font-bold text-white drop-shadow-md md:text-lg">
                   {social.name}
                 </span>
               </div>

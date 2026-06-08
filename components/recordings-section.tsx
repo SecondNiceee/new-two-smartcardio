@@ -58,7 +58,7 @@ export function RecordingsSection() {
         {/* Section header */}
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-            Записи
+            Более 20к записей снято
           </span>
           <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             Примеры записей с прибора
