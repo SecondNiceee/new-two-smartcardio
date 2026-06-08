@@ -205,7 +205,7 @@ export function ReviewsSection() {
               </div>
 
               {/* Dots */}
-              <div className="mt-6 flex items-center justify-center gap-2 lg:justify-start" role="tablist" aria-label="Слайды">
+              <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Слайды">
                 {reviews.map((r, i) => (
                   <button
                     key={r.id}
@@ -225,7 +225,7 @@ export function ReviewsSection() {
             </div>
 
             {/* CTA Button */}
-            <div className="mt-8 flex justify-center lg:justify-start">
+            <div className="mt-8 flex justify-center">
               <a
                 href="mailto:support@smartcardio.ru?subject=Мой отзыв о СмартКардио"
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
