@@ -12,7 +12,7 @@ export function OrderSection() {
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: "url(/media/footerBg.png)" }}
+        style={{ backgroundImage: "url(/images/advantages-bg.png)" }}
       />
       {/* Darkening overlay for readability */}
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-black/70" />

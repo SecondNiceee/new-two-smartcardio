@@ -49,7 +49,7 @@ export function AdvantagesSection() {
       {/* Background photo */}
       <div className="pointer-events-none absolute inset-0">
         <Image
-          src="/images/advantages-bg.png"
+          src="/media/footerBg.png"
           alt=""
           fill
           sizes="100vw"
