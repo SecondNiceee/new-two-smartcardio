@@ -45,6 +45,10 @@ export function AdvantagesSection() {
 
   return (
     <section id="advantages" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-x-hidden bg-slate-900 py-12 md:py-14">
+      {/* Background blobs */}
+      <div className="pointer-events-none absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-brand-cyan/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 bottom-1/3 h-72 w-72 rounded-full bg-brand-teal/20 blur-3xl" />
+
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">

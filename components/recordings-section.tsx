@@ -19,6 +19,26 @@ const slides: GalleryImage[] = [
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image.png-kVzBSNPHSDFK3O8rjBfxv9K1U8VFHL.jpeg",
     caption: "Желудочковая бигеминия с дефицитом пульса",
   },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%98%D0%92%D0%A0-SV4dSVvbOLNmxGNHsABgdIFIzKj08S.png",
+    caption: "Эпизод ускоренного идиовентрикулярного ритма",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%90%D0%92%D0%91-prPzed7Eno6VScGwVcyozOgmZBH7oq.png",
+    caption: "Полная атриовентрикулярная блокада",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D1%82%D0%B0%D1%85%D0%B8-alsjHiLAf3KOiGG49UPHT7fNG9BGIc.png",
+    caption: "Пароксизмальная тахикардия",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%B8%D1%88%D0%B5%D0%BC%D0%B8%D1%8F-VoJm6BCyMbnija1iY3rJwnH3rtAN8f.png",
+    caption: "Острая ишемия миокарда",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%96%D0%AD%D0%A1-8SmfC3HjlReUPUYXgRReVAax3xYDRd.png",
+    caption: "Частая желудочковая экстрасистолия",
+  },
 ]
 
 export function RecordingsSection() {
