@@ -13,7 +13,6 @@ type Review = {
   rating: number
   text: string
   initials: string
-  image?: string
 }
 
 const reviews: Review[] = [
@@ -24,7 +23,6 @@ const reviews: Review[] = [
     rating: 5,
     initials: "О",
     text: "Прибор очень понравился, мне как врачу очень важно, что шесть отведений, и есть дополнительная информация с пульсовой волной и сатурацией. В целом интуитивно понятно, как пользоваться.",
-    image: "/images/Feedback1.png",
   },
   {
     id: "sergey-o",
@@ -33,7 +31,6 @@ const reviews: Review[] = [
     rating: 5,
     initials: "С",
     text: "Купил прибор папе для контроля аритмии — это было лучшее вложение средств за последние месяцы. Полностью ушла тревога и неизвестность по поводу его ритма, а также проблемы с тем, как записать плёнку для врача.",
-    image: "/images/Feedback2.png",
   },
   {
     id: "anon-ecg",
@@ -42,7 +39,6 @@ const reviews: Review[] = [
     rating: 5,
     initials: "П",
     text: "После проблем с сердцем врач посоветовал регулярно проверять ЭКГ. СмартКардио стал настоящим спасением — не нужно тратить время на походы в больницу. Всё делается за пару минут дома. Приложение сохраняет данные для врача.",
-    image: "/images/Feedback3.png",
   },
   {
     id: "viktor",
@@ -51,7 +47,6 @@ const reviews: Review[] = [
     rating: 5,
     initials: "В",
     text: "СмартКардио приятно удивил своей точностью. Уже несколько раз сверял результаты с больничным ЭКГ — данные совпадают! Очень простое управление, всё понятно и интуитивно. Пять звёзд!",
-    image: "/images/Feedback4.png",
   },
   {
     id: "gennady",
@@ -60,7 +55,6 @@ const reviews: Review[] = [
     rating: 5,
     initials: "Г",
     text: "Аппарат прекрасен. Отлично снимает кардиограмму. Куплен на маркете у продавца СмартКардио. Рекомендую.",
-    image: "/images/Feedback5.png",
   },
   {
     id: "veronika",
@@ -69,7 +63,6 @@ const reviews: Review[] = [
     rating: 5,
     initials: "В",
     text: "Лёгкий, удобный, быстрый, результат сразу в телефоне! Для меня это мега удобно, я ещё не встречала такого прибора в онлайн-магазинах. Недостатков нет.",
-    image: "/images/Feedback6.png",
   },
   {
     id: "michael",
@@ -78,7 +71,6 @@ const reviews: Review[] = [
     rating: 5,
     initials: "М",
     text: "Отличный, очень нужный прибор. Внучке посоветовали в НИИ педиатрии приобрести смарт-кардио. Прибор оказался очень удобным и простым в использовании. Никаких присосок и проводов не нужно. Только мобильный телефон и регистрируй ЭКГ и частоту пульса.",
-    image: "/images/Feedback7.png",
   },
   {
     id: "darya",
@@ -87,7 +79,6 @@ const reviews: Review[] = [
     rating: 5,
     initials: "Д",
     text: "Здравствуйте, я хотела бы поделиться своим опытом использования прибора СмартКардио. В первую очередь хочу выразить огромную благодарность службе поддержки, которая оперативно помогла установить приложение. Пользоваться прибором очень удобно, он компактный, всегда под рукой, долго держит зарядку.",
-    image: "/images/Feedback8.png",
   },
 ]
 
@@ -153,6 +144,17 @@ export function ReviewsSection() {
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             Реальные истории людей, которые уже заботятся о своём сердце вместе со СмартКардио
           </p>
+          <div className="mt-8 flex justify-center">
+            <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+              <Image
+                src="/images/review-customer.png"
+                alt="Покупатель СмартКардио держит прибор в руке"
+                width={420}
+                height={525}
+                className="h-auto w-full max-w-xs object-cover"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Embla Carousel */}
@@ -180,7 +182,7 @@ export function ReviewsSection() {
           {/* Carousel Track */}
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex will-change-transform">
-              {reviews.map((review, i) => (
+              {reviews.map((review) => (
                 <div
                   key={review.id}
                   className="min-w-0 shrink-0 grow-0 basis-[85%] pl-4 sm:basis-[50%] lg:basis-[33.333%]"
@@ -204,19 +206,6 @@ export function ReviewsSection() {
                     <p className="text-sm leading-relaxed text-muted-foreground flex-1">
                       &laquo;{review.text}&raquo;
                     </p>
-
-                    {/* Screenshot */}
-                    {review.image && (
-                      <div className="mt-2 overflow-hidden rounded-xl border border-border">
-                        <Image
-                          src={review.image}
-                          alt={`Скриншот отзыва от ${review.name}`}
-                          width={360}
-                          height={240}
-                          className="w-full object-cover"
-                        />
-                      </div>
-                    )}
                   </article>
                 </div>
               ))}
