@@ -1,6 +1,5 @@
 import { SiteHeader } from "@/components/site-header"
 import { HeroSection } from "@/components/hero-section"
-import { AudienceSlider } from "@/components/audience-slider"
 import { HowItWorksSection } from "@/components/how-it-works-section"
 import { AppSection } from "@/components/app-section"
 import { GenerationsSection } from "@/components/generations-section"
@@ -29,7 +28,6 @@ export default function Page() {
         <AdvantagesSection />
         <ReviewsSection />
         <PatentsSection />
-        <AudienceSlider />
         <FaqSection />
         <OrderSection />
         <ContactsSection />

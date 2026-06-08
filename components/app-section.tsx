@@ -44,7 +44,7 @@ export function AppSection() {
                 />
 
                 <h3 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-                  Портативный Кардиомонитор СмартКардио®
+                  Портативный Кардиомонитор
                 </h3>
 
                 <p className="mt-5 text-lg leading-relaxed text-foreground md:text-xl">
@@ -54,7 +54,7 @@ export function AppSection() {
 
                 {/* Indicators list */}
                 <div className="mt-8">
-                  <p className="text-base font-semibold uppercase tracking-wide text-accent">Показатели</p>
+                  <p className="text-base font-semibold uppercase tracking-wide text-accent">Что регистрирует?</p>
                   <ul className="mt-4 space-y-3">
                     {[
                       "ЭКГ в шести отведениях (I, II, III, aVL, aVR, aVF)",
