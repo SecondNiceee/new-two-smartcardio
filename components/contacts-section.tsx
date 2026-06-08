@@ -43,7 +43,7 @@ export function ContactsSection() {
           </p>
         </div>
 
-        <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-10 grid max-w-2xl gap-3 sm:grid-cols-3">
           {socials.map((social) => (
             <a
               key={social.name}
@@ -51,25 +51,25 @@ export function ContactsSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${social.name} — ${social.network}`}
-              className="group relative flex aspect-[3/2] items-center justify-center overflow-hidden rounded-xl ring-1 ring-white/10 transition-transform duration-300 hover:-translate-y-1 hover:ring-white/25"
+              className="group relative flex aspect-[3/2] items-center justify-center overflow-hidden rounded-lg ring-1 ring-white/10 transition-transform duration-300 hover:-translate-y-1 hover:ring-white/25"
             >
               <Image
                 src={social.bg || "/placeholder.svg"}
                 alt=""
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 640px) 100vw, 33vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/20" />
-              <div className="relative flex flex-col items-center gap-2 px-3 text-center">
+              <div className="relative flex flex-col items-center gap-1.5 px-2 text-center">
                 <Image
                   src={social.icon || "/placeholder.svg"}
                   alt=""
-                  width={40}
-                  height={40}
-                  className="h-9 w-9 drop-shadow-lg md:h-10 md:w-10"
+                  width={28}
+                  height={28}
+                  className="h-6 w-6 drop-shadow-lg md:h-7 md:w-7"
                 />
-                <span className="text-balance text-base font-bold text-white drop-shadow-md md:text-lg">
+                <span className="text-balance text-xs font-bold text-white drop-shadow-md md:text-sm">
                   {social.name}
                 </span>
               </div>
