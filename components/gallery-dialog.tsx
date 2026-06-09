@@ -64,18 +64,6 @@ export function GalleryDialog({
 
   const resetZoom = useCallback(() => applyZoom(1), [applyZoom])
 
-  // Lock body scroll while dialog is open so the page doesn't scroll
-  // when the user swipes/pans inside the zoom container
-  useEffect(() => {
-    if (open) {
-      const prev = document.body.style.overflow
-      document.body.style.overflow = "hidden"
-      return () => {
-        document.body.style.overflow = prev
-      }
-    }
-  }, [open])
-
   // Attach a non-passive touchmove listener to the pan container so we can
   // call preventDefault() — React synthetic handlers are passive and cannot
   // prevent the default page scroll gesture

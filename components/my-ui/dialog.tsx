@@ -24,15 +24,13 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [open, onOpenChange])
 
-  // Lock body scroll when open
+  // Lock body scroll when open — only restore on cleanup (unmount or close)
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
     return () => {
-      document.body.style.overflow = ""
+      document.body.style.overflow = prev
     }
   }, [open])
 
