@@ -41,19 +41,16 @@ export function SiteHeader() {
               {item.label}
             </a>
           ))}
+          <AppInfoDialog
+            trigger={
+              <button className="text-base font-medium text-white/80 transition-colors hover:text-white">
+                Приложение
+              </button>
+            }
+          />
         </nav>
 
         <div className="flex items-center gap-3">
-          <AppInfoDialog
-            trigger={
-              <Button
-                variant="ghost"
-                className="hidden text-white/80 hover:bg-white/10 hover:text-white md:flex"
-              >
-                Приложение
-              </Button>
-            }
-          />
           <Button
             asChild
             className="bg-white text-foreground hover:bg-white/90"
