@@ -239,7 +239,7 @@ export function ReviewsSection() {
             </div>
 
             {/* CTA Button */}
-            <div className="mt-8 flex justify-start">
+            <div className="mt-8 flex justify-center">
               <a
                 href="mailto:support@smartcardio.ru?subject=Мой отзыв о СмартКардио"
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
