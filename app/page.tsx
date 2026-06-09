@@ -32,6 +32,25 @@ export default function Page() {
         <OrderSection />
         <ContactsSection />
         <CtaFooter />
+        {/* Legal docs — below the footer */}
+        <div className="relative z-10 flex flex-wrap justify-center gap-3 bg-background px-4 pb-6 pt-4">
+          <a
+            href="/oferta.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+          >
+            Договор оферты
+          </a>
+          <a
+            href="/confidential.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+          >
+            Политика конфиденциальности
+          </a>
+        </div>
       </div>
     </main>
   )

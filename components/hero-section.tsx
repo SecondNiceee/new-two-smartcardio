@@ -69,25 +69,7 @@ export function HeroSection() {
             </Button>
           </div>
 
-          {/* Legal docs */}
-          <div className="mt-5 flex justify-center gap-3">
-            <a
-              href="/oferta.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/80 backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
-            >
-              Договор оферты
-            </a>
-            <a
-              href="/confidential.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/80 backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
-            >
-              Политика конфиденциальности
-            </a>
-          </div>
+
         </div>
       </div>
     </section>
