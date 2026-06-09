@@ -73,12 +73,12 @@ export function RecordingsSection() {
   }, [emblaApi, onSelect])
 
   return (
-    <section id="recordings" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-hidden py-12 md:py-14">
+    <section id="recordings" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-hidden py-12 md:py-12">
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         {/* Section header */}
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-            Более 20к записей снято
+            Более 20 000 записей снято
           </span>
           <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             Примеры записей с прибора
@@ -90,6 +90,10 @@ export function RecordingsSection() {
 
         {/* Embla carousel */}
         <div className="relative mt-10">
+          {/* Left fade */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent sm:w-24 md:w-32" />
+          {/* Right fade */}
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent sm:w-24 md:w-32" />
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex touch-pan-y">
               {slides.map((slide, i) => {

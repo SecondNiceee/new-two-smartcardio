@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { X, Menu } from "lucide-react"
-import { AppInfoDialog } from "@/components/app-info-dialog"
+import { DownloadDialog } from "@/components/download-dialog"
 
 const navItems = [
   { label: "Как это работает", href: "#how" },
@@ -54,7 +54,7 @@ export function SiteHeader() {
               {item.label}
             </a>
           ))}
-          <AppInfoDialog
+          <DownloadDialog
             trigger={
               <button className="text-base font-medium text-white/80 transition-colors hover:text-white">
                 Приложение
@@ -95,7 +95,7 @@ export function SiteHeader() {
                 {item.label}
               </button>
             ))}
-            <AppInfoDialog
+            <DownloadDialog
               trigger={
                 <button className="w-full text-left px-3 py-3 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
                   Приложение
