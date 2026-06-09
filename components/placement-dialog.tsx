@@ -77,7 +77,7 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
+      <DialogContent className="max-h-[95vh] overflow-hidden sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle className="text-center text-xl">Куда именно приложить прибор</DialogTitle>
           <DialogDescription className="text-center">
@@ -86,7 +86,7 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
         </DialogHeader>
 
         {/* Embla carousel */}
-        <div className="relative mx-auto mt-4 w-full overflow-hidden px-2 py-2">
+        <div className="relative mx-auto mt-2 w-full overflow-hidden px-2 py-2">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex touch-pan-y">
               {slides.map((slide, i) => {
@@ -101,7 +101,7 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
                           : "scale-[0.88] opacity-40",
                       ].join(" ")}
                     >
-                      <div className="relative h-[22rem] w-full sm:h-[30rem]">
+                      <div className="relative h-[18rem] w-full sm:h-[24rem]">
                         <Image
                           src={slide.src || "/placeholder.svg"}
                           alt={slide.title}
@@ -161,7 +161,7 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
         </div>
 
         {/* Dot indicators - show only 3 dots for unique slides */}
-        <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Положения прибора">
+        <div className="mt-4 flex items-center justify-center gap-2" role="tablist" aria-label="Положения прибора">
           {uniqueSlides.map((_, i) => {
             const uniqueSelectedIndex = selectedIndex % uniqueSlides.length
             return (
