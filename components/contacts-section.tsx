@@ -21,7 +21,17 @@ const socials = [
 
 export function ContactsSection() {
   return (
-    <section id="contacts" className="bg-black py-16 md:py-24">
+    <section
+      id="contacts"
+      className="relative bg-black py-16 md:py-24"
+      style={{
+        backgroundImage: "url('/media/footerBg.png')",
+        backgroundAttachment: "fixed",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight text-white md:text-4xl">
@@ -46,7 +56,7 @@ export function ContactsSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${social.name} — ${social.network}`}
-              className="group flex w-32 flex-col items-center gap-3"
+              className="group flex w-44 flex-col items-center gap-3"
             >
               <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1">
                 <img src={social.icon} alt={social.network} className="h-10 w-10 object-contain" />
