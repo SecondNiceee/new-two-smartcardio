@@ -144,7 +144,8 @@ export function ReviewsSection() {
                 alt="Покупатель СмартКардио держит прибор в руке"
                 width={420}
                 height={600}
-                className="h-full w-full object-cover object-right"
+                className="h-full w-full object-cover"
+                style={{ objectPosition: "-53px center" }}
               />
             </div>
           </div>
@@ -246,8 +247,8 @@ export function ReviewsSection() {
                   src="/images/review-customer.png"
                   alt="Покупатель СмартКардио держит прибор в руке"
                   width={420}
-                  height={280}
-                  className="h-56 w-full object-cover object-right"
+                  height={400}
+                  className="h-72 w-full object-cover object-top"
                 />
               </div>
             </div>
