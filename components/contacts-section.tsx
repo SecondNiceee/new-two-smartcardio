@@ -3,16 +3,19 @@ const socials = [
     name: "Научно-популярная медицина",
     href: "https://vk.com",
     network: "ВКонтакте",
+    icon: "/media/icon-vk.svg",
   },
   {
     name: "Для врачей",
     href: "https://t.me",
     network: "Telegram",
+    icon: "/media/icon-telegram.svg",
   },
   {
     name: "Наш блог",
     href: "https://dzen.ru",
     network: "Дзен",
+    icon: "/media/icon-dzen.svg",
   },
 ]
 
@@ -43,9 +46,11 @@ export function ContactsSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${social.name} — ${social.network}`}
-              className="group flex flex-col items-center gap-3"
+              className="group flex w-32 flex-col items-center gap-3"
             >
-              <span className="block h-20 w-20 shrink-0 rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1" />
+              <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1">
+                <img src={social.icon} alt={social.network} className="h-10 w-10 object-contain" />
+              </span>
               <span className="text-balance text-center text-sm font-bold text-white">
                 {social.name}
               </span>
