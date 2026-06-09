@@ -9,7 +9,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 const slides: GalleryImage[] = [
   {
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image.png-Zq2OBOOaxRwy4cCxS5l3duFEVe83Dt.jpeg",
-    caption: "Неустойчивая суправентрикулярная тахикардия",
+    caption: "Эпизод предсердной тахикардии",
   },
   {
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-qEatb2pnLqJaFqSgxgXAwZuKUIvGQ7.png",
