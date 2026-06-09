@@ -37,6 +37,24 @@ export function CtaFooter() {
             действующему Российскому законодательству технически сложный товар надлежащего качества возврату
             и обмену не подлежит.
           </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              href="/oferta.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+            >
+              Договор оферты
+            </a>
+            <a
+              href="/confidential.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+            >
+              Политика конфиденциальности
+            </a>
+          </div>
         </div>
       </div>
     </footer>

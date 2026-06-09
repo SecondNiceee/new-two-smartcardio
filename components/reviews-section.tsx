@@ -131,7 +131,7 @@ export function ReviewsSection() {
       id="reviews"
       ref={ref as React.RefObject<HTMLElement>}
       style={style}
-      className="overflow-x-hidden py-12 md:py-16"
+      className="overflow-x-hidden py-12 md:py-14"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Two-column layout: photo left, reviews right */}
