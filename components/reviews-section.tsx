@@ -144,7 +144,7 @@ export function ReviewsSection() {
                 alt="Покупатель СмартКардио держит прибор в руке"
                 width={420}
                 height={600}
-                className="h-full w-full object-cover object-top"
+                className="h-full w-full object-cover object-right"
               />
             </div>
           </div>
@@ -197,7 +197,7 @@ export function ReviewsSection() {
                       <article className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col gap-4">
                         {/* Header */}
                         <div className="flex items-center gap-3">
-                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-base">
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent font-semibold text-base">
                             {review.initials}
                           </div>
                           <div className="min-w-0">

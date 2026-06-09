@@ -1,25 +1,17 @@
-import Image from "next/image"
-
 const socials = [
   {
     name: "Научно-популярная медицина",
     href: "https://vk.com",
-    bg: "/media/social-vk.png",
-    icon: "/media/icon-vk.svg",
     network: "ВКонтакте",
   },
   {
     name: "Для врачей",
     href: "https://t.me",
-    bg: "/media/social-telegram.png",
-    icon: "/media/icon-telegram.svg",
     network: "Telegram",
   },
   {
     name: "Наш блог",
     href: "https://dzen.ru",
-    bg: "/media/social-dzen.png",
-    icon: "/media/icon-dzen.svg",
     network: "Дзен",
   },
 ]
@@ -43,7 +35,7 @@ export function ContactsSection() {
           </p>
         </div>
 
-        <div className="mx-auto mt-10 grid max-w-2xl gap-3 sm:grid-cols-3">
+        <div className="mx-auto mt-10 flex max-w-2xl flex-wrap items-center justify-center gap-8">
           {socials.map((social) => (
             <a
               key={social.name}
@@ -51,28 +43,12 @@ export function ContactsSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${social.name} — ${social.network}`}
-              className="group relative flex aspect-[3/2] items-center justify-center overflow-hidden rounded-lg ring-1 ring-white/10 transition-transform duration-300 hover:-translate-y-1 hover:ring-white/25"
+              className="group flex flex-col items-center gap-3"
             >
-              <Image
-                src={social.bg || "/placeholder.svg"}
-                alt=""
-                fill
-                sizes="(max-width: 640px) 100vw, 33vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/20" />
-              <div className="relative flex flex-col items-center gap-1.5 px-2 text-center">
-                <Image
-                  src={social.icon || "/placeholder.svg"}
-                  alt=""
-                  width={28}
-                  height={28}
-                  className="h-6 w-6 drop-shadow-lg md:h-7 md:w-7"
-                />
-                <span className="text-balance text-xs font-bold text-white drop-shadow-md md:text-sm">
-                  {social.name}
-                </span>
-              </div>
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-accent ring-1 ring-white/10 transition-transform duration-300 group-hover:-translate-y-1 md:h-20 md:w-20" />
+              <span className="text-balance text-center text-sm font-bold text-white md:text-base">
+                {social.name}
+              </span>
             </a>
           ))}
         </div>

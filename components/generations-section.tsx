@@ -27,7 +27,7 @@ export function GenerationsSection() {
         <div className="mb-10 text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
             <HeartPulse className="h-4 w-4" />
-            Создан при участии практикующих кардиологов
+            Разработан при участии практикующих кардиологов
           </span>
           <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             Для кого создан СмартКардио®

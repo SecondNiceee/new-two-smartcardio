@@ -74,9 +74,6 @@ export function AppSection() {
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-6 text-base text-muted-foreground" style={{ marginBottom: "1.5rem" }}>
-                    Данные передаются и сохраняются на смартфоне в режиме онлайн
-                  </p>
                 </div>
 
                 {/* Order button */}
