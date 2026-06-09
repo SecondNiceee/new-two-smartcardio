@@ -77,7 +77,7 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle className="text-center text-xl">Куда именно приложить прибор</DialogTitle>
           <DialogDescription className="text-center">
@@ -86,20 +86,22 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
         </DialogHeader>
 
         {/* Embla carousel */}
-        <div className="relative mx-auto mt-4 w-full">
+        <div className="relative mx-auto mt-4 w-full overflow-hidden px-2 py-2">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex touch-pan-y">
               {slides.map((slide, i) => {
                 const isActive = i === selectedIndex
                 return (
-                  <div key={i} className="min-w-0 shrink-0 grow-0 basis-[80%] pl-4 sm:basis-[55%]">
+                  <div key={i} className="min-w-0 shrink-0 grow-0 basis-[80%] pl-4 sm:basis-[60%]">
                     <div
                       className={[
                         "overflow-hidden rounded-2xl bg-background transition-all duration-500 ease-out",
-                        isActive ? "scale-100 opacity-100 shadow-2xl ring-2 ring-primary/20" : "scale-[0.9] opacity-40",
+                        isActive
+                          ? "scale-100 opacity-100 shadow-2xl ring-2 ring-primary/20"
+                          : "scale-[0.88] opacity-40",
                       ].join(" ")}
                     >
-                      <div className="relative h-64 w-full sm:h-72">
+                      <div className="relative h-72 w-full sm:h-80">
                         <Image
                           src={slide.src || "/placeholder.svg"}
                           alt={slide.title}
