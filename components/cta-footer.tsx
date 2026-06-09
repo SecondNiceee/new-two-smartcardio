@@ -14,11 +14,11 @@ export function CtaFooter() {
               className="h-8 w-8 object-contain"
             />
             <span className="text-base font-semibold tracking-tight text-foreground">
-              СмартКардио
+              СмартКардио®
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} СмартКардио. Все права защищены.
+            © {new Date().getFullYear()} СмартКардио®. Все права защищены.
           </p>
         </div>
 

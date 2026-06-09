@@ -30,7 +30,7 @@ export function GenerationsSection() {
             Создан при участии практикующих кардиологов
           </span>
           <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Для кого создан СмартКардио
+            Для кого создан СмартКардио®
           </h2>
         </div>
 

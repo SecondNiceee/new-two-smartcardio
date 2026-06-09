@@ -44,7 +44,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-white/85 md:text-xl">
-            СмартКардио записывает многоканальную ЭКГ без гелей и проводов, все
+            СмартКардио® записывает многоканальную ЭКГ без гелей и проводов, все
             данные сохраняются в личном архиве.
           </p>
 
