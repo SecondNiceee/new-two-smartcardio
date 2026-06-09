@@ -36,6 +36,10 @@ export function GalleryDialog({
   // without Embla needing reInit
   const zoomRef = useRef(1)
 
+  // Ref for the zoom/pan container — used to attach a non-passive touchmove
+  // listener so we can call preventDefault() and stop page scroll
+  const panContainerRef = useRef<HTMLDivElement>(null)
+
   // Pan tracking refs — no state to avoid stale closures in event handlers
   const panRef = useRef({ startX: 0, startY: 0, panX: 0, panY: 0, dragging: false })
   const touchRef = useRef({ startX: 0, startY: 0, panX: 0, panY: 0 })
@@ -59,6 +63,34 @@ export function GalleryDialog({
   }, [])
 
   const resetZoom = useCallback(() => applyZoom(1), [applyZoom])
+
+  // Lock body scroll while dialog is open so the page doesn't scroll
+  // when the user swipes/pans inside the zoom container
+  useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow
+      document.body.style.overflow = "hidden"
+      return () => {
+        document.body.style.overflow = prev
+      }
+    }
+  }, [open])
+
+  // Attach a non-passive touchmove listener to the pan container so we can
+  // call preventDefault() — React synthetic handlers are passive and cannot
+  // prevent the default page scroll gesture
+  useEffect(() => {
+    const el = panContainerRef.current
+    if (!el) return
+    const handleTouchMove = (e: TouchEvent) => {
+      // Only block page scroll when zoomed in
+      if (zoomRef.current > 1) {
+        e.preventDefault()
+      }
+    }
+    el.addEventListener("touchmove", handleTouchMove, { passive: false })
+    return () => el.removeEventListener("touchmove", handleTouchMove)
+  }, [])
 
   // On open: scroll to initial slide, reset zoom
   useEffect(() => {
@@ -211,7 +243,7 @@ export function GalleryDialog({
         </div>
 
         {/* Main container */}
-        <div className="relative flex h-[100dvh] w-[100vw] flex-col">
+        <div ref={panContainerRef} className="relative flex h-[100dvh] w-[100vw] flex-col">
           {/* Embla carousel */}
           <div className="relative flex-1 overflow-hidden" ref={emblaRef}>
             <div className="flex h-full touch-pan-y">
