@@ -35,7 +35,7 @@ export function ContactsSection() {
           </p>
         </div>
 
-        <div className="mx-auto mt-10 flex max-w-2xl flex-wrap items-center justify-center gap-8">
+        <div className="mx-auto mt-10 flex items-start justify-center gap-12">
           {socials.map((social) => (
             <a
               key={social.name}
@@ -45,8 +45,8 @@ export function ContactsSection() {
               aria-label={`${social.name} — ${social.network}`}
               className="group flex flex-col items-center gap-3"
             >
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-accent ring-1 ring-white/10 transition-transform duration-300 group-hover:-translate-y-1 md:h-20 md:w-20" />
-              <span className="text-balance text-center text-sm font-bold text-white md:text-base">
+              <span className="block h-20 w-20 shrink-0 rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1" />
+              <span className="text-balance text-center text-sm font-bold text-white">
                 {social.name}
               </span>
             </a>
