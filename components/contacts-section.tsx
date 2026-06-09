@@ -32,7 +32,8 @@ export function ContactsSection() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="mx-auto max-w-7xl px-4 md:px-8">
+      <div className="absolute inset-0 bg-black/60 pointer-events-none" aria-hidden="true" />
+      <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         <div className="text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight text-white md:text-4xl">
             Наши контакты
@@ -58,8 +59,8 @@ export function ContactsSection() {
               aria-label={`${social.name} — ${social.network}`}
               className="group flex w-44 flex-col items-center gap-3"
             >
-              <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1">
-                <img src={social.icon} alt={social.network} className="h-10 w-10 object-contain" />
+              <span className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1">
+                <img src={social.icon} alt={social.network} className="h-14 w-14 object-contain" />
               </span>
               <span className="text-balance text-center text-sm font-bold text-white">
                 {social.name}
