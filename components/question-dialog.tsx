@@ -15,10 +15,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 
+type ContactMode = "phone" | "email"
+
 export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [consent, setConsent] = useState(true)
   const [submitted, setSubmitted] = useState(false)
+  const [mode, setMode] = useState<ContactMode>("phone")
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -31,6 +34,7 @@ export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
       setTimeout(() => {
         setSubmitted(false)
         setConsent(true)
+        setMode("phone")
       }, 200)
     }
   }
@@ -46,7 +50,7 @@ export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
             </div>
             <DialogTitle className="text-xl">Спасибо за обращение!</DialogTitle>
             <DialogDescription className="text-pretty">
-              Мы свяжемся с вами в ближайшее время по указанному номеру.
+              Мы свяжемся с вами в ближайшее время по указанным контактам.
             </DialogDescription>
             <Button className="mt-2" onClick={() => handleOpenChange(false)}>
               Закрыть
@@ -67,18 +71,64 @@ export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
                 <Input id="question-name" name="name" placeholder="Иван" />
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="question-phone">
-                  Телефон для связи: <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="question-phone"
-                  name="phone"
-                  type="tel"
-                  required
-                  placeholder="+7 (___) ___-__-__"
-                />
+              {/* Contact type toggle */}
+              <div className="flex flex-col gap-2">
+                <Label>Способ связи: <span className="text-destructive">*</span></Label>
+                <div className="flex rounded-lg border border-border overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setMode("phone")}
+                    className={[
+                      "flex-1 px-4 py-2 text-sm font-medium transition-colors",
+                      mode === "phone"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-transparent text-muted-foreground hover:text-foreground",
+                    ].join(" ")}
+                  >
+                    Телефон
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMode("email")}
+                    className={[
+                      "flex-1 px-4 py-2 text-sm font-medium transition-colors border-l border-border",
+                      mode === "email"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-transparent text-muted-foreground hover:text-foreground",
+                    ].join(" ")}
+                  >
+                    Почта
+                  </button>
+                </div>
               </div>
+
+              {mode === "phone" ? (
+                <div className="flex flex-col gap-1.5">
+                  <Label htmlFor="question-phone">
+                    Телефон для связи: <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="question-phone"
+                    name="phone"
+                    type="tel"
+                    required
+                    placeholder="+7 (___) ___-__-__"
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-1.5">
+                  <Label htmlFor="question-email">
+                    Электронная почта: <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="question-email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                  />
+                </div>
+              )}
 
               <div className="flex items-start gap-3">
                 <Checkbox
