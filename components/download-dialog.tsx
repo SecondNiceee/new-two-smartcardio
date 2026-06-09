@@ -119,7 +119,9 @@ export function DownloadDialog({ trigger }: { trigger: ReactNode }) {
         {/* Apple instruction button */}
         <div className="mt-4 border-t border-border pt-4">
           <a
-            href="#"
+            href="/instruction.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">

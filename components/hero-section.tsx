@@ -54,7 +54,7 @@ export function HeroSection() {
               size="lg"
               className="bg-white text-foreground hover:bg-white/90"
             >
-              <a href="#contact">
+              <a href="#how">
                 Читать далее
                 <ArrowRight className="h-4 w-4" />
               </a>

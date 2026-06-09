@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { DownloadDialog } from "@/components/download-dialog"
+import { AppInfoDialog } from "@/components/app-info-dialog"
 
 const navItems = [
   { label: "Как это работает", href: "#how" },
@@ -43,7 +44,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <DownloadDialog
+          <AppInfoDialog
             trigger={
               <Button
                 variant="ghost"
