@@ -55,7 +55,7 @@ export function HeroSection() {
               className="bg-white text-foreground hover:bg-white/90"
             >
               <a href="#contact">
-                Заказать прибор
+                Читать далее
                 <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
