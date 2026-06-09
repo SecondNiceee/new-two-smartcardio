@@ -248,7 +248,7 @@ export function ReviewsSection() {
                   alt="Покупатель СмартКардио держит прибор в руке"
                   width={420}
                   height={400}
-                  className="h-72 w-full object-cover object-top"
+                  className="h-96 w-full object-cover object-top"
                 />
               </div>
             </div>
