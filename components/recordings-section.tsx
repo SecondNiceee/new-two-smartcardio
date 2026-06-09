@@ -9,7 +9,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 const slides: GalleryImage[] = [
   {
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image.png-Zq2OBOOaxRwy4cCxS5l3duFEVe83Dt.jpeg",
-    caption: "Синусовый ритм, вариант нормы",
+    caption: "Неустойчивая суправентрикулярная тахикардия",
   },
   {
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-qEatb2pnLqJaFqSgxgXAwZuKUIvGQ7.png",
@@ -29,7 +29,7 @@ const slides: GalleryImage[] = [
   },
   {
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D1%82%D0%B0%D1%85%D0%B8-alsjHiLAf3KOiGG49UPHT7fNG9BGIc.png",
-    caption: "Пароксизмальная тахикардия",
+    caption: "Синусовая тахикардия",
   },
   {
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%B8%D1%88%D0%B5%D0%BC%D0%B8%D1%8F-VoJm6BCyMbnija1iY3rJwnH3rtAN8f.png",
