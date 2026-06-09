@@ -47,7 +47,7 @@ export function FeaturesSection() {
   const { ref, style } = useScrollAnimation({ direction: "bottom" })
 
   return (
-    <section id="features" ref={ref as React.RefObject<HTMLElement>} style={style} className="overflow-x-hidden bg-background py-24 md:py-32">
+    <section id="features" ref={ref as React.RefObject<HTMLElement>} style={style} className="overflow-x-hidden bg-background py-12 md:py-20">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wider text-primary">
@@ -62,11 +62,11 @@ export function FeaturesSection() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
           {features.map((feature) => (
             <Card
               key={feature.title}
-              className="group border-border/60 p-7 transition-colors hover:border-primary/40"
+              className="group border-border/60 p-5 transition-colors hover:border-primary/40 sm:p-7"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                 <feature.icon className="h-6 w-6" />

@@ -175,7 +175,7 @@ export function HowItWorksSection() {
             trigger={
               <Button
                 size="lg"
-                className="h-12 gap-2 rounded-full px-7 text-base font-semibold sm:h-14 sm:gap-2.5 sm:px-12 sm:text-lg"
+                className="h-10 gap-2 rounded-full px-5 text-sm font-semibold whitespace-nowrap sm:h-12 sm:gap-2 sm:px-7 sm:text-base md:h-14 md:px-12 md:text-lg"
               >
                 <svg
                   viewBox="0 0 24 24"
