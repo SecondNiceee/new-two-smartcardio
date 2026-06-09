@@ -57,10 +57,10 @@ export function ContactsSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${social.name} — ${social.network}`}
-              className="group flex w-44 flex-col items-center gap-3"
+              className="group flex w-24 flex-col items-center gap-3 sm:w-44"
             >
-              <span className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1">
-                <img src={social.icon} alt={social.network} className="h-14 w-14 object-contain" />
+              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1 sm:h-28 sm:w-28">
+                <img src={social.icon} alt={social.network} className="h-8 w-8 object-contain sm:h-14 sm:w-14" />
               </span>
               <span className="text-balance text-center text-sm font-bold text-white">
                 {social.name}

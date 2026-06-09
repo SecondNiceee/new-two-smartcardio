@@ -136,7 +136,7 @@ export function ReviewsSection() {
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Two-column layout: photo left, reviews right */}
         <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[minmax(320px,420px)_1fr] lg:gap-12">
-          {/* Photo (left) */}
+          {/* Photo (left, desktop) */}
           <div className="order-1 hidden lg:block">
             <div className="h-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
               <Image
@@ -236,6 +236,19 @@ export function ReviewsSection() {
                     ].join(" ")}
                   />
                 ))}
+              </div>
+            </div>
+
+            {/* Photo (mobile only, below carousel) */}
+            <div className="mt-6 block lg:hidden">
+              <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+                <Image
+                  src="/images/review-customer.png"
+                  alt="Покупатель СмартКардио держит прибор в руке"
+                  width={420}
+                  height={280}
+                  className="h-56 w-full object-cover object-right"
+                />
               </div>
             </div>
 
