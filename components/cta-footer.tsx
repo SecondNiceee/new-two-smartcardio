@@ -23,18 +23,12 @@ export function CtaFooter() {
         </div>
 
         <div className="border-t border-border py-6">
-          <div className="grid gap-4 text-sm leading-relaxed text-muted-foreground sm:grid-cols-2">
+          <div className="text-sm leading-relaxed text-muted-foreground">
             <div>
               <p className="text-foreground">
-                Разработчик ООО «АРИТМЕД»
+                ООО «АРИТМЕД»
               </p>
               <p>ОГРН 1227700287330 · ИНН 9726013334 · г. Москва</p>
-            </div>
-            <div className="sm:text-right">
-              <p className="text-foreground">
-                Производитель ООО «СмартКардио»
-              </p>
-              <p>ОГРН 1256400009580 · ИНН 6450120179 · г. Саратов</p>
             </div>
           </div>
           <p className="mt-6 text-pretty text-xs leading-relaxed text-muted-foreground">

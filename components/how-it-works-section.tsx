@@ -80,8 +80,7 @@ export function HowItWorksSection() {
               )}
               {/* Number circle */}
               <div className="group relative z-10">
-                <div className="absolute -inset-2 rounded-full bg-accent/30 blur-md transition-all duration-300 group-hover:blur-lg" />
-                <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-accent text-xl font-bold text-accent-foreground shadow-lg ring-4 ring-accent/15 transition-transform duration-300 hover:scale-110">
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-accent/40 text-xl font-bold text-foreground shadow ring-2 ring-accent/20 transition-transform duration-300 hover:scale-110">
                   {step.number}
                 </div>
               </div>
@@ -95,11 +94,8 @@ export function HowItWorksSection() {
             <div key={step.number} className="flex flex-col">
               {/* Mobile number badge */}
               <div className="mb-4 flex justify-center md:hidden">
-                <div className="group relative">
-                  <div className="absolute -inset-2 rounded-full bg-accent/30 blur-md" />
-                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-accent text-lg font-bold text-accent-foreground shadow-lg ring-4 ring-accent/15">
-                    {step.number}
-                  </div>
+                <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-accent/40 text-lg font-bold text-foreground shadow ring-2 ring-accent/20">
+                  {step.number}
                 </div>
               </div>
 

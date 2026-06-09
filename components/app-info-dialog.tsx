@@ -15,10 +15,8 @@ export function AppInfoDialog({ trigger }: { trigger: ReactNode }) {
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
-        <DialogHeader>
-          <DialogTitle className="text-center text-balance text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-            Удобное приложение
-          </DialogTitle>
+        <DialogHeader className="sr-only">
+          <DialogTitle>Удобное приложение</DialogTitle>
         </DialogHeader>
 
         <div className="mt-2 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-10">

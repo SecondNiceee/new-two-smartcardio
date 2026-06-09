@@ -1,8 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { DownloadDialog } from "@/components/download-dialog"
+import { X, Menu } from "lucide-react"
 import { AppInfoDialog } from "@/components/app-info-dialog"
 
 const navItems = [
@@ -12,9 +12,21 @@ const navItems = [
 ]
 
 export function SiteHeader() {
+  const [open, setOpen] = useState(false)
+
+  const handleNav = (href: string) => {
+    setOpen(false)
+    // small delay so panel closes before scroll
+    setTimeout(() => {
+      const el = document.querySelector(href)
+      if (el) el.scrollIntoView({ behavior: "smooth" })
+    }, 150)
+  }
+
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 md:px-8">
+        {/* Logo */}
         <a href="#" className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white p-2 shadow-md">
             <Image
@@ -31,6 +43,7 @@ export function SiteHeader() {
           </span>
         </a>
 
+        {/* Desktop nav */}
         <nav className="hidden items-center gap-9 md:flex">
           {navItems.map((item) => (
             <a
@@ -50,15 +63,57 @@ export function SiteHeader() {
           />
         </nav>
 
-        <div className="flex items-center gap-3">
-          <Button
-            asChild
-            className="bg-white text-foreground hover:bg-white/90"
-          >
-            <a href="#contact">Заказать прибор</a>
-          </Button>
-        </div>
+        {/* Desktop CTA */}
+        <a
+          href="#contact"
+          className="hidden md:inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-white/90"
+        >
+          Заказать прибор
+        </a>
+
+        {/* Mobile burger */}
+        <button
+          aria-label={open ? "Закрыть меню" : "Открыть меню"}
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
+          className="flex md:hidden items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-white/10"
+        >
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
+
+      {/* Mobile drawer */}
+      {open && (
+        <div className="md:hidden absolute inset-x-0 top-full z-40 bg-black/90 backdrop-blur-md border-t border-white/10">
+          <nav className="flex flex-col px-4 py-4 gap-1">
+            {navItems.map((item) => (
+              <button
+                key={item.href}
+                onClick={() => handleNav(item.href)}
+                className="w-full text-left px-3 py-3 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
+            <AppInfoDialog
+              trigger={
+                <button className="w-full text-left px-3 py-3 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+                  Приложение
+                </button>
+              }
+            />
+            <div className="mt-2 pt-2 border-t border-white/10">
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="block w-full text-center rounded-md bg-white px-4 py-2.5 text-sm font-medium text-foreground shadow-sm hover:bg-white/90 transition-colors"
+              >
+                Заказать прибор
+              </a>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   )
 }
