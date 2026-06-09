@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { DownloadDialog } from "@/components/download-dialog"
 
 const navItems = [
   { label: "Как это работает", href: "#how" },
@@ -41,12 +42,24 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Button
-          asChild
-          className="bg-white text-foreground hover:bg-white/90"
-        >
-          <a href="#contact">Заказать прибор</a>
-        </Button>
+        <div className="flex items-center gap-3">
+          <DownloadDialog
+            trigger={
+              <Button
+                variant="ghost"
+                className="hidden text-white/80 hover:bg-white/10 hover:text-white md:flex"
+              >
+                Приложение
+              </Button>
+            }
+          />
+          <Button
+            asChild
+            className="bg-white text-foreground hover:bg-white/90"
+          >
+            <a href="#contact">Заказать прибор</a>
+          </Button>
+        </div>
       </div>
     </header>
   )

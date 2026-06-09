@@ -14,7 +14,7 @@ export function AppInfoDialog({ trigger }: { trigger: ReactNode }) {
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
         <DialogHeader>
           <span className="mx-auto inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
             Приложение
@@ -42,7 +42,7 @@ export function AppInfoDialog({ trigger }: { trigger: ReactNode }) {
               Удобное приложение с ИИ-диагностикой
             </h3>
             <p className="mt-4 text-pretty text-base leading-relaxed text-muted-foreground">
-              Приложение СмартКардио® — это простой и понятный инструмент для работы с кардиограммами. Оно мгновенно отображает запись ЭКГ, сохраняет все измерения в личном архиве и помогает отслеживать динамику и делиться данными с врачом. Встроенная ИИ-диагностика автоматически распознаёт широкий спектр нарушений ритма, а наглядная цветовая индикация помогает быстро понять результат.
+              Приложение автоматически анализирует ЭКГ и помогает обратить внимание на возможные нарушения ритма. Анализ может использоваться как дополнительный инструмент наблюдения. Результат не заменяет консультацию врача.
             </p>
 
             {/* Color indicators */}

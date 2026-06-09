@@ -99,12 +99,12 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
                         isActive ? "scale-100 opacity-100 shadow-2xl ring-2 ring-primary/20" : "scale-[0.9] opacity-40",
                       ].join(" ")}
                     >
-                      <div className="relative aspect-[3/4] w-full">
+                      <div className="relative h-64 w-full sm:h-72">
                         <Image
                           src={slide.src || "/placeholder.svg"}
                           alt={slide.title}
                           fill
-                          className="object-cover"
+                          className="object-cover object-center"
                           sizes="(max-width: 640px) 80vw, 55vw"
                           priority={i === 0}
                           draggable={false}
