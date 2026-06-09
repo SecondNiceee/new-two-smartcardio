@@ -7,7 +7,7 @@ const advantages = [
   {
     icon: MousePointerClick,
     title: "Простота использования",
-    description: "Приложить прибор к себе и подождать... Всего 30 секунд неподвижно.",
+    description: "Приложить прибор к себе и подождать... Всего 20 секунд неподвижно.",
   },
   {
     icon: Activity,
