@@ -27,7 +27,7 @@ export function AppSection() {
         {/* Main content block — product intro + measurements combined */}
         <div className="mt-8 overflow-hidden rounded-2xl bg-background shadow-2xl ring-1 ring-black/10">
           {/* Top: product description + video */}
-          <div className="px-8 py-8 md:px-12 md:py-8">
+          <div className="px-4 py-6 sm:px-8 sm:py-8 md:px-12">
             <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
 
               {/* Text content with hero-style corner accents */}
@@ -82,7 +82,7 @@ export function AppSection() {
                     const target = document.querySelector("#order")
                     target?.scrollIntoView({ behavior: "smooth" })
                   }}
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 whitespace-nowrap sm:px-6 sm:py-3 sm:text-base"
                 >
                   Заказать за 15 600 ₽
                 </button>

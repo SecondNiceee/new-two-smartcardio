@@ -173,7 +173,7 @@ export function FaqSection() {
               trigger={
                 <Button
                   size="lg"
-                  className="h-12 rounded-full px-8 text-base font-semibold sm:h-14 sm:px-12 sm:text-lg"
+                  className="h-10 rounded-full px-6 text-sm font-semibold whitespace-nowrap sm:h-12 sm:px-8 sm:text-base"
                 >
                   Задать вопрос
                 </Button>

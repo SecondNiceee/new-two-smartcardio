@@ -9,7 +9,7 @@ export function OrderSection() {
       aria-labelledby="order-heading"
       className="relative isolate overflow-hidden bg-white"
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-12 md:px-8 md:py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
+      <div       className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 px-4 py-8 md:px-8 md:py-12 lg:grid-cols-2 lg:gap-16 lg:py-16">
         {/* Content (left) */}
         <div className="flex flex-col items-start text-left">
           <h2
@@ -32,7 +32,7 @@ export function OrderSection() {
             <Button
               asChild
               size="lg"
-              className="group relative h-14 overflow-hidden rounded-full bg-primary px-10 text-base font-semibold text-primary-foreground shadow-[0_8px_30px_-6px] shadow-primary/40 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_-6px] hover:shadow-primary/50"
+              className="group relative h-11 overflow-hidden rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-[0_8px_30px_-6px] shadow-primary/40 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_-6px] hover:shadow-primary/50 whitespace-nowrap sm:h-14 sm:px-10 sm:text-base"
             >
               <a href="#contact">
                 {/* Shine sweep */}
