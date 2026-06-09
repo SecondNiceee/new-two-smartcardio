@@ -16,10 +16,7 @@ export function AppInfoDialog({ trigger }: { trigger: ReactNode }) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
         <DialogHeader>
-          <span className="mx-auto inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-            Приложение
-          </span>
-          <DialogTitle className="mt-3 text-center text-balance text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+          <DialogTitle className="text-center text-balance text-2xl font-bold tracking-tight text-foreground md:text-3xl">
             Удобное приложение
           </DialogTitle>
         </DialogHeader>
@@ -39,7 +36,7 @@ export function AppInfoDialog({ trigger }: { trigger: ReactNode }) {
           {/* Text content */}
           <div className="lg:flex-1">
             <h3 className="text-xl font-bold tracking-tight text-foreground md:text-2xl">
-              Удобное приложение с ИИ-диагностикой
+              Удобное приложение с распознаванием на основе ИИ
             </h3>
             <p className="mt-4 text-pretty text-base leading-relaxed text-muted-foreground">
               Приложение автоматически анализирует ЭКГ и помогает обратить внимание на возможные нарушения ритма. Анализ может использоваться как дополнительный инструмент наблюдения. Результат не заменяет консультацию врача.

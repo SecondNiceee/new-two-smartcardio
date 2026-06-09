@@ -160,27 +160,7 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
           </button>
         </div>
 
-        {/* Dot indicators - show only 3 dots for unique slides */}
-        <div className="mt-4 flex items-center justify-center gap-2" role="tablist" aria-label="Положения прибора">
-          {uniqueSlides.map((_, i) => {
-            const uniqueSelectedIndex = selectedIndex % uniqueSlides.length
-            return (
-              <button
-                key={i}
-                role="tab"
-                aria-selected={i === uniqueSelectedIndex}
-                aria-label={`Положение ${i + 1}`}
-                onClick={() => scrollTo(i)}
-                className={[
-                  "h-2.5 rounded-full transition-all duration-300",
-                  i === uniqueSelectedIndex
-                    ? "w-6 bg-primary"
-                    : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60",
-                ].join(" ")}
-              />
-            )
-          })}
-        </div>
+
       </DialogContent>
     </Dialog>
   )
