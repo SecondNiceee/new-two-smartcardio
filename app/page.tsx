@@ -20,25 +20,6 @@ export default function Page() {
       <GradientDecorations />
       <div className="relative z-10">
         <SiteHeader />
-        {/* Legal docs strip — shown below the header */}
-        <div className="relative z-40 flex justify-center gap-3 pt-20 pb-2 md:pt-24">
-          <a
-            href="/oferta.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/80 backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
-          >
-            Договор оферты
-          </a>
-          <a
-            href="/confidential.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/80 backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
-          >
-            Политика конфиденциальности
-          </a>
-        </div>
         <HeroSection />
         <AppSection />
         <GenerationsSection />
