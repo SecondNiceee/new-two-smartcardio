@@ -22,7 +22,7 @@ export function AudienceSlider() {
             Кому подходит
           </span>
           <h2 className="mt-6 text-pretty text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Для кого создан СмартКардио
+            Для кого создан СмартКардио®
           </h2>
         </div>
 

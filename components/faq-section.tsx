@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
+import { QuestionDialog } from "@/components/question-dialog"
 
 const faqs = [
   {
@@ -168,15 +169,16 @@ export function FaqSection() {
 
           {/* Ask Question Button */}
           <div className="mt-10 flex justify-center">
-            <Button
-              size="lg"
-              className="h-14 rounded-full px-12 text-lg font-semibold"
-              asChild
-            >
-              <a href="#contact">
-                Задать вопрос
-              </a>
-            </Button>
+            <QuestionDialog
+              trigger={
+                <Button
+                  size="lg"
+                  className="h-12 rounded-full px-8 text-base font-semibold sm:h-14 sm:px-12 sm:text-lg"
+                >
+                  Задать вопрос
+                </Button>
+              }
+            />
           </div>
         </div>
       </div>

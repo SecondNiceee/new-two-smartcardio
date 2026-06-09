@@ -129,7 +129,7 @@ export function HowItWorksSection() {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground"
+                            className="h-auto whitespace-normal text-pretty border-primary/30 px-4 py-2 text-xs leading-snug text-primary hover:bg-primary hover:text-primary-foreground sm:text-sm"
                           >
                             {step.action.label}
                           </Button>
@@ -141,7 +141,7 @@ export function HowItWorksSection() {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground"
+                            className="h-auto whitespace-normal text-pretty border-primary/30 px-4 py-2 text-xs leading-snug text-primary hover:bg-primary hover:text-primary-foreground sm:text-sm"
                           >
                             {step.action.label}
                           </Button>
@@ -153,7 +153,7 @@ export function HowItWorksSection() {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground"
+                            className="h-auto whitespace-normal text-pretty border-primary/30 px-4 py-2 text-xs leading-snug text-primary hover:bg-primary hover:text-primary-foreground sm:text-sm"
                           >
                             {step.action.label}
                           </Button>
@@ -175,12 +175,12 @@ export function HowItWorksSection() {
             trigger={
               <Button
                 size="lg"
-                className="h-14 gap-2.5 rounded-full px-12 text-lg font-semibold"
+                className="h-12 gap-2 rounded-full px-7 text-base font-semibold sm:h-14 sm:gap-2.5 sm:px-12 sm:text-lg"
               >
                 <svg
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  className="h-8 w-8"
+                  className="h-6 w-6 sm:h-8 sm:w-8"
                   aria-hidden="true"
                 >
                   <path d="M8 5v14l11-7z" />

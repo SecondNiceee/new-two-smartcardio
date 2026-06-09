@@ -5,6 +5,7 @@ import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
 import { Star, MessageSquarePlus } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { ReviewDialog } from "@/components/review-dialog"
 
 type Review = {
   id: string
@@ -38,7 +39,7 @@ const reviews: Review[] = [
     source: "Email",
     rating: 5,
     initials: "П",
-    text: "После проблем с сердцем врач посоветовал регулярно проверять ЭКГ. СмартКардио стал настоящим спасением — не нужно тратить время на походы в больницу. Всё делается за пару минут дома. Приложение сохраняет данные для врача.",
+    text: "После проблем с сердцем врач посоветовал регулярно проверять ЭКГ. СмартКардио® стал настоящим спасением — не нужно тратить время на походы в больницу. Всё делается за пару минут дома. Приложение сохраняет данные для врача.",
   },
   {
     id: "viktor",
@@ -46,7 +47,7 @@ const reviews: Review[] = [
     source: "Email",
     rating: 5,
     initials: "В",
-    text: "СмартКардио приятно удивил своей точностью. Уже несколько раз сверял результаты с больничным ЭКГ — данные совпадают! Очень простое управление, всё понятно и интуитивно. Пять звёзд!",
+    text: "СмартКардио® приятно удивил своей точностью. Уже несколько раз сверял результаты с больничным ЭКГ — данные совпадают! Очень простое управление, всё понятно и интуитивно. Пять звёзд!",
   },
   {
     id: "gennady",
@@ -54,7 +55,7 @@ const reviews: Review[] = [
     source: "Яндекс.Маркет",
     rating: 5,
     initials: "Г",
-    text: "Аппарат прекрасен. Отлично снимает кардиограмму. Куплен на маркете у продавца СмартКардио. Рекомендую.",
+    text: "Аппарат прекрасен. Отлично снимает кардиограмму. Куплен на маркете у продавца СмартКардио®. Рекомендую.",
   },
   {
     id: "veronika",
@@ -78,7 +79,7 @@ const reviews: Review[] = [
     source: "Email",
     rating: 5,
     initials: "Д",
-    text: "Здравствуйте, я хотела бы поделиться своим опытом использования прибора СмартКардио. В первую очередь хочу выразить огромную благодарность службе поддержки, которая оперативно помогла установить приложение. Пользоваться прибором очень удобно, он компактный, всегда под рукой, долго держит зарядку.",
+    text: "Здравствуйте, я хотела бы поделиться своим опытом использования прибора СмартКардио®. В первую очередь хочу выразить огромную благодарность службе поддержки, которая оперативно помогла установить приложение. Пользоваться прибором очень удобно, он компактный, всегда под рукой, долго держит зарядку.",
   },
 ]
 
@@ -159,7 +160,7 @@ export function ReviewsSection() {
                 Отзывы наших покупателей
               </h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                Реальные истории людей, которые уже заботятся о своём сердце вместе со СмартКардио
+                Реальные истории людей, которые уже заботятся о своём сердце вместе со СмартКардио®
               </p>
             </div>
 
@@ -240,13 +241,17 @@ export function ReviewsSection() {
 
             {/* CTA Button */}
             <div className="mt-8 flex justify-center">
-              <a
-                href="mailto:support@smartcardio.ru?subject=Мой отзыв о СмартКардио"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                <MessageSquarePlus className="h-4 w-4" />
-                Оставить свой отзыв
-              </a>
+              <ReviewDialog
+                trigger={
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <MessageSquarePlus className="h-4 w-4" />
+                    Оставить свой отзыв
+                  </button>
+                }
+              />
             </div>
             </div>
           </div>
