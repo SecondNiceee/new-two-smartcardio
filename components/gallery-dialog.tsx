@@ -30,28 +30,37 @@ export function GalleryDialog({
   const [open, setOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(initialIndex)
   const [zoom, setZoom] = useState(1)
-
-  // Pan state
   const [pan, setPan] = useState({ x: 0, y: 0 })
+
+  // Keep a ref so the watchDrag callback always reads the latest zoom
+  // without Embla needing reInit
+  const zoomRef = useRef(1)
+
+  // Pan tracking refs — no state to avoid stale closures in event handlers
   const panRef = useRef({ startX: 0, startY: 0, panX: 0, panY: 0, dragging: false })
-  const imageContainerRef = useRef<HTMLDivElement>(null)
+  const touchRef = useRef({ startX: 0, startY: 0, panX: 0, panY: 0 })
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "center",
     containScroll: false,
-    skipSnaps: false,
     startIndex: initialIndex,
-    // Disable dragging when zoomed in so pan takes over
-    watchDrag: zoom === 1,
+    // watchDrag is evaluated by Embla on every pointer-down event.
+    // By reading zoomRef.current here (a function form), Embla always
+    // gets the live value — no reInit required, no reset loop possible.
+    watchDrag: () => zoomRef.current === 1,
   })
 
-  // Reset zoom & pan when slide changes or dialog closes
-  const resetZoom = useCallback(() => {
-    setZoom(1)
-    setPan({ x: 0, y: 0 })
+  // Sync zoom state → ref together so both are always in agreement
+  const applyZoom = useCallback((next: number) => {
+    zoomRef.current = next
+    setZoom(next)
+    if (next === 1) setPan({ x: 0, y: 0 })
   }, [])
 
+  const resetZoom = useCallback(() => applyZoom(1), [applyZoom])
+
+  // On open: scroll to initial slide, reset zoom
   useEffect(() => {
     if (open && emblaApi) {
       emblaApi.scrollTo(initialIndex, true)
@@ -60,18 +69,7 @@ export function GalleryDialog({
     }
   }, [open, initialIndex, emblaApi, resetZoom])
 
-  const scrollPrev = useCallback(() => {
-    if (zoom > 1) return
-    emblaApi?.scrollPrev()
-  }, [emblaApi, zoom])
-
-  const scrollNext = useCallback(() => {
-    if (zoom > 1) return
-    emblaApi?.scrollNext()
-  }, [emblaApi, zoom])
-
-  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi])
-
+  // Track selected slide — reset zoom on slide change
   const onSelect = useCallback(() => {
     if (!emblaApi) return
     setSelectedIndex(emblaApi.selectedScrollSnap())
@@ -82,32 +80,38 @@ export function GalleryDialog({
     if (!emblaApi) return
     onSelect()
     emblaApi.on("select", onSelect)
-    emblaApi.on("reInit", onSelect)
+    // NOTE: intentionally NOT listening to "reInit" — doing so caused
+    // the zoom-reset loop in the previous implementation.
     return () => {
       emblaApi.off("select", onSelect)
-      emblaApi.off("reInit", onSelect)
     }
   }, [emblaApi, onSelect])
 
-  // Re-init embla when zoom changes so drag lock updates
-  useEffect(() => {
-    emblaApi?.reInit({ watchDrag: zoom === 1 })
-  }, [emblaApi, zoom])
+  // Navigation — blocked when zoomed
+  const scrollPrev = useCallback(() => {
+    if (zoomRef.current > 1) return
+    emblaApi?.scrollPrev()
+  }, [emblaApi])
 
-  // Zoom helpers
+  const scrollNext = useCallback(() => {
+    if (zoomRef.current > 1) return
+    emblaApi?.scrollNext()
+  }, [emblaApi])
+
+  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi])
+
+  // Zoom controls
   const zoomIn = useCallback(() => {
-    setZoom((z) => Math.min(z + ZOOM_STEP, MAX_ZOOM))
-  }, [])
+    const next = Math.min(zoomRef.current + ZOOM_STEP, MAX_ZOOM)
+    applyZoom(next)
+  }, [applyZoom])
 
   const zoomOut = useCallback(() => {
-    setZoom((z) => {
-      const next = Math.max(z - ZOOM_STEP, MIN_ZOOM)
-      if (next === 1) setPan({ x: 0, y: 0 })
-      return next
-    })
-  }, [])
+    const next = Math.max(zoomRef.current - ZOOM_STEP, MIN_ZOOM)
+    applyZoom(next)
+  }, [applyZoom])
 
-  // Keyboard navigation
+  // Keyboard shortcuts
   useEffect(() => {
     if (!open) return
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -121,58 +125,44 @@ export function GalleryDialog({
   }, [open, scrollPrev, scrollNext, zoomIn, zoomOut])
 
   // --- Mouse pan ---
-  const onMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      if (zoom <= 1) return
-      e.preventDefault()
-      panRef.current = {
-        startX: e.clientX,
-        startY: e.clientY,
-        panX: pan.x,
-        panY: pan.y,
-        dragging: true,
-      }
-    },
-    [zoom, pan],
-  )
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if (zoomRef.current <= 1) return
+    e.preventDefault()
+    panRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      panX: pan.x,
+      panY: pan.y,
+      dragging: true,
+    }
+  }, [pan])
 
-  const onMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (!panRef.current.dragging) return
-      const dx = e.clientX - panRef.current.startX
-      const dy = e.clientY - panRef.current.startY
-      setPan({ x: panRef.current.panX + dx, y: panRef.current.panY + dy })
-    },
-    [],
-  )
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!panRef.current.dragging) return
+    const dx = e.clientX - panRef.current.startX
+    const dy = e.clientY - panRef.current.startY
+    setPan({ x: panRef.current.panX + dx, y: panRef.current.panY + dy })
+  }, [])
 
   const onMouseUp = useCallback(() => {
     panRef.current.dragging = false
   }, [])
 
   // --- Touch pan ---
-  const touchRef = useRef({ startX: 0, startY: 0, panX: 0, panY: 0 })
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    if (zoomRef.current <= 1) return
+    const t = e.touches[0]
+    touchRef.current = { startX: t.clientX, startY: t.clientY, panX: pan.x, panY: pan.y }
+  }, [pan])
 
-  const onTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      if (zoom <= 1) return
-      const t = e.touches[0]
-      touchRef.current = { startX: t.clientX, startY: t.clientY, panX: pan.x, panY: pan.y }
-    },
-    [zoom, pan],
-  )
-
-  const onTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (zoom <= 1) return
-      e.stopPropagation()
-      const t = e.touches[0]
-      const dx = t.clientX - touchRef.current.startX
-      const dy = t.clientY - touchRef.current.startY
-      setPan({ x: touchRef.current.panX + dx, y: touchRef.current.panY + dy })
-    },
-    [zoom],
-  )
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    if (zoomRef.current <= 1) return
+    e.stopPropagation()
+    const t = e.touches[0]
+    const dx = t.clientX - touchRef.current.startX
+    const dy = t.clientY - touchRef.current.startY
+    setPan({ x: touchRef.current.panX + dx, y: touchRef.current.panY + dy })
+  }, [])
 
   const currentImage = images[selectedIndex]
 
@@ -226,18 +216,10 @@ export function GalleryDialog({
           <div className="relative flex-1 overflow-hidden" ref={emblaRef}>
             <div className="flex h-full touch-pan-y">
               {images.map((image, i) => (
-                <div
-                  key={i}
-                  className="relative min-w-0 shrink-0 grow-0 basis-full"
-                >
+                <div key={i} className="relative min-w-0 shrink-0 grow-0 basis-full">
                   <div
-                    ref={i === selectedIndex ? imageContainerRef : undefined}
                     className="flex h-full items-center justify-center overflow-hidden px-4 py-16 md:px-16 md:py-20"
-                    style={
-                      i === selectedIndex
-                        ? { cursor: zoom > 1 ? "grab" : "default" }
-                        : {}
-                    }
+                    style={i === selectedIndex ? { cursor: zoom > 1 ? "grab" : "default" } : {}}
                     onMouseDown={i === selectedIndex ? onMouseDown : undefined}
                     onMouseMove={i === selectedIndex ? onMouseMove : undefined}
                     onMouseUp={i === selectedIndex ? onMouseUp : undefined}
@@ -250,10 +232,13 @@ export function GalleryDialog({
                       alt={image.caption || `Изображение ${i + 1}`}
                       width={1920}
                       height={1080}
-                      className="h-screen w-auto max-w-[95vw] select-none object-contain transition-transform duration-200 ease-out"
+                      className="h-screen w-auto max-w-[95vw] select-none object-contain"
                       style={
                         i === selectedIndex
-                          ? { transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)` }
+                          ? {
+                              transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
+                              transition: zoom === 1 ? "transform 0.2s ease-out" : "none",
+                            }
                           : {}
                       }
                       sizes="95vw"
@@ -266,7 +251,7 @@ export function GalleryDialog({
             </div>
           </div>
 
-          {/* Navigation arrows (hidden when zoomed) */}
+          {/* Navigation arrows — hidden when zoomed */}
           {images.length > 1 && zoom === 1 && (
             <>
               <button
