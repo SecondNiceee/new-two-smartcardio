@@ -39,7 +39,7 @@ export function SiteHeader() {
             />
           </span>
           <span className="text-lg font-semibold tracking-tight text-white">
-            Смарт<span className="text-white/70">Кардио</span>
+            Смарт<span className="text-white/70">Кардио</span><sup className="text-xs">®</sup>
           </span>
         </a>
 
