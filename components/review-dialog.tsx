@@ -122,7 +122,7 @@ export function ReviewDialog({ trigger }: { trigger: ReactNode }) {
               {/* Email */}
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="review-email">
-                  Почта (видна только вам) <span className="text-destructive">*</span>
+                  Почта (не публикуется) <span className="text-destructive">*</span>
                 </Label>
                 <Input id="review-email" name="email" type="email" required placeholder="you@example.com" />
               </div>
