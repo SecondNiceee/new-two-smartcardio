@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import { ShieldCheck } from "lucide-react"
+import { GalleryDialog, type GalleryImage } from "@/components/gallery-dialog"
 
 const patents = [
   {
@@ -31,6 +32,11 @@ const patents = [
   },
 ]
 
+const galleryImages: GalleryImage[] = patents.map((p) => ({
+  src: p.src,
+  caption: `${p.title} ${p.number}`,
+}))
+
 export function PatentsSection() {
   const { ref, style } = useScrollAnimation({ direction: "bottom" })
 
@@ -57,32 +63,55 @@ export function PatentsSection() {
 
         {/* Patents Grid */}
         <div className="mt-12 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4 lg:gap-8">
-          {patents.map((patent) => (
-            <div
+          {patents.map((patent, index) => (
+            <GalleryDialog
               key={patent.number}
-              className="group relative flex flex-col overflow-hidden rounded-2xl bg-card/50 p-3 ring-1 ring-border/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:ring-primary/30 hover:shadow-xl sm:p-4"
-            >
-              {/* Image Container */}
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-muted/30">
-                <Image
-                  src={patent.src}
-                  alt={patent.alt}
-                  fill
-                  className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
-                />
-              </div>
+              images={galleryImages}
+              initialIndex={index}
+              title="Патенты и свидетельства"
+              trigger={
+                <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-card/50 p-3 ring-1 ring-border/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:ring-primary/30 hover:shadow-xl sm:p-4">
+                  {/* Image Container */}
+                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-muted/30">
+                    <Image
+                      src={patent.src}
+                      alt={patent.alt}
+                      fill
+                      className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+                    />
+                    {/* Magnifying glass overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/30">
+                      <div className="flex h-12 w-12 scale-0 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-300 group-hover:scale-100">
+                        <svg
+                          className="h-5 w-5 text-foreground"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
 
-              {/* Caption */}
-              <div className="mt-3 text-center sm:mt-4">
-                <p className="text-xs font-medium text-muted-foreground sm:text-sm">
-                  {patent.title}
-                </p>
-                <p className="mt-0.5 text-sm font-semibold text-foreground sm:text-base">
-                  {patent.number}
-                </p>
-              </div>
-            </div>
+                  {/* Caption */}
+                  <div className="mt-3 text-center sm:mt-4">
+                    <p className="text-xs font-medium text-muted-foreground sm:text-sm">
+                      {patent.title}
+                    </p>
+                    <p className="mt-0.5 text-sm font-semibold text-foreground sm:text-base">
+                      {patent.number}
+                    </p>
+                  </div>
+                </div>
+              }
+            />
           ))}
         </div>
       </div>

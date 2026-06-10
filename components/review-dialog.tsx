@@ -41,7 +41,7 @@ export function ReviewDialog({ trigger }: { trigger: ReactNode }) {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <span onClick={() => setOpen(true)}>{trigger}</span>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent className="max-h-[90vh] overflow-y-scroll sm:max-w-lg">
         {submitted ? (
           <div className="flex flex-col items-center gap-3 py-8 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
@@ -122,7 +122,7 @@ export function ReviewDialog({ trigger }: { trigger: ReactNode }) {
               {/* Email */}
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="review-email">
-                  Почта (видна только вам) <span className="text-destructive">*</span>
+                  Почта (не публикуется) <span className="text-destructive">*</span>
                 </Label>
                 <Input id="review-email" name="email" type="email" required placeholder="you@example.com" />
               </div>

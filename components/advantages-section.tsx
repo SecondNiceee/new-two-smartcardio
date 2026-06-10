@@ -53,7 +53,7 @@ export function AdvantagesSection() {
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center rounded-full bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground ring-1 ring-inset ring-primary/30">
-            Почему СмартКардио?
+            {"СмартКардио\u00AE"}
           </span>
           <h2 className="mt-6 text-balance text-3xl font-bold tracking-tight text-white md:text-4xl">
             Наши преимущества
