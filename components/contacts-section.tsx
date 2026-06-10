@@ -23,7 +23,7 @@ export function ContactsSection() {
   return (
     <section
       id="contacts"
-      className="relative bg-black py-16 md:py-24"
+      className="relative bg-black py-10 md:py-14"
       style={{
         backgroundImage: "url('/media/footerBg.png')",
         backgroundAttachment: "fixed",
@@ -59,8 +59,8 @@ export function ContactsSection() {
               aria-label={`${social.name} — ${social.network}`}
               className="group flex w-24 flex-col items-center gap-3 sm:w-44"
             >
-              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-translate-y-1 sm:h-28 sm:w-28">
-                <img src={social.icon} alt={social.network} className="h-8 w-8 object-contain sm:h-14 sm:w-14" />
+              <span className="flex shrink-0 items-center justify-center transition-transform duration-300 group-hover:-translate-y-1">
+                <img src={social.icon} alt={social.network} className="h-12 w-12 object-contain sm:h-20 sm:w-20" />
               </span>
               <span className="text-balance text-center text-sm font-bold text-white">
                 {social.name}
