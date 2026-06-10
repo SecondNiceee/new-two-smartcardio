@@ -6,7 +6,7 @@ export function AppSection() {
   const { ref, style } = useScrollAnimation({ direction: "left" })
 
   return (
-    <section id="app" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-x-hidden py-12 md:py-14">
+    <section id="app" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-x-hidden py-8 md:py-10">
       {/* Decorative background elements */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-32 top-1/4 h-64 w-64 rotate-12 rounded-[42%_58%_70%_30%/45%_45%_55%_55%] bg-primary/5 blur-3xl" />

@@ -131,7 +131,7 @@ export function ReviewsSection() {
       id="reviews"
       ref={ref as React.RefObject<HTMLElement>}
       style={style}
-      className="overflow-x-hidden py-12 md:py-14"
+      className="overflow-x-hidden py-8 md:py-10"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Two-column layout: photo left, reviews right */}
@@ -153,7 +153,7 @@ export function ReviewsSection() {
           {/* Reviews (right) */}
           <div className="order-2 min-w-0 flex flex-col">
             {/* Heading */}
-            <div className="text-center lg:text-left">
+            <div className="text-center">
               <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
                 Отзывы
               </span>

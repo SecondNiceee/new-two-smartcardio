@@ -36,7 +36,7 @@ export function HowItWorksSection() {
   const { ref, style } = useScrollAnimation({ direction: "right" })
 
   return (
-    <section id="how" ref={ref as React.RefObject<HTMLElement>} style={style} className="overflow-x-hidden py-12 md:py-12">
+    <section id="how" ref={ref as React.RefObject<HTMLElement>} style={style} className="overflow-x-hidden py-8 md:py-8">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">

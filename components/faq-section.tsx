@@ -125,13 +125,13 @@ export function FaqSection() {
       id="faq"
       ref={ref as React.RefObject<HTMLElement>}
       style={style}
-      className="relative overflow-x-hidden py-12 md:py-14"
+      className="relative overflow-x-hidden py-8 md:py-10"
     >
       <div className="mx-auto max-w-4xl px-4 md:px-8">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center rounded-full bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground ring-1 ring-inset ring-primary/30">
-            FAQ
+            Полезная информация
           </span>
           <h2 className="mt-6 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             Частые вопросы и обратная связь

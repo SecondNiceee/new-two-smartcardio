@@ -73,7 +73,7 @@ export function RecordingsSection() {
   }, [emblaApi, onSelect])
 
   return (
-    <section id="recordings" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-hidden py-12 md:py-12">
+    <section id="recordings" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-hidden py-8 md:py-8">
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         {/* Section header */}
         <div className="mx-auto max-w-2xl text-center">

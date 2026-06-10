@@ -136,7 +136,7 @@ export function ReviewDialog({ trigger }: { trigger: ReactNode }) {
                   id="review-text"
                   name="text"
                   required
-                  rows={4}
+                  rows={7}
                   placeholder="Расскажите о своём опыте использования прибора"
                 />
               </div>

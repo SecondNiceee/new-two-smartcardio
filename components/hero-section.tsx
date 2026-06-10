@@ -52,7 +52,7 @@ export function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="bg-white text-foreground hover:bg-white/90 text-base"
+              className="bg-white font-semibold text-foreground hover:bg-white/90 text-base"
             >
               <a href="#app">
                 Читать далее
@@ -63,7 +63,7 @@ export function HeroSection() {
               asChild
               size="lg"
               variant="outline"
-              className="border-white/30 bg-white/5 text-white backdrop-blur-sm hover:bg-white/15 hover:text-white text-base"
+              className="border-white/30 bg-white/5 font-semibold text-white backdrop-blur-sm hover:bg-white/15 hover:text-white text-base"
             >
               <a href="#how">Как это работает</a>
             </Button>
