@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, type ReactNode, type FormEvent } from "react"
+import { useState, useEffect, useRef, type ReactNode, type FormEvent } from "react"
 import { CheckCircle2, Loader2, MapPin, Package, ChevronRight, ChevronLeft, Search } from "lucide-react"
 import {
   Dialog,
@@ -117,29 +117,30 @@ function CityAutocomplete({
   const [suggestions, setSuggestions] = useState<CdekCity[]>([])
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
-  const debounceRef = useState<ReturnType<typeof setTimeout> | null>(null)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   function handleChange(val: string) {
     setInput(val)
-    if (debounceRef[0]) clearTimeout(debounceRef[0])
+    if (debounceRef.current) clearTimeout(debounceRef.current)
     if (val.trim().length < 2) {
       setSuggestions([])
       setOpen(false)
       return
     }
     setLoading(true)
-    debounceRef[1](
-      setTimeout(async () => {
-        try {
-          const res = await fetch(`/api/cdek/cities?name=${encodeURIComponent(val)}`)
-          const data: CdekCity[] = await res.json()
-          setSuggestions(Array.isArray(data) ? data.slice(0, 8) : [])
-          setOpen(true)
-        } finally {
-          setLoading(false)
-        }
-      }, 350),
-    )
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/cdek/cities?name=${encodeURIComponent(val)}`)
+        const data: CdekCity[] = await res.json()
+        console.log("[v0] city suggestions:", data)
+        setSuggestions(Array.isArray(data) ? data.slice(0, 8) : [])
+        setOpen(true)
+      } catch (e) {
+        console.log("[v0] city fetch error:", e)
+      } finally {
+        setLoading(false)
+      }
+    }, 350)
   }
 
   function handleSelect(city: CdekCity) {
