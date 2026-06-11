@@ -310,7 +310,15 @@ function StepPvz({
   onNext: () => void
 }) {
   const [pvzList, setPvzList] = useState<
-    { code: string; name: string; location: { address_full: string; address: string }; work_time: string }[]
+    {
+      code: string
+      name: string
+      nearest_metro_station?: string
+      nearest_station?: string
+      address_comment?: string
+      location: { address_full: string; address: string }
+      work_time: string
+    }[]
   >([])
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
@@ -354,7 +362,10 @@ function StepPvz({
         const q = search.toLowerCase()
         return (
           pvz.name.toLowerCase().includes(q) ||
-          (pvz.location.address_full ?? pvz.location.address).toLowerCase().includes(q)
+          (pvz.location.address_full ?? pvz.location.address).toLowerCase().includes(q) ||
+          (pvz.nearest_metro_station ?? "").toLowerCase().includes(q) ||
+          (pvz.nearest_station ?? "").toLowerCase().includes(q) ||
+          (pvz.address_comment ?? "").toLowerCase().includes(q)
         )
       })
     : pvzList
@@ -397,7 +408,7 @@ function StepPvz({
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Поиск по названию или адресу..."
+              placeholder="Поиск по адресу, названию или метро..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9"
@@ -443,6 +454,11 @@ function StepPvz({
                     <p className="mt-0.5 text-xs text-muted-foreground">
                       {pvz.location.address_full ?? pvz.location.address}
                     </p>
+                    {(pvz.nearest_metro_station || pvz.nearest_station) && (
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        м. {pvz.nearest_metro_station ?? pvz.nearest_station}
+                      </p>
+                    )}
                     {pvz.work_time && (
                       <p className="mt-0.5 text-xs text-muted-foreground">{pvz.work_time}</p>
                     )}
