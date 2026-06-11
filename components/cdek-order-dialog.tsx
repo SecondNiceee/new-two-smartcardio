@@ -46,10 +46,10 @@ type Step = "form" | "pvz" | "confirm"
 
 interface CdekCity {
   city: string
-  sub_region: string
-  region: string
+  full_name: string
   city_code: number
   region_code: number
+  country_code: string
 }
 
 // ─── Step indicator ───────────────────────────────────────────────────────────
@@ -132,11 +132,10 @@ function CityAutocomplete({
       try {
         const res = await fetch(`/api/cdek/cities?name=${encodeURIComponent(val)}`)
         const data: CdekCity[] = await res.json()
-        console.log("[v0] city suggestions:", data)
         setSuggestions(Array.isArray(data) ? data.slice(0, 8) : [])
         setOpen(true)
       } catch (e) {
-        console.log("[v0] city fetch error:", e)
+        console.error("[cdek cities]", e)
       } finally {
         setLoading(false)
       }
@@ -144,8 +143,7 @@ function CityAutocomplete({
   }
 
   function handleSelect(city: CdekCity) {
-    const label = city.region ? `${city.city}, ${city.region}` : city.city
-    setInput(label)
+    setInput(city.full_name)
     setSuggestions([])
     setOpen(false)
     onSelect(city)
@@ -174,10 +172,7 @@ function CityAutocomplete({
                 onMouseDown={() => handleSelect(c)}
                 className="w-full px-3 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground"
               >
-                <span className="font-medium">{c.city}</span>
-                {c.region && (
-                  <span className="ml-1 opacity-60">{c.region}</span>
-                )}
+                {c.full_name}
               </button>
             </li>
           ))}
