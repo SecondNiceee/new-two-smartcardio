@@ -22,6 +22,7 @@ interface FormData {
   email: string
   city: string
   cityCode: string
+  regionCode: number
   comment: string
   consent: boolean
 }
@@ -43,25 +44,13 @@ interface Tariff {
 
 type Step = "form" | "pvz" | "confirm"
 
-// ─── Popular cities with CDEK codes ──────────────────────────────────────────
-
-const CITIES: { name: string; code: number }[] = [
-  { name: "Москва", code: 44 },
-  { name: "Санкт-Петербург", code: 137 },
-  { name: "Новосибирск", code: 270 },
-  { name: "Екатеринбург", code: 48 },
-  { name: "Нижний Новгород", code: 66 },
-  { name: "Казань", code: 56 },
-  { name: "Челябинск", code: 123 },
-  { name: "Красноярск", code: 255 },
-  { name: "Краснодар", code: 620 },
-  { name: "Воронеж", code: 25 },
-  { name: "Самара", code: 51 },
-  { name: "Ростов-на-Дону", code: 69 },
-  { name: "Уфа", code: 77 },
-  { name: "Омск", code: 272 },
-  { name: "Пермь", code: 50 },
-]
+interface CdekCity {
+  city: string
+  sub_region: string
+  region: string
+  city_code: number
+  region_code: number
+}
 
 // ─── Step indicator ───────────────────────────────────────────────────────────
 
@@ -116,6 +105,86 @@ function StepBar({ step }: { step: Step }) {
 }
 
 // ─── Step 1: Contact form ────────────────────────────────────────────────────
+
+function CityAutocomplete({
+  value,
+  onSelect,
+}: {
+  value: string
+  onSelect: (city: CdekCity) => void
+}) {
+  const [input, setInput] = useState(value)
+  const [suggestions, setSuggestions] = useState<CdekCity[]>([])
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const debounceRef = useState<ReturnType<typeof setTimeout> | null>(null)
+
+  function handleChange(val: string) {
+    setInput(val)
+    if (debounceRef[0]) clearTimeout(debounceRef[0])
+    if (val.trim().length < 2) {
+      setSuggestions([])
+      setOpen(false)
+      return
+    }
+    setLoading(true)
+    debounceRef[1](
+      setTimeout(async () => {
+        try {
+          const res = await fetch(`/api/cdek/cities?name=${encodeURIComponent(val)}`)
+          const data: CdekCity[] = await res.json()
+          setSuggestions(Array.isArray(data) ? data.slice(0, 8) : [])
+          setOpen(true)
+        } finally {
+          setLoading(false)
+        }
+      }, 350),
+    )
+  }
+
+  function handleSelect(city: CdekCity) {
+    const label = city.region ? `${city.city}, ${city.region}` : city.city
+    setInput(label)
+    setSuggestions([])
+    setOpen(false)
+    onSelect(city)
+  }
+
+  return (
+    <div className="relative">
+      <Input
+        id="cdek-city"
+        autoComplete="off"
+        placeholder="Начните вводить город..."
+        value={input}
+        onChange={(e) => handleChange(e.target.value)}
+        onBlur={() => setTimeout(() => setOpen(false), 150)}
+        onFocus={() => suggestions.length > 0 && setOpen(true)}
+      />
+      {loading && (
+        <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" />
+      )}
+      {open && suggestions.length > 0 && (
+        <ul className="absolute z-50 mt-1 w-full rounded-md border border-border bg-background shadow-md">
+          {suggestions.map((c, i) => (
+            <li key={i}>
+              <button
+                type="button"
+                onMouseDown={() => handleSelect(c)}
+                className="w-full px-3 py-2 text-left text-sm hover:bg-muted"
+              >
+                <span className="font-medium">{c.city}</span>
+                {c.region && (
+                  <span className="ml-1 text-muted-foreground">{c.region}</span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
 
 function StepForm({
   data,
@@ -176,23 +245,16 @@ function StepForm({
         <Label htmlFor="cdek-city">
           Город <span className="text-destructive">*</span>
         </Label>
-        <select
-          id="cdek-city"
-          required
-          value={data.cityCode}
-          onChange={(e) => {
-            const found = CITIES.find((c) => String(c.code) === e.target.value)
-            onChange({ cityCode: e.target.value, city: found?.name ?? "" })
-          }}
-          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-        >
-          <option value="">Выберите город</option>
-          {CITIES.map((c) => (
-            <option key={c.code} value={String(c.code)}>
-              {c.name}
-            </option>
-          ))}
-        </select>
+        <CityAutocomplete
+          value={data.city}
+          onSelect={(city) =>
+            onChange({
+              city: city.city,
+              cityCode: String(city.city_code),
+              regionCode: city.region_code,
+            })
+          }
+        />
       </div>
 
       <div className="flex flex-col gap-1.5">
@@ -223,7 +285,7 @@ function StepForm({
       <Button
         type="submit"
         className="mt-1 w-full"
-        disabled={!data.consent || !data.cityCode}
+        disabled={!data.consent || !data.regionCode}
       >
         Выбрать пункт выдачи
         <ChevronRight className="ml-1 h-4 w-4" />
@@ -236,6 +298,7 @@ function StepForm({
 
 function StepPvz({
   cityCode,
+  regionCode,
   cityName,
   selectedPvz,
   onSelect,
@@ -243,6 +306,7 @@ function StepPvz({
   onNext,
 }: {
   cityCode: string
+  regionCode: number
   cityName: string
   selectedPvz: PvzLocation | null
   onSelect: (pvz: PvzLocation) => void
@@ -259,12 +323,12 @@ function StepPvz({
 
   // Load PVZ list and tariffs in parallel
   useEffect(() => {
-    if (!cityCode) return
+    if (!regionCode) return
     setLoading(true)
     setError(null)
 
     Promise.all([
-      fetch(`/api/cdek/pvz?city_code=${cityCode}`).then((r) => r.json()),
+      fetch(`/api/cdek/pvz?region_code=${regionCode}`).then((r) => r.json()),
       fetch(`/api/cdek/calc?city_code=${cityCode}`).then((r) => r.json()),
     ])
       .then(([pvzData, calcData]) => {
@@ -510,6 +574,7 @@ const INITIAL_FORM: FormData = {
   email: "",
   city: "",
   cityCode: "",
+  regionCode: 0,
   comment: "",
   consent: true,
 }
@@ -632,6 +697,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
               {step === "pvz" && (
                 <StepPvz
                   cityCode={formData.cityCode}
+                  regionCode={formData.regionCode}
                   cityName={formData.city}
                   selectedPvz={selectedPvz}
                   onSelect={setSelectedPvz}
