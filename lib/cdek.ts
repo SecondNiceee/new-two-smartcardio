@@ -30,6 +30,8 @@ export async function getCdekToken(): Promise<string> {
     return tokenCache.token
   }
 
+  console.log("[v0] CDEK token request — BASE_URL:", BASE_URL, "CLIENT_ID:", CLIENT_ID, "CLIENT_SECRET length:", CLIENT_SECRET?.length)
+
   const res = await fetch(`${BASE_URL}/oauth/token`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
