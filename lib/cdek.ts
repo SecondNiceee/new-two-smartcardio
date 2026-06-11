@@ -6,14 +6,17 @@
  * Production base URL: https://api.cdek.ru/v2
  */
 
-const BASE_URL = process.env.CDEK_API_URL
-const CLIENT_ID = process.env.CDEK_CLIENT_ID
-const CLIENT_SECRET = process.env.CDEK_CLIENT_SECRET
+function getEnv() {
+  const BASE_URL = process.env.CDEK_API_URL
+  const CLIENT_ID = process.env.CDEK_CLIENT_ID
+  const CLIENT_SECRET = process.env.CDEK_CLIENT_SECRET
 
-if (!BASE_URL || !CLIENT_ID || !CLIENT_SECRET) {
-  throw new Error(
-    "Missing CDEK env vars: CDEK_API_URL, CDEK_CLIENT_ID, CDEK_CLIENT_SECRET",
-  )
+  if (!BASE_URL || !CLIENT_ID || !CLIENT_SECRET) {
+    throw new Error(
+      "Missing CDEK env vars: CDEK_API_URL, CDEK_CLIENT_ID, CDEK_CLIENT_SECRET",
+    )
+  }
+  return { BASE_URL, CLIENT_ID, CLIENT_SECRET }
 }
 
 // ─── Token cache (in-process, single-instance) ───────────────────────────────
@@ -21,6 +24,7 @@ if (!BASE_URL || !CLIENT_ID || !CLIENT_SECRET) {
 let tokenCache: { token: string; expiresAt: number } | null = null
 
 export async function getCdekToken(): Promise<string> {
+  const { BASE_URL, CLIENT_ID, CLIENT_SECRET } = getEnv()
   const now = Date.now()
   if (tokenCache && tokenCache.expiresAt > now + 60_000) {
     return tokenCache.token
@@ -116,6 +120,7 @@ async function cdekFetch<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
+  const { BASE_URL } = getEnv()
   const token = await getCdekToken()
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
