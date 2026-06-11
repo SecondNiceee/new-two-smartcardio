@@ -323,8 +323,16 @@ function StepPvz({
     setLoading(true)
     setError(null)
 
+    // If region_code is valid (non-zero), search PVZ by region so we get
+    // all pickup points across the whole region, not just the exact city match.
+    // For federal cities (Москва, СПб) region_code === 0, so fall back to city_code.
+    const pvzQuery =
+      regionCode > 0
+        ? `/api/cdek/pvz?region_code=${regionCode}`
+        : `/api/cdek/pvz?city_code=${cityCode}`
+
     Promise.all([
-      fetch(`/api/cdek/pvz?city_code=${cityCode}`).then((r) => r.json()),
+      fetch(pvzQuery).then((r) => r.json()),
       fetch(`/api/cdek/calc?city_code=${cityCode}`).then((r) => r.json()),
     ])
       .then(([pvzData, calcData]) => {
