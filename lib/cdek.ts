@@ -151,10 +151,27 @@ export interface CdekCity {
 
 /** Autocomplete cities by name query */
 export async function suggestCities(name: string): Promise<CdekCity[]> {
-  const data = await cdekFetch<CdekCity[]>(
-    `/location/suggest/cities?name=${encodeURIComponent(name)}&country_codes=RU`,
+  const { BASE_URL } = getEnv()
+  const token = await getCdekToken()
+  const res = await fetch(
+    `${BASE_URL}/location/suggest/cities?name=${encodeURIComponent(name)}&country_codes=RU`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    },
   )
-  return Array.isArray(data) ? data : []
+  if (!res.ok) {
+    const text = await res.text()
+    console.error("[cdek suggestCities] error", res.status, text)
+    return []
+  }
+  const raw = await res.json()
+  console.log("[cdek suggestCities] raw response:", JSON.stringify(raw).slice(0, 300))
+  // CDEK may return array directly or wrapped in a field
+  if (Array.isArray(raw)) return raw
+  if (raw && Array.isArray(raw.cities)) return raw.cities
+  if (raw && Array.isArray(raw.data)) return raw.data
+  return []
 }
 
 /** List delivery offices (PVZ) filtered by region code */
