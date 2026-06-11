@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, type ReactNode, type FormEvent } from "react"
+import { useState, useEffect, type ReactNode, type FormEvent } from "react"
 import { CheckCircle2, Loader2, MapPin, Package, ChevronRight, ChevronLeft } from "lucide-react"
 import {
   Dialog,
@@ -250,13 +250,11 @@ function StepPvz({
   onNext: () => void
 }) {
   const [pvzList, setPvzList] = useState<
-    { code: string; name: string; location: { address_full: string; address: string; latitude: number; longitude: number }; work_time: string }[]
+    { code: string; name: string; location: { address_full: string; address: string }; work_time: string }[]
   >([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [tariffs, setTariffs] = useState<Tariff[]>([])
-  const mapRef = useRef<HTMLDivElement>(null)
-  const ymapsRef = useRef<{ map: unknown; placemarks: unknown[] } | null>(null)
 
   // Load PVZ list and tariffs in parallel
   useEffect(() => {
@@ -276,79 +274,6 @@ function StepPvz({
       .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false))
   }, [cityCode])
-
-  // Init Yandex Maps once PVZ loaded
-  useEffect(() => {
-    if (loading || error || pvzList.length === 0 || !mapRef.current) return
-
-    const scriptId = "yandex-maps-script"
-
-    function initMap() {
-      const ymaps = (window as unknown as { ymaps: { ready: (fn: () => void) => void; Map: new (el: HTMLElement, opts: unknown) => { destroy: () => void }; Placemark: new (coords: number[], props: unknown, opts: unknown) => { events: { add: (evt: string, fn: () => void) => void } }; GeoObjectCollection: new () => { add: (p: unknown) => void }; map: { geoObjects: { add: (c: unknown) => void } } } }).ymaps
-      if (!ymaps || !mapRef.current) return
-
-      ymaps.ready(() => {
-        if (!mapRef.current) return
-
-        // Destroy previous map instance
-        if (ymapsRef.current) {
-          ;(ymapsRef.current.map as { destroy: () => void }).destroy()
-        }
-
-        const firstPvz = pvzList[0]
-        const map = new ymaps.Map(mapRef.current, {
-          center: [firstPvz.location.latitude, firstPvz.location.longitude],
-          zoom: 12,
-          controls: ["zoomControl"],
-        })
-
-        const collection = new ymaps.GeoObjectCollection()
-
-        pvzList.forEach((pvz) => {
-          const pm = new ymaps.Placemark(
-            [pvz.location.latitude, pvz.location.longitude],
-            {
-              balloonContentHeader: pvz.name,
-              balloonContentBody: `${pvz.location.address_full}<br/>${pvz.work_time ?? ""}`,
-              hintContent: pvz.location.address,
-            },
-            { preset: "islands#redDotIcon" },
-          )
-          pm.events.add("click", () => {
-            onSelect({
-              code: pvz.code,
-              name: pvz.name,
-              address: pvz.location.address_full ?? pvz.location.address,
-              workTime: pvz.work_time,
-            })
-          })
-          collection.add(pm)
-        })
-
-        ;(map as unknown as { geoObjects: { add: (c: unknown) => void } }).geoObjects.add(collection)
-        ymapsRef.current = { map, placemarks: [] }
-      })
-    }
-
-    if (!document.getElementById(scriptId)) {
-      const script = document.createElement("script")
-      script.id = scriptId
-      script.src = "https://api-maps.yandex.ru/2.1/?apikey=your-yandex-api-key&lang=ru_RU"
-      script.async = true
-      script.onload = initMap
-      document.head.appendChild(script)
-    } else {
-      initMap()
-    }
-
-    return () => {
-      if (ymapsRef.current) {
-        ;(ymapsRef.current.map as { destroy: () => void }).destroy()
-        ymapsRef.current = null
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pvzList, loading, error])
 
   const cheapestTariff = tariffs.reduce<Tariff | null>((best, t) => {
     if (!best || t.delivery_sum < best.delivery_sum) return t
@@ -389,19 +314,8 @@ function StepPvz({
 
       {!loading && !error && (
         <>
-          {/* Map */}
-          <div
-            ref={mapRef}
-            className="h-52 w-full overflow-hidden rounded-xl border border-border bg-muted"
-            aria-label="Карта пунктов выдачи СДЭК"
-          >
-            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-              Загрузка карты...
-            </div>
-          </div>
-
           {/* PVZ list */}
-          <div className="max-h-48 overflow-y-auto rounded-xl border border-border">
+          <div className="max-h-64 overflow-y-auto rounded-xl border border-border">
             {pvzList.map((pvz) => {
               const isSelected = selectedPvz?.code === pvz.code
               return (
