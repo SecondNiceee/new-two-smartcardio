@@ -281,7 +281,7 @@ function StepForm({
       <Button
         type="submit"
         className="mt-1 w-full"
-        disabled={!data.consent || !data.regionCode}
+        disabled={!data.consent || !data.cityCode}
       >
         Выбрать пункт выдачи
         <ChevronRight className="ml-1 h-4 w-4" />
