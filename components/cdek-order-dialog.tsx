@@ -166,17 +166,17 @@ function CityAutocomplete({
         <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" />
       )}
       {open && suggestions.length > 0 && (
-        <ul className="absolute z-50 mt-1 w-full rounded-md border border-border bg-background shadow-md">
+        <ul className="absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-border shadow-md" style={{ backgroundColor: "var(--popover, #fff)", color: "var(--popover-foreground, #000)" }}>
           {suggestions.map((c, i) => (
             <li key={i}>
               <button
                 type="button"
                 onMouseDown={() => handleSelect(c)}
-                className="w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                className="w-full px-3 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground"
               >
                 <span className="font-medium">{c.city}</span>
                 {c.region && (
-                  <span className="ml-1 text-muted-foreground">{c.region}</span>
+                  <span className="ml-1 opacity-60">{c.region}</span>
                 )}
               </button>
             </li>
@@ -491,7 +491,7 @@ function StepConfirm({
   error: string | null
 }) {
   const rows = [
-    { label: "Получатель", value: data.name },
+    { label: "По��учатель", value: data.name },
     { label: "Телефон", value: data.phone },
     ...(data.email ? [{ label: "E-mail", value: data.email }] : []),
     { label: "Город", value: data.city },
