@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, type ReactNode, type FormEvent } from "react"
-import { CheckCircle2, Loader2, MapPin, Package, ChevronRight, ChevronLeft } from "lucide-react"
+import { CheckCircle2, Loader2, MapPin, Package, ChevronRight, ChevronLeft, Search } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -252,6 +252,7 @@ function StepPvz({
   const [pvzList, setPvzList] = useState<
     { code: string; name: string; location: { address_full: string; address: string }; work_time: string }[]
   >([])
+  const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [tariffs, setTariffs] = useState<Tariff[]>([])
@@ -279,6 +280,16 @@ function StepPvz({
     if (!best || t.delivery_sum < best.delivery_sum) return t
     return best
   }, null)
+
+  const filteredPvz = search.trim()
+    ? pvzList.filter((pvz) => {
+        const q = search.toLowerCase()
+        return (
+          pvz.name.toLowerCase().includes(q) ||
+          (pvz.location.address_full ?? pvz.location.address).toLowerCase().includes(q)
+        )
+      })
+    : pvzList
 
   return (
     <div className="flex flex-col gap-4">
@@ -314,9 +325,25 @@ function StepPvz({
 
       {!loading && !error && (
         <>
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Поиск по названию или адресу..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+
           {/* PVZ list */}
-          <div className="max-h-64 overflow-y-auto rounded-xl border border-border">
-            {pvzList.map((pvz) => {
+          <div className="max-h-72 overflow-y-auto rounded-xl border border-border">
+            {filteredPvz.length === 0 && (
+              <p className="px-4 py-6 text-center text-sm text-muted-foreground">
+                Ничего не найдено
+              </p>
+            )}
+            {filteredPvz.map((pvz) => {
               const isSelected = selectedPvz?.code === pvz.code
               return (
                 <button
@@ -343,9 +370,9 @@ function StepPvz({
                       isSelected ? "text-primary" : "text-muted-foreground",
                     ].join(" ")}
                   />
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium">{pvz.name}</p>
-                    <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium">{pvz.name}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
                       {pvz.location.address_full ?? pvz.location.address}
                     </p>
                     {pvz.work_time && (
@@ -580,7 +607,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <span onClick={() => setOpen(true)}>{trigger}</span>
 
-      <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-2xl">
         {isSuccess ? (
           <StepSuccess uuid={orderUuid!} onClose={() => handleOpenChange(false)} />
         ) : (
