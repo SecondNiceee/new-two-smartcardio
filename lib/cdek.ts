@@ -141,11 +141,18 @@ async function cdekFetch<T>(
 
 export interface CdekCity {
   city: string
-  sub_region: string
-  region: string
-  country: string
+  full_name: string
   city_code: number
   region_code: number
+  country_code: string
+}
+
+interface CdekCityRaw {
+  city_uuid: string
+  code: number
+  full_name: string
+  country_code: string
+  region_code?: number
 }
 
 /** Autocomplete cities by name query */
@@ -159,18 +166,24 @@ export async function suggestCities(name: string): Promise<CdekCity[]> {
       cache: "no-store",
     },
   )
-  if (!res.ok) {
-    const text = await res.text()
-    console.error("[cdek suggestCities] error", res.status, text)
-    return []
-  }
+  if (!res.ok) return []
   const raw = await res.json()
-  console.log("[cdek suggestCities] raw response:", JSON.stringify(raw).slice(0, 300))
-  // CDEK may return array directly or wrapped in a field
-  if (Array.isArray(raw)) return raw
-  if (raw && Array.isArray(raw.cities)) return raw.cities
-  if (raw && Array.isArray(raw.data)) return raw.data
-  return []
+  const items: CdekCityRaw[] = Array.isArray(raw) ? raw : (raw?.cities ?? raw?.data ?? [])
+  return items
+    .filter((c) => c.country_code === "RU")
+    .map((c) => {
+      // full_name: "Москва, Россия" or "Московский, Московская область, Россия"
+      const parts = c.full_name.replace(/, Россия$/, "").split(", ")
+      const city = parts[0]
+      const region = parts.length > 1 ? parts.slice(1).join(", ") : ""
+      return {
+        city,
+        full_name: c.full_name.replace(/, Россия$/, ""),
+        city_code: c.code,
+        region_code: c.region_code ?? 0,
+        country_code: c.country_code,
+      }
+    })
 }
 
 /** List delivery offices (PVZ) filtered by region code */
