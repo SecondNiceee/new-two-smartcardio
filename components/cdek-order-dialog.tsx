@@ -333,7 +333,7 @@ function StepPvz({
     if (!document.getElementById(scriptId)) {
       const script = document.createElement("script")
       script.id = scriptId
-      script.src = "https://api-maps.yandex.ru/2.1/?apikey=your-yandex-api-key&lang=ru_RU"
+      script.src = `https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAPS_KEY ?? ""}&lang=ru_RU`
       script.async = true
       script.onload = initMap
       document.head.appendChild(script)
