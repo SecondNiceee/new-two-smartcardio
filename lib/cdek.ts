@@ -140,10 +140,27 @@ async function cdekFetch<T>(
   return res.json() as Promise<T>
 }
 
-/** List delivery offices (PVZ) filtered by city code */
-export async function getPvzList(cityCode: number): Promise<CdekPvz[]> {
+export interface CdekCity {
+  city: string
+  sub_region: string
+  region: string
+  country: string
+  city_code: number
+  region_code: number
+}
+
+/** Autocomplete cities by name query */
+export async function suggestCities(name: string): Promise<CdekCity[]> {
+  const data = await cdekFetch<CdekCity[]>(
+    `/location/suggest/cities?name=${encodeURIComponent(name)}&country_codes=RU`,
+  )
+  return Array.isArray(data) ? data : []
+}
+
+/** List delivery offices (PVZ) filtered by region code */
+export async function getPvzList(regionCode: number): Promise<CdekPvz[]> {
   const data = await cdekFetch<CdekPvz[]>(
-    `/deliverypoints?city_code=${cityCode}&type=PVZ&is_handout=true`,
+    `/deliverypoints?region_code=${regionCode}&type=PVZ&is_handout=true`,
   )
   return data
 }
