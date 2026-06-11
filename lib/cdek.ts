@@ -58,6 +58,9 @@ export async function getCdekToken(): Promise<string> {
 export interface CdekPvz {
   code: string
   name: string
+  nearest_station?: string
+  nearest_metro_station?: string
+  address_comment?: string
   location: {
     city: string
     address: string
@@ -186,15 +189,59 @@ export async function suggestCities(name: string): Promise<CdekCity[]> {
     })
 }
 
-/** List delivery offices (PVZ) filtered by city or region code */
+/** Fetch deliverypoints with given params, normalise response to array */
+async function fetchDeliveryPoints(params: URLSearchParams): Promise<CdekPvz[]> {
+  try {
+    const data = await cdekFetch<CdekPvz[] | { items?: CdekPvz[] }>(
+      `/deliverypoints?${params.toString()}`,
+    )
+    return Array.isArray(data) ? data : (data.items ?? [])
+  } catch {
+    return []
+  }
+}
+
+/**
+ * List delivery offices (PVZ) by firing multiple parallel queries
+ * (by region, by city, by city with is_handout=false) and merging the results,
+ * deduplicating by code. This maximises the chance of finding points especially
+ * for federal cities (Moscow, SPb) where region_code = 0.
+ */
 export async function getPvzList(cityCode: number | null, regionCode: number | null): Promise<CdekPvz[]> {
-  const params = new URLSearchParams({ type: "PVZ", is_handout: "true" })
-  if (cityCode !== null) params.set("city_code", String(cityCode))
-  if (regionCode !== null && regionCode !== 0) params.set("region_code", String(regionCode))
-  const data = await cdekFetch<CdekPvz[] | { items?: CdekPvz[] }>(
-    `/deliverypoints?${params.toString()}`,
-  )
-  return Array.isArray(data) ? data : (data.items ?? [])
+  const queries: URLSearchParams[] = []
+
+  // 1. By city_code (handout only)
+  if (cityCode !== null) {
+    const p = new URLSearchParams({ type: "PVZ", is_handout: "true", city_code: String(cityCode) })
+    queries.push(p)
+  }
+
+  // 2. By region_code (handout only) — skip if region is 0 (federal city)
+  if (regionCode !== null && regionCode !== 0) {
+    const p = new URLSearchParams({ type: "PVZ", is_handout: "true", region_code: String(regionCode) })
+    queries.push(p)
+  }
+
+  // 3. By city_code without is_handout filter to catch more points
+  if (cityCode !== null) {
+    const p = new URLSearchParams({ type: "PVZ", city_code: String(cityCode) })
+    queries.push(p)
+  }
+
+  const results = await Promise.all(queries.map(fetchDeliveryPoints))
+
+  // Deduplicate by code, preserving order (first occurrence wins)
+  const seen = new Set<string>()
+  const merged: CdekPvz[] = []
+  for (const batch of results) {
+    for (const pvz of batch) {
+      if (!seen.has(pvz.code)) {
+        seen.add(pvz.code)
+        merged.push(pvz)
+      }
+    }
+  }
+  return merged
 }
 
 /** Calculate delivery cost for all available tariffs */
