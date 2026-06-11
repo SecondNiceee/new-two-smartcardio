@@ -319,12 +319,12 @@ function StepPvz({
 
   // Load PVZ list and tariffs in parallel
   useEffect(() => {
-    if (!regionCode) return
+    if (!cityCode) return
     setLoading(true)
     setError(null)
 
     Promise.all([
-      fetch(`/api/cdek/pvz?region_code=${regionCode}`).then((r) => r.json()),
+      fetch(`/api/cdek/pvz?city_code=${cityCode}`).then((r) => r.json()),
       fetch(`/api/cdek/calc?city_code=${cityCode}`).then((r) => r.json()),
     ])
       .then(([pvzData, calcData]) => {
