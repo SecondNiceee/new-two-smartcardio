@@ -6,17 +6,16 @@
  * Production base URL: https://api.cdek.ru/v2
  */
 
+const CDEK_BASE_URL = "https://api.edu.cdek.ru/v2"
+
 function getEnv() {
-  const BASE_URL = process.env.CDEK_API_URL
   const CLIENT_ID = process.env.CDEK_CLIENT_ID
   const CLIENT_SECRET = process.env.CDEK_CLIENT_SECRET
 
-  if (!BASE_URL || !CLIENT_ID || !CLIENT_SECRET) {
-    throw new Error(
-      "Missing CDEK env vars: CDEK_API_URL, CDEK_CLIENT_ID, CDEK_CLIENT_SECRET",
-    )
+  if (!CLIENT_ID || !CLIENT_SECRET) {
+    throw new Error("Missing CDEK env vars: CDEK_CLIENT_ID, CDEK_CLIENT_SECRET")
   }
-  return { BASE_URL, CLIENT_ID, CLIENT_SECRET }
+  return { BASE_URL: CDEK_BASE_URL, CLIENT_ID, CLIENT_SECRET }
 }
 
 // ─── Token cache (in-process, single-instance) ───────────────────────────────
