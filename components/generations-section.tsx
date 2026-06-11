@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { HeartPulse } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { CdekOrderDialog } from "@/components/cdek-order-dialog"
 
 const audiences = [
   'Люди с жалобами на "нарушения" в работе сердца',
@@ -67,18 +68,16 @@ export function GenerationsSection() {
                 ))}
               </ul>
 
-              <button
-                onClick={() => {
-                  const target = document.querySelector("#order")
-                  target?.scrollIntoView({ behavior: "smooth" })
-                }}
-                className="mt-9 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 whitespace-nowrap sm:px-6 sm:py-3 sm:text-base"
-              >
-                Заказать
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
-              </button>
+              <CdekOrderDialog
+                trigger={
+                  <button className="mt-9 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 whitespace-nowrap sm:px-6 sm:py-3 sm:text-base">
+                    Заказать
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                    </svg>
+                  </button>
+                }
+              />
             </div>
           </div>
         </div>

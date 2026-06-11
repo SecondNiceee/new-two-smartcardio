@@ -1,6 +1,7 @@
 "use client"
 
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { CdekOrderDialog } from "@/components/cdek-order-dialog"
 
 export function AppSection() {
   const { ref, style } = useScrollAnimation({ direction: "left" })
@@ -77,15 +78,13 @@ export function AppSection() {
                 </div>
 
                 {/* Order button */}
-                <button
-                  onClick={() => {
-                    const target = document.querySelector("#order")
-                    target?.scrollIntoView({ behavior: "smooth" })
-                  }}
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 whitespace-nowrap sm:px-6 sm:py-3 sm:text-base"
-                >
-                  Заказать за 15 600 ₽
-                </button>
+                <CdekOrderDialog
+                  trigger={
+                    <button className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 whitespace-nowrap sm:px-6 sm:py-3 sm:text-base">
+                      Заказать за 15 600 ₽
+                    </button>
+                  }
+                />
               </div>
 
               {/* Video container - 25% width, no decoration */}

@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { X, Menu } from "lucide-react"
 import { DownloadDialog } from "@/components/download-dialog"
+import { CdekOrderDialog } from "@/components/cdek-order-dialog"
 
 const navItems = [
   { label: "Как это работает", href: "#how" },
@@ -64,12 +65,13 @@ export function SiteHeader() {
         </nav>
 
         {/* Desktop CTA */}
-        <a
-          href="#contact"
-          className="hidden md:inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-white/90"
-        >
-          Заказать прибор
-        </a>
+        <CdekOrderDialog
+          trigger={
+            <button className="hidden md:inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-white/90">
+              Заказать прибор
+            </button>
+          }
+        />
 
         {/* Mobile burger */}
         <button
@@ -103,13 +105,16 @@ export function SiteHeader() {
               }
             />
             <div className="mt-2 pt-2 border-t border-white/10">
-              <a
-                href="#contact"
-                onClick={() => setOpen(false)}
-                className="block w-full text-center rounded-md bg-white px-4 py-2.5 text-sm font-medium text-foreground shadow-sm hover:bg-white/90 transition-colors"
-              >
-                Заказать прибор
-              </a>
+              <CdekOrderDialog
+                trigger={
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="block w-full text-center rounded-md bg-white px-4 py-2.5 text-sm font-medium text-foreground shadow-sm hover:bg-white/90 transition-colors"
+                  >
+                    Заказать прибор
+                  </button>
+                }
+              />
             </div>
           </nav>
         </div>
