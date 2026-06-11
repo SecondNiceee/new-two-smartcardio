@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from "next/server"
 import { getPvzList } from "@/lib/cdek"
 
 export async function GET(req: NextRequest) {
-  const regionCode = Number(req.nextUrl.searchParams.get("region_code") ?? "0")
-  if (!regionCode) {
-    return NextResponse.json({ error: "region_code is required" }, { status: 400 })
+  const cityCodeParam = req.nextUrl.searchParams.get("city_code")
+  const regionCodeParam = req.nextUrl.searchParams.get("region_code")
+
+  if (cityCodeParam === null && regionCodeParam === null) {
+    return NextResponse.json({ error: "city_code or region_code is required" }, { status: 400 })
   }
+
+  const cityCode = cityCodeParam !== null ? Number(cityCodeParam) : null
+  const regionCode = regionCodeParam !== null ? Number(regionCodeParam) : null
+
   try {
-    const pvz = await getPvzList(regionCode)
+    const pvz = await getPvzList(cityCode, regionCode)
     return NextResponse.json(pvz)
   } catch (err) {
     console.error("[cdek/pvz]", err)

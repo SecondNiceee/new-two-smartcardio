@@ -186,12 +186,15 @@ export async function suggestCities(name: string): Promise<CdekCity[]> {
     })
 }
 
-/** List delivery offices (PVZ) filtered by region code */
-export async function getPvzList(regionCode: number): Promise<CdekPvz[]> {
-  const data = await cdekFetch<CdekPvz[]>(
-    `/deliverypoints?region_code=${regionCode}&type=PVZ&is_handout=true`,
+/** List delivery offices (PVZ) filtered by city or region code */
+export async function getPvzList(cityCode: number | null, regionCode: number | null): Promise<CdekPvz[]> {
+  const params = new URLSearchParams({ type: "PVZ", is_handout: "true" })
+  if (cityCode !== null) params.set("city_code", String(cityCode))
+  if (regionCode !== null && regionCode !== 0) params.set("region_code", String(regionCode))
+  const data = await cdekFetch<CdekPvz[] | { items?: CdekPvz[] }>(
+    `/deliverypoints?${params.toString()}`,
   )
-  return data
+  return Array.isArray(data) ? data : (data.items ?? [])
 }
 
 /** Calculate delivery cost for all available tariffs */
