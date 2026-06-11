@@ -7,15 +7,14 @@
  */
 
 function getEnv() {
-  let BASE_URL = process.env.CDEK_API_URL ?? "https://api.edu.cdek.ru/v2"
-  // Ensure /v2 suffix is present
-  if (!BASE_URL.endsWith("/v2")) BASE_URL = BASE_URL.replace(/\/$/, "") + "/v2"
-
+  const BASE_URL = process.env.CDEK_API_URL
   const CLIENT_ID = process.env.CDEK_CLIENT_ID
   const CLIENT_SECRET = process.env.CDEK_CLIENT_SECRET
 
-  if (!CLIENT_ID || !CLIENT_SECRET) {
-    throw new Error("Missing CDEK env vars: CDEK_CLIENT_ID, CDEK_CLIENT_SECRET")
+  if (!BASE_URL || !CLIENT_ID || !CLIENT_SECRET) {
+    throw new Error(
+      "Missing CDEK env vars: CDEK_API_URL, CDEK_CLIENT_ID, CDEK_CLIENT_SECRET",
+    )
   }
   return { BASE_URL, CLIENT_ID, CLIENT_SECRET }
 }
