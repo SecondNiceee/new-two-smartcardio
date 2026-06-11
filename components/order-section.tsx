@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
+import { CdekOrderDialog } from "@/components/cdek-order-dialog"
 
 export function OrderSection() {
   return (
@@ -29,23 +30,24 @@ export function OrderSection() {
           </figure>
 
           <div className="mt-10">
-            <Button
-              asChild
-              size="lg"
-              className="group relative h-11 overflow-hidden rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-[0_8px_30px_-6px] shadow-primary/40 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_-6px] hover:shadow-primary/50 whitespace-nowrap sm:h-14 sm:px-10 sm:text-base"
-            >
-              <a href="#contact">
-                {/* Shine sweep */}
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"
-                />
-                <span className="relative flex items-center gap-2">
-                  Заказать за 15 600 ₽
-                  <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-              </a>
-            </Button>
+            <CdekOrderDialog
+              trigger={
+                <Button
+                  size="lg"
+                  className="group relative h-11 overflow-hidden rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-[0_8px_30px_-6px] shadow-primary/40 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_-6px] hover:shadow-primary/50 whitespace-nowrap sm:h-14 sm:px-10 sm:text-base"
+                >
+                  {/* Shine sweep */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+                  />
+                  <span className="relative flex items-center gap-2">
+                    Заказать за 15 600 ₽
+                    <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </Button>
+              }
+            />
           </div>
         </div>
 
