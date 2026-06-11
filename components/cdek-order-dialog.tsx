@@ -171,7 +171,7 @@ function CityAutocomplete({
               <button
                 type="button"
                 onMouseDown={() => handleSelect(c)}
-                className="w-full px-3 py-2 text-left text-sm hover:bg-muted"
+                className="w-full px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
               >
                 <span className="font-medium">{c.city}</span>
                 {c.region && (
