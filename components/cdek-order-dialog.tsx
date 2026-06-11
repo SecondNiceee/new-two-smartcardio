@@ -450,10 +450,6 @@ function StepConfirm({
         ))}
       </div>
 
-      <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-muted-foreground">
-        После нажатия кнопки заказ будет зарегистрирован в СДЭК и с вами свяжется менеджер для подтверждения оплаты.
-      </div>
-
       {error && (
         <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
           {error}
