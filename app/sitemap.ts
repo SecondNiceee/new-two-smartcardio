@@ -13,40 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${siteUrl}/#app`,
+      url: `${siteUrl}/congratulation`,
       lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/#how`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/#advantages`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/#faq`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/#reviews`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/#order`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.9,
+      changeFrequency: "never",
+      priority: 0.1,
     },
   ]
 }
