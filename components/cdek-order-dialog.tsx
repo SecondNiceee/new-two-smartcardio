@@ -22,6 +22,7 @@ import type { FormData, PvzLocation, CourierLocation, DeliveryType, Step } from 
 const DEVICE_PRICE = 15600   // цена прибора (платит покупатель)
 const COMMISSION = 0.06      // комиссия СДЭК 6%
 const SELLER_AMOUNT = Math.round(DEVICE_PRICE * (1 - COMMISSION) * 100) / 100
+const FROM_CITY_CODE = 44    // Москва — город отправителя
 
 const INITIAL_FORM: FormData = {
   name: "",
@@ -52,7 +53,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
   const [selectedPvz, setSelectedPvz] = useState<PvzLocation | null>(null)
   const [courierLocation, setCourierLocation] = useState<CourierLocation | null>(null)
   const [deliverySum, setDeliverySum] = useState(0)
-  const [deliveryTariffCode, setDeliveryTariffCode] = useState(136)
+  const [deliveryTariffCode, setDeliveryTariffCode] = useState(138)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [orderUuid, setOrderUuid] = useState<string | null>(null)
@@ -67,7 +68,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
         setSelectedPvz(null)
         setCourierLocation(null)
         setDeliverySum(0)
-        setDeliveryTariffCode(136)
+        setDeliveryTariffCode(138)
         setSubmitting(false)
         setSubmitError(null)
         setOrderUuid(null)
@@ -88,6 +89,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
 
     const basePayload = {
       tariff_code: deliveryTariffCode,
+      from_location: { code: FROM_CITY_CODE, address: "Москва" },
       sum: DEVICE_PRICE,
       delivery_recipient_cost: { value: deliveryCost },
       sender: {
@@ -205,7 +207,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
                   onBack={() => setStep("delivery-type")}
                   onNext={(sum) => {
                     setDeliverySum(sum)
-                    setDeliveryTariffCode(136)
+                    setDeliveryTariffCode(138)
                     setStep("confirm")
                   }}
                 />
