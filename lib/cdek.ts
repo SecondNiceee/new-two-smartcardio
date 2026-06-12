@@ -2,11 +2,10 @@
  * CDEK API v2 client
  * Docs: https://api-docs.cdek.ru/
  *
- * Sandbox base URL: https://api.edu.cdek.ru/v2
- * Production base URL: https://api.cdek.ru/v2
+ * Proxy base URL: https://lk.smartcardio.ru/cdek/v2
  */
 
-const CDEK_BASE_URL = "https://api.edu.cdek.ru/v2"
+const CDEK_BASE_URL = "https://lk.smartcardio.ru/cdek/v2"
 
 /** Commission charged by CDEK on the payment value (6%) */
 export const CDEK_COMMISSION = 0.06
