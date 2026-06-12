@@ -158,7 +158,7 @@ export function ReviewsSection() {
                 Отзывы
               </span>
               <h2 className="mt-6 text-pretty text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                Отзывы наших покупателей
+                Отзывы наших ��окупателей
               </h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                 Реальные истории людей, которые уже заботятся о своём сердце вместе со СмартКардио®
