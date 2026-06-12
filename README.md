@@ -51,8 +51,16 @@ SMTP_PASS=secret
 | `true` | SSL всегда включён |
 | `false` | SSL всегда выключен (нужно для STARTTLS или незащищённых серверов) |
 
+### СДЭК
+
+```env
+CDEK_BASE_URL=https://lk.smartcardio.ru   # базовый URL прокси (без /cdek/v2)
+CDEK_CLIENT_ID=your_client_id
+CDEK_CLIENT_SECRET=your_client_secret
+```
+
 > OAuth-токен СДЭК получается автоматически при старте сервера и обновляется каждые 30 минут.
-> Токен хранится в файле `token.json` в корне проекта (создаётся автоматически).
+> Токен хранится в файле `token.json` в корне проекта (создаётся автоматически, добавлен в `.gitignore`).
 
 ---
 
