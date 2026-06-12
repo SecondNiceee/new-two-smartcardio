@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type ReactNode } from "react"
+import { useState, type ReactNode, useEffect } from "react"
 import {
   Dialog,
   DialogContent,
@@ -163,7 +163,8 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
       }
 
       setOrderUuid(json.uuid ?? "")
-      setStep("confirm") // guarded by orderUuid below
+      setStep("confirm")
+      window.location.href = "/congratulation"
     } catch {
       setSubmitError("Ошибка соединения с сервером. Попробуйте ещё раз.")
     } finally {
@@ -248,6 +249,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
                   deliveryType={deliveryType ?? "pvz"}
                   pvz={selectedPvz}
                   courierLocation={courierLocation}
+                  deliverySum={deliverySum}
                   onBack={() => setStep(deliveryType ?? "pvz")}
                   onSubmit={handleSubmitOrder}
                   loading={submitting}

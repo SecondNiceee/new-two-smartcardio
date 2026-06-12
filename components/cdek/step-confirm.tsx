@@ -4,11 +4,14 @@ import { Loader2, ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import type { FormData, PvzLocation, CourierLocation, DeliveryType } from "./types"
 
+const DEVICE_PRICE = 15600
+
 export function StepConfirm({
   data,
   deliveryType,
   pvz,
   courierLocation,
+  deliverySum,
   onBack,
   onSubmit,
   loading,
@@ -18,6 +21,7 @@ export function StepConfirm({
   deliveryType: DeliveryType
   pvz: PvzLocation | null
   courierLocation: CourierLocation | null
+  deliverySum: number
   onBack: () => void
   onSubmit: () => void
   loading: boolean
@@ -37,6 +41,8 @@ export function StepConfirm({
             { label: "Адрес доставки", value: `${data.city}, ${courierLocation.address}` },
           ]
         : []
+
+  const totalPrice = DEVICE_PRICE + Math.round(deliverySum)
 
   const rows = [
     { label: "Получатель", value: data.name },
@@ -59,6 +65,19 @@ export function StepConfirm({
             <span className="text-sm font-medium text-foreground">{row.value}</span>
           </div>
         ))}
+      </div>
+
+      <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 px-4 py-3">
+        <span className="text-sm text-muted-foreground">Прибор</span>
+        <span className="text-sm font-medium">{DEVICE_PRICE.toLocaleString("ru-RU")} ₽</span>
+      </div>
+      <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 px-4 py-3">
+        <span className="text-sm text-muted-foreground">Доставка</span>
+        <span className="text-sm font-medium">{Math.round(deliverySum).toLocaleString("ru-RU")} ₽</span>
+      </div>
+      <div className="flex items-center justify-between rounded-xl border border-primary/30 bg-primary/5 px-4 py-3">
+        <span className="text-base font-semibold">Итого к оплате</span>
+        <span className="text-base font-bold text-primary">{totalPrice.toLocaleString("ru-RU")} ₽</span>
       </div>
 
       {error && (
