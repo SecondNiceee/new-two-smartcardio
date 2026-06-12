@@ -3,57 +3,15 @@
  * Docs: https://api-docs.cdek.ru/
  *
  * Proxy base URL: https://lk.smartcardio.ru/cdek/v2
+ * Token is managed by lib/cdek-token.ts (file-based, refreshed every 30 min)
  */
+
+import { readToken } from "@/lib/cdek-token"
 
 const CDEK_BASE_URL = "https://lk.smartcardio.ru/cdek/v2"
 
 /** Commission charged by CDEK on the payment value (6%) */
 export const CDEK_COMMISSION = 0.06
-
-function getEnv() {
-  const CLIENT_ID = process.env.CDEK_CLIENT_ID
-  const CLIENT_SECRET = process.env.CDEK_CLIENT_SECRET
-
-  if (!CLIENT_ID || !CLIENT_SECRET) {
-    throw new Error("Missing CDEK env vars: CDEK_CLIENT_ID, CDEK_CLIENT_SECRET")
-  }
-  return { BASE_URL: CDEK_BASE_URL, CLIENT_ID, CLIENT_SECRET }
-}
-
-// ─── Token cache (in-process, single-instance) ───────────────────────────────
-
-let tokenCache: { token: string; expiresAt: number } | null = null
-
-export async function getCdekToken(): Promise<string> {
-  const { BASE_URL, CLIENT_ID, CLIENT_SECRET } = getEnv()
-  const now = Date.now()
-  if (tokenCache && tokenCache.expiresAt > now + 60_000) {
-    return tokenCache.token
-  }
-
-  const res = await fetch(`${BASE_URL}/oauth/token`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "client_credentials",
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
-    }),
-    cache: "no-store",
-  })
-
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`CDEK auth error ${res.status}: ${text}`)
-  }
-
-  const data = (await res.json()) as { access_token: string; expires_in: number }
-  tokenCache = {
-    token: data.access_token,
-    expiresAt: now + data.expires_in * 1000,
-  }
-  return tokenCache.token
-}
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -130,9 +88,8 @@ async function cdekFetch<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const { BASE_URL } = getEnv()
-  const token = await getCdekToken()
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const token = readToken()
+  const res = await fetch(`${CDEK_BASE_URL}${path}`, {
     ...options,
     headers: {
       Authorization: `Bearer ${token}`,
@@ -168,10 +125,9 @@ interface CdekCityRaw {
 
 /** Autocomplete cities by name query */
 export async function suggestCities(name: string): Promise<CdekCity[]> {
-  const { BASE_URL } = getEnv()
-  const token = await getCdekToken()
+  const token = readToken()
   const res = await fetch(
-    `${BASE_URL}/location/suggest/cities?name=${encodeURIComponent(name)}&country_codes=RU`,
+    `${CDEK_BASE_URL}/location/suggest/cities?name=${encodeURIComponent(name)}&country_codes=RU`,
     {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
