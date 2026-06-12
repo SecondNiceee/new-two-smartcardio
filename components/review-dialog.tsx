@@ -20,10 +20,34 @@ export function ReviewDialog({ trigger }: { trigger: ReactNode }) {
   const [rating, setRating] = useState(5)
   const [hovered, setHovered] = useState(0)
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    setError(null)
+    const fd = new FormData(e.currentTarget)
+    try {
+      const res = await fetch("/api/review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fd.get("name"),
+          serial: fd.get("serial"),
+          date: fd.get("date"),
+          email: fd.get("email"),
+          text: fd.get("text"),
+          rating,
+        }),
+      })
+      if (!res.ok) throw new Error("Ошибка отправки")
+      setSubmitted(true)
+    } catch {
+      setError("Не удалось отправить отзыв. Попробуйте позже.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   function handleOpenChange(next: boolean) {
@@ -141,9 +165,12 @@ export function ReviewDialog({ trigger }: { trigger: ReactNode }) {
                 />
               </div>
 
+              {error && (
+                <p className="text-sm text-destructive text-center">{error}</p>
+              )}
               <DialogFooter>
-                <Button type="submit" className="w-full">
-                  Отправить отзыв
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Отправка..." : "Отправить отзыв"}
                 </Button>
               </DialogFooter>
             </form>

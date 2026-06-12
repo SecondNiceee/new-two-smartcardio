@@ -22,10 +22,31 @@ export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
   const [consent, setConsent] = useState(true)
   const [submitted, setSubmitted] = useState(false)
   const [mode, setMode] = useState<ContactMode>("phone")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    setError(null)
+    const fd = new FormData(e.currentTarget)
+    try {
+      const res = await fetch("/api/question", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fd.get("name"),
+          phone: fd.get("phone") ?? null,
+          email: fd.get("email") ?? null,
+        }),
+      })
+      if (!res.ok) throw new Error("Ошибка отправки")
+      setSubmitted(true)
+    } catch {
+      setError("Не удалось отправить. Попробуйте позже.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   function handleOpenChange(next: boolean) {
@@ -142,9 +163,12 @@ export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
                 </Label>
               </div>
 
+              {error && (
+                <p className="text-sm text-destructive text-center">{error}</p>
+              )}
               <DialogFooter>
-                <Button type="submit" className="w-full" disabled={!consent}>
-                  Отправить
+                <Button type="submit" className="w-full" disabled={!consent || loading}>
+                  {loading ? "Отправка..." : "Отправить"}
                 </Button>
               </DialogFooter>
             </form>
