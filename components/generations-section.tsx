@@ -41,7 +41,7 @@ export function GenerationsSection() {
             <div className="order-1 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-foreground/5 lg:order-none">
               <div className="relative aspect-[4/3] w-full">
                 <ResponsivePicture
-                  src="/media/generations.png"
+                  src="/images/generations.png"
                   alt="Руки трёх поколений держат прибор СмартКардио"
                   fill
                 />

@@ -7,7 +7,7 @@ export function CtaFooter() {
         <div className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
           <div className="flex items-center gap-2.5">
             <Image
-              src="/media/logo.png"
+              src="/images/logo.png"
               alt="Логотип СмартКардио"
               width={32}
               height={32}
@@ -39,7 +39,7 @@ export function CtaFooter() {
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <a
-              href="/oferta.pdf"
+              href="/pdf/oferta.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
@@ -47,7 +47,7 @@ export function CtaFooter() {
               Договор оферты
             </a>
             <a
-              href="/confidential.pdf"
+              href="/pdf/confidential.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"

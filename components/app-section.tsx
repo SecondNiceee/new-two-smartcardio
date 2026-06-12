@@ -96,7 +96,7 @@ export function AppSection() {
                   playsInline
                   className="h-auto w-full"
                 >
-                  <source src="/media/app-demo.webm" type="video/webm" />
+                  <source src="/videos/app-demo.webm" type="video/webm" />
                   Ваш браузер не поддерживает воспроизведение видео.
                 </video>
               </div>
