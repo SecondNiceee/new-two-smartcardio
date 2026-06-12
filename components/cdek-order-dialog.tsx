@@ -379,7 +379,7 @@ function StepPvz({
           <div className="flex items-center gap-2 text-sm text-foreground">
             <Package className="h-4 w-4 text-primary" />
             <span>
-              Доставка ��о {cityName}:{" "}
+              Доставка до {cityName}:{" "}
               <span className="font-semibold text-primary">
                 от {cheapestTariff.delivery_sum} ₽
               </span>
@@ -511,7 +511,7 @@ function StepConfirm({
   error: string | null
 }) {
   const rows = [
-    { label: "По��учатель", value: data.name },
+    { label: "Получатель", value: data.name },
     { label: "Телефон", value: data.phone },
     ...(data.email ? [{ label: "E-mail", value: data.email }] : []),
     { label: "Город", value: data.city },
