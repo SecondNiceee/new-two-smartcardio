@@ -62,10 +62,14 @@ export function StepPvz({
       .finally(() => setLoading(false))
   }, [cityCode])
 
-  const cheapestTariff = tariffs.reduce<Tariff | null>(
-    (best, t) => (!best || t.delivery_sum < best.delivery_sum ? t : best),
-    null,
-  )
+  // Tariff 138 = Посылка дверь-склад (door-to-warehouse, no sender PVZ needed)
+  const PVZ_TARIFF_CODE = 138
+  const cheapestTariff =
+    tariffs.find((t) => t.tariff_code === PVZ_TARIFF_CODE) ??
+    tariffs.reduce<Tariff | null>(
+      (best, t) => (!best || t.delivery_sum < best.delivery_sum ? t : best),
+      null,
+    )
 
   const filteredPvz = search.trim()
     ? pvzList.filter((pvz) => {

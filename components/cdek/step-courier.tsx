@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import type { CourierLocation, Tariff } from "./types"
 
-// Tariff 137 = Посылка склад-дверь (warehouse-to-door)
-const COURIER_TARIFF_CODE = 137
+// Tariff 139 = Посылка дверь-дверь (door-to-door, no sender PVZ needed)
+const COURIER_TARIFF_CODE = 139
 
 export function StepCourier({
   cityCode,
@@ -43,11 +43,11 @@ export function StepCourier({
       .finally(() => setLoading(false))
   }, [cityCode])
 
-  // Use tariff 137 if available, otherwise the cheapest non-PVZ tariff
+  // Use tariff 139 (door-to-door) if available, otherwise cheapest non-PVZ tariff
   const courierTariff =
     tariffs.find((t) => t.tariff_code === COURIER_TARIFF_CODE) ??
     tariffs
-      .filter((t) => t.tariff_code !== 136)
+      .filter((t) => t.tariff_code !== 136 && t.tariff_code !== 138)
       .reduce<Tariff | null>((best, t) => (!best || t.delivery_sum < best.delivery_sum ? t : best), null)
 
   function handleNext() {

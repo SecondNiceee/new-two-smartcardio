@@ -43,9 +43,11 @@ export interface CdekCalcResult {
 
 export interface CdekOrderRequest {
   tariff_code: number
-  /** PVZ code — required for PVZ delivery (tariff 136) */
+  /** City the parcel ships from (required for door-based tariffs) */
+  from_location?: { code: number; address?: string }
+  /** PVZ code — required for door-to-warehouse delivery (tariff 138) */
   delivery_point?: string
-  /** Destination — used for courier delivery (tariff 137) */
+  /** Destination — used for door-to-door courier delivery (tariff 139) */
   to_location?: { code: number; address?: string }
   /** Объявленная ценность отправления (= цена устройства) */
   sum?: number
@@ -211,6 +213,15 @@ export async function getPvzList(cityCode: number | null, regionCode: number | n
   return merged
 }
 
+/** Format a date as CDEK expects: yyyy-MM-ddTHH:mm:ss+0000 (no milliseconds, no "Z") */
+function cdekDate(d: Date = new Date()): string {
+  const pad = (n: number) => String(n).padStart(2, "0")
+  return (
+    `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}` +
+    `T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}+0000`
+  )
+}
+
 /** Calculate delivery cost for all available tariffs */
 export async function calcDelivery(
   fromCityCode: number,
@@ -218,7 +229,7 @@ export async function calcDelivery(
   weight: number = 500,
 ): Promise<CdekCalcResult[]> {
   const body = {
-    date: new Date().toISOString(),
+    date: cdekDate(),
     type: 1,
     from_location: { code: fromCityCode },
     to_location: { code: toCityCode },
