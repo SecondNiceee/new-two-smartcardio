@@ -38,12 +38,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "SMTP env vars not configured" }, { status: 500 })
     }
 
-    // SMTP_SECURE: "true" = всегда SSL, "false" = полностью без SSL/TLS, не задано = SSL только на порту 465
-    const secureExplicitlyOff = process.env.SMTP_SECURE === "false"
+    // SMTP_SECURE: "true" = всегда SSL (порт 465), "false" или не задано при порте != 465 = без SSL/TLS
     const secure =
-      process.env.SMTP_SECURE !== undefined
-        ? process.env.SMTP_SECURE === "true"
-        : port === 465
+      process.env.SMTP_SECURE === "true" ? true
+      : process.env.SMTP_SECURE === "false" ? false
+      : port === 465
+
+    // Если соединение не зашифровано — полностью запрещаем STARTTLS-апгрейд
+    const ignoreTLS = !secure
+    const requireTLS = false
 
     // If SMTP_USER and SMTP_PASS are set — use auth (standard relay).
     // If not set — open relay mode (no auth).
@@ -51,7 +54,8 @@ export async function POST(req: Request) {
 
     console.log("[v0][review] transport options:", {
       secure,
-      ignoreTLS: secureExplicitlyOff,
+      ignoreTLS,
+      requireTLS,
       authMode: auth ? "auth" : "open-relay",
     })
 
@@ -60,8 +64,8 @@ export async function POST(req: Request) {
       port,
       secure,
       auth,
-      // Когда SSL явно выключен — запрещаем nodemailer'у апгрейдить соединение до STARTTLS
-      ...(secureExplicitlyOff ? { ignoreTLS: true, requireTLS: false } : {}),
+      ignoreTLS,
+      requireTLS,
     })
 
     // Проверяем соединение с SMTP-сервером до отправки — даёт понятную ошибку
