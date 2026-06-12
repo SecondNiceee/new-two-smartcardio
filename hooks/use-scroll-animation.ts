@@ -16,12 +16,31 @@ export function useScrollAnimation({
   delay = 0,
 }: UseScrollAnimationOptions = {}) {
   const ref = useRef<HTMLElement>(null)
+  // Стартуем как "не анимировано". Анимацию включаем только после монтирования
+  // на клиенте, чтобы серверный HTML (который видят боты и краулеры) всегда
+  // содержал полностью видимый контент.
   const [isVisible, setIsVisible] = useState(false)
   const [hasAnimated, setHasAnimated] = useState(false)
+  const [animationEnabled, setAnimationEnabled] = useState(false)
+
+  useEffect(() => {
+    // Уважаем настройку пользователя «уменьшить движение» — анимацию не запускаем
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+    if (prefersReducedMotion) {
+      setIsVisible(true)
+      setHasAnimated(true)
+      return
+    }
+
+    setAnimationEnabled(true)
+  }, [])
 
   useEffect(() => {
     const element = ref.current
-    if (!element || hasAnimated) return
+    if (!element || hasAnimated || !animationEnabled) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -49,7 +68,7 @@ export function useScrollAnimation({
     return () => {
       observer.disconnect()
     }
-  }, [threshold, delay, hasAnimated])
+  }, [threshold, delay, hasAnimated, animationEnabled])
 
   const getTransform = () => {
     switch (direction) {
@@ -65,10 +84,16 @@ export function useScrollAnimation({
     }
   }
 
+  // Пока анимация не включена (серверный HTML, боты, отключённый JS,
+  // prefers-reduced-motion) контент всегда полностью видим и без сдвига.
+  const shouldHide = animationEnabled && !isVisible
+
   const style: React.CSSProperties = {
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translate(0, 0)" : getTransform(),
-    transition: "opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+    opacity: shouldHide ? 0 : 1,
+    transform: shouldHide ? getTransform() : "translate(0, 0)",
+    transition: animationEnabled
+      ? "opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+      : undefined,
   }
 
   return { ref, style, isVisible }
