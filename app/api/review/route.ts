@@ -9,6 +9,7 @@ export async function POST(req: Request) {
   const user = process.env.SMTP_USER
   const pass = process.env.SMTP_PASS
   const to = process.env.REVIEW_EMAIL_TO
+  const from = process.env.SMTP_FROM ?? (user ?? "noreply@smartcardio.ru")
 
   if (!host || !to) {
     return NextResponse.json({ error: "SMTP env vars not configured" }, { status: 500 })
@@ -33,9 +34,7 @@ export async function POST(req: Request) {
   const stars = "★".repeat(rating) + "☆".repeat(5 - rating)
 
   await transporter.sendMail({
-    from: user
-      ? `"СмартКардио сайт" <${user}>`
-      : `"СмартКардио сайт" <noreply@smartcardio.ru>`,
+    from: `"СмартКардио сайт" <${from}>`,
     to,
     subject: `Новый отзыв от ${name || "Аноним"} — ${stars}`,
     text: [

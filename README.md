@@ -39,10 +39,12 @@ HOST=127.0.0.1
 ```env
 SMTP_HOST=smtp.example.com
 SMTP_PORT=465
-SMTP_SECURE=true   # true = всегда SSL, false = выключить SSL (STARTTLS / plain)
-                   # если не задано — SSL включается автоматически при порте 465
-SMTP_USER=user@example.com
-SMTP_PASS=secret
+SMTP_SECURE=true        # true = всегда SSL, false = выключить SSL (STARTTLS / plain)
+                        # если не задано — SSL включается автоматически при порте 465
+SMTP_USER=user@example.com   # опционально: если не задан — open relay без аутентификации
+SMTP_PASS=secret             # опционально: если не задан — open relay без аутентификации
+SMTP_FROM=sender@example.com # опционально: адрес отправителя письма
+                             # если не задан — берётся SMTP_USER, иначе noreply@smartcardio.ru
 ```
 
 | `SMTP_SECURE` | Поведение |
@@ -50,6 +52,16 @@ SMTP_PASS=secret
 | не задано | SSL только если `SMTP_PORT=465` |
 | `true` | SSL всегда включён |
 | `false` | SSL всегда выключен (нужно для STARTTLS или незащищённых серверов) |
+
+| Переменная | Обязательна | Описание |
+|---|---|---|
+| `SMTP_HOST` | да | Хост SMTP-сервера |
+| `SMTP_PORT` | нет (по умолч. 25) | Порт SMTP |
+| `SMTP_SECURE` | нет | Принудительно включить/выключить SSL |
+| `SMTP_USER` | нет | Логин (без него — open relay) |
+| `SMTP_PASS` | нет | Пароль (без него — open relay) |
+| `SMTP_FROM` | нет | Email отправителя (без него — SMTP_USER или noreply@smartcardio.ru) |
+| `REVIEW_EMAIL_TO` | да | Email, на который приходят отзывы |
 
 ### СДЭК
 
