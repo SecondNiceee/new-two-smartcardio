@@ -7,25 +7,25 @@ import { GalleryDialog, type GalleryImage } from "@/components/gallery-dialog"
 
 const patents = [
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-SZHtawzErYEd644quYHM8LwYgk2Mk0.png",
+    src: "/images/patents/patent-206009.png",
     alt: "Патент на полезную модель №206009 - Автономное устройство для регистрации жизненноважных показателей",
     title: "Патент на полезную модель",
     number: "№206009",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-UNSzQRKmJhqUhY8yPyMSQ4SusG2Hf7.png",
+    src: "/images/patents/patent-2766759.png",
     alt: "Патент на изобретение №2766759 - Многофункциональное портативное устройство для регистрации и анализа жизненно важных показателей",
     title: "Патент на изобретение",
     number: "№2766759",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-rj1DqXLdCWMMdviv8u29aBZiYp1w5M.png",
+    src: "/images/patents/certificate-2022663045.png",
     alt: "Свидетельство о государственной регистрации программы для ЭВМ №2022663045 - Cardioxium Backend",
     title: "Свидетельство ПО",
     number: "№2022663045",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Rxte0U4BFOa3bfEXmwyiLSy1Ka7lTE.png",
+    src: "/images/patents/certificate-989247.png",
     alt: "Свидетельство на товарный знак №989247 - SMARTCARDIO",
     title: "Товарный знак",
     number: "№989247",
