@@ -2,10 +2,15 @@
  * CDEK OAuth token manager
  *
  * - Fetches token directly from the proxy (CDEK_BASE_URL)
- * - Stores token in memory (no fs dependency — compatible with Turbopack/Edge)
+ * - Stores token on disk in token.json (process.cwd())
  * - startTokenRefreshLoop() runs every 30 minutes at server startup
  * - readToken() is called by every API route to get the current token
  */
+
+import fs from "fs"
+import path from "path"
+
+const TOKEN_FILE = path.join(process.cwd(), "token.json")
 
 /** CDEK auth endpoint — built from CDEK_BASE_URL env var */
 const CDEK_AUTH_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru"}/cdek/v2/oauth/token`
@@ -15,14 +20,15 @@ interface TokenData {
   expires_at: number // unix ms
 }
 
-// In-memory token store (lives for the lifetime of the server process)
-let tokenData: TokenData | null = null
-
+/** Read the current token synchronously from disk */
 export function readToken(): string {
-  if (!tokenData) {
+  try {
+    const raw = fs.readFileSync(TOKEN_FILE, "utf-8")
+    const data = JSON.parse(raw) as TokenData
+    return data.access_token
+  } catch {
     throw new Error("CDEK token not available — server may still be initialising")
   }
-  return tokenData.access_token
 }
 
 async function fetchAndSaveToken() {
@@ -52,10 +58,12 @@ async function fetchAndSaveToken() {
 
     const data = (await res.json()) as { access_token: string; expires_in: number }
 
-    tokenData = {
+    const tokenData: TokenData = {
       access_token: data.access_token,
       expires_at: Date.now() + data.expires_in * 1000,
     }
+
+    fs.writeFileSync(TOKEN_FILE, JSON.stringify(tokenData, null, 2), "utf-8")
 
     console.log("[cdek-token] Token refreshed successfully")
   } catch (err) {
