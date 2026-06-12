@@ -66,7 +66,7 @@ SMTP_FROM=sender@example.com # опционально: адрес отправи
 ### СДЭК
 
 ```env
-CDEK_BASE_URL=https://lk.smartcardio.ru   # базовый URL прокси (без /cdek/v2)
+CDEK_BASE_URL=https://lk.smartcardio.ru/cdek   # базовый URL прокси (без /v2 на конце, но с /cdek)
 CDEK_CLIENT_ID=your_client_id
 CDEK_CLIENT_SECRET=your_client_secret
 ```
