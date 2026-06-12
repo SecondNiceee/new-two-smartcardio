@@ -42,18 +42,22 @@ export function useScrollAnimation({
     const element = ref.current
     if (!element || hasAnimated || !animationEnabled) return
 
+    const triggerVisible = () => {
+      if (delay > 0) {
+        setTimeout(() => {
+          setIsVisible(true)
+          setHasAnimated(true)
+        }, delay)
+      } else {
+        setIsVisible(true)
+        setHasAnimated(true)
+      }
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
-          if (delay > 0) {
-            setTimeout(() => {
-              setIsVisible(true)
-              setHasAnimated(true)
-            }, delay)
-          } else {
-            setIsVisible(true)
-            setHasAnimated(true)
-          }
+          triggerVisible()
           observer.unobserve(element)
         }
       },
@@ -64,6 +68,16 @@ export function useScrollAnimation({
     )
 
     observer.observe(element)
+
+    // Если элемент уже в viewport в момент подключения observer — проверяем сразу
+    const rect = element.getBoundingClientRect()
+    const inView =
+      rect.top < window.innerHeight - 50 &&
+      rect.bottom > 50
+    if (inView) {
+      triggerVisible()
+      observer.unobserve(element)
+    }
 
     return () => {
       observer.disconnect()
