@@ -14,10 +14,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "SMTP env vars not configured" }, { status: 500 })
   }
 
+  const secure =
+    process.env.SMTP_SECURE !== undefined
+      ? process.env.SMTP_SECURE === "true"
+      : port === 465
+
   const transporter = nodemailer.createTransport({
     host,
     port,
-    secure: port === 465,
+    secure,
     auth: { user, pass },
   })
 
