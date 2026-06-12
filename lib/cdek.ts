@@ -43,7 +43,10 @@ export interface CdekCalcResult {
 
 export interface CdekOrderRequest {
   tariff_code: number
-  delivery_point: string        // PVZ code
+  /** PVZ code — required for PVZ delivery (tariff 136) */
+  delivery_point?: string
+  /** Destination — used for courier delivery (tariff 137) */
+  to_location?: { code: number; address?: string }
   /** Объявленная ценность отправления (= цена устройства) */
   sum?: number
   /** Стоимость доставки, которую оплачивает получатель */

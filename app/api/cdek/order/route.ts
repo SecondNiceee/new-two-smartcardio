@@ -9,10 +9,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Некорректный JSON" }, { status: 400 })
   }
 
-  // Basic validation
-  if (!body.delivery_point || !body.recipient?.phones?.length || !body.packages?.length) {
+  // Basic validation — either delivery_point (PVZ) or to_location (courier) must be present
+  if ((!body.delivery_point && !body.to_location) || !body.recipient?.phones?.length || !body.packages?.length) {
     return NextResponse.json(
-      { error: "Не переданы обязательные поля: delivery_point, recipient.phones, packages" },
+      { error: "Не переданы обязательные поля: delivery_point или to_location, recipient.phones, packages" },
       { status: 422 },
     )
   }
