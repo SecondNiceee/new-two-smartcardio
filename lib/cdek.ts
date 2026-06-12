@@ -13,6 +13,19 @@ const CDEK_BASE_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru
 /** Commission charged by CDEK on the payment value (6%) */
 export const CDEK_COMMISSION = 0.06
 
+/** Захардкоженное местоположение отправителя (пер. Пуговишников, 16, Москва) */
+export const fromLocation = {
+  address: "пер. Пуговишников, 16",
+  city: "Москва",
+  code: 44,
+  country_code: "RU",
+  fias_guid: "0c5b2444-70a0-4932-980c-b4dc0d3f02b5",
+  latitude: 55.732162,
+  longitude: 37.584072,
+  postal_code: "119021",
+  region: "Москва",
+}
+
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface CdekPvz {
@@ -45,6 +58,16 @@ export interface CdekOrderRequest {
   tariff_code: number
   /** Код склада-отправителя СДЭК (для тарифов склад-…: 136, 137) */
   shipment_point?: string
+  /** Местоположение отправителя (альтернатива shipment_point для тарифов дверь-…) */
+  from_location?: {
+    code?: number
+    address?: string
+    city?: string
+    country_code?: string
+    postal_code?: string
+    latitude?: number
+    longitude?: number
+  }
   /** PVZ code — required for warehouse-to-warehouse delivery (tariff 136) */
   delivery_point?: string
   /** Destination — used for warehouse-to-door courier delivery (tariff 137) */
@@ -224,14 +247,13 @@ function cdekDate(d: Date = new Date()): string {
 
 /** Calculate delivery cost for all available tariffs */
 export async function calcDelivery(
-  fromCityCode: number,
   toCityCode: number,
   weight: number = 500,
 ): Promise<CdekCalcResult[]> {
   const body = {
     date: cdekDate(),
     type: 1,
-    from_location: { code: fromCityCode },
+    from_location: { code: fromLocation.code },
     to_location: { code: toCityCode },
     packages: [{ weight, length: 20, width: 15, height: 5 }],
   }

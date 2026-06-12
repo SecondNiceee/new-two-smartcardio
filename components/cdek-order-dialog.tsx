@@ -16,13 +16,17 @@ import { StepCourier } from "@/components/cdek/step-courier"
 import { StepConfirm } from "@/components/cdek/step-confirm"
 import { StepSuccess } from "@/components/cdek/step-success"
 import type { FormData, PvzLocation, CourierLocation, DeliveryType, Step } from "@/components/cdek/types"
+import { fromLocation } from "@/lib/cdek"
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const DEVICE_PRICE = 15600   // цена прибора (платит покупатель)
 const COMMISSION = 0.06      // комиссия СДЭК 6%
 const SELLER_AMOUNT = Math.round(DEVICE_PRICE * (1 - COMMISSION) * 100) / 100
-const FROM_CITY_CODE = 44    // Москва — город отправителя
+
+// Тарифы: ПВЗ→ПВЗ = 136, ПВЗ→дверь = 137
+const TARIFF_PVZ_TO_PVZ = 136
+const TARIFF_PVZ_TO_DOOR = 137
 
 const INITIAL_FORM: FormData = {
   name: "",
@@ -53,7 +57,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
   const [selectedPvz, setSelectedPvz] = useState<PvzLocation | null>(null)
   const [courierLocation, setCourierLocation] = useState<CourierLocation | null>(null)
   const [deliverySum, setDeliverySum] = useState(0)
-  const [deliveryTariffCode, setDeliveryTariffCode] = useState(138)
+  const [deliveryTariffCode, setDeliveryTariffCode] = useState(TARIFF_PVZ_TO_PVZ)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [orderUuid, setOrderUuid] = useState<string | null>(null)
@@ -89,7 +93,15 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
 
     const basePayload = {
       tariff_code: deliveryTariffCode,
-      from_location: { code: FROM_CITY_CODE, address: "Москва" },
+      from_location: {
+        code: fromLocation.code,
+        address: fromLocation.address,
+        city: fromLocation.city,
+        country_code: fromLocation.country_code,
+        postal_code: fromLocation.postal_code,
+        latitude: fromLocation.latitude,
+        longitude: fromLocation.longitude,
+      },
       sum: DEVICE_PRICE,
       delivery_recipient_cost: { value: deliveryCost },
       sender: {
@@ -124,6 +136,8 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
     }
 
     // Append delivery-type-specific fields
+    // Тариф 136 (ПВЗ→ПВЗ): delivery_point = код ПВЗ получателя
+    // Тариф 137 (ПВЗ→дверь): to_location = город+адрес получателя
     const deliveryFields =
       deliveryType === "pvz" && selectedPvz
         ? { delivery_point: selectedPvz.code }
@@ -207,7 +221,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
                   onBack={() => setStep("delivery-type")}
                   onNext={(sum) => {
                     setDeliverySum(sum)
-                    setDeliveryTariffCode(138)
+                    setDeliveryTariffCode(TARIFF_PVZ_TO_PVZ)
                     setStep("confirm")
                   }}
                 />
