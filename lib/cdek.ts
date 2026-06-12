@@ -6,7 +6,7 @@
  * Token is managed by lib/cdek-token.ts (file-based, refreshed every 30 min)
  */
 
-import { readToken } from "@/lib/cdek-token"
+import { getToken } from "@/lib/cdek-token"
 import { fromLocation } from "@/lib/cdek-config"
 
 const CDEK_BASE_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru/cdek"}/v2`
@@ -106,7 +106,7 @@ async function cdekFetch<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const token = readToken()
+  const token = await getToken()
   const res = await fetch(`${CDEK_BASE_URL}${path}`, {
     ...options,
     headers: {
@@ -160,7 +160,7 @@ export async function getCityRegionCode(cityCode: number): Promise<number> {
 
 /** Autocomplete cities by name query */
 export async function suggestCities(name: string): Promise<CdekCity[]> {
-  const token = readToken()
+  const token = await getToken()
   const res = await fetch(
     `${CDEK_BASE_URL}/location/suggest/cities?name=${encodeURIComponent(name)}&country_codes=RU`,
     {
@@ -168,7 +168,11 @@ export async function suggestCities(name: string): Promise<CdekCity[]> {
       cache: "no-store",
     },
   )
-  if (!res.ok) return []
+  if (!res.ok) {
+    const text = await res.text()
+    console.log(`[v0] suggestCities failed ${res.status}: ${text}`)
+    return []
+  }
   const raw = await res.json()
   const items: CdekCityRaw[] = Array.isArray(raw) ? raw : (raw?.cities ?? raw?.data ?? [])
   return items
