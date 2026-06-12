@@ -8,7 +8,7 @@ import { CdekOrderDialog } from "@/components/cdek-order-dialog"
 
 const navItems = [
   { label: "Как это работает", href: "#how" },
-  { label: "Инструкция", href: "#instruction" },
+  { label: "Инструкция", href: "/pdf/instruction.pdf" },
   { label: "Контакты", href: "#contact" },
 ]
 
@@ -50,6 +50,8 @@ export function SiteHeader() {
             <a
               key={item.href}
               href={item.href}
+              target={item.href.startsWith("/pdf/") ? "_blank" : undefined}
+              rel={item.href.startsWith("/pdf/") ? "noopener noreferrer" : undefined}
               className="text-base font-medium text-white/80 transition-colors hover:text-white"
             >
               {item.label}
@@ -88,15 +90,28 @@ export function SiteHeader() {
       {open && (
         <div className="md:hidden absolute inset-x-0 top-full z-40 bg-black/90 backdrop-blur-md border-t border-white/10">
           <nav className="flex flex-col px-4 py-4 gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => handleNav(item.href)}
-                className="w-full text-left px-3 py-3 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) =>
+              item.href.startsWith("/pdf/") ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="w-full px-3 py-3 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors block"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <button
+                  key={item.href}
+                  onClick={() => handleNav(item.href)}
+                  className="w-full text-left px-3 py-3 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                >
+                  {item.label}
+                </button>
+              )
+            )}
             <DownloadDialog
               trigger={
                 <button className="w-full text-left px-3 py-3 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
