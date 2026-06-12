@@ -44,6 +44,8 @@ export function StepPvz({
     setLoading(true)
     setError(null)
 
+    // Prefer region_code so we get all offices in the region (e.g. Moscow oblast),
+    // fall back to city_code only when region is unavailable.
     const pvzQuery =
       regionCode > 0
         ? `/api/cdek/pvz?region_code=${regionCode}`
@@ -115,14 +117,19 @@ export function StepPvz({
 
       {!loading && !error && (
         <>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder="Поиск по адресу, названию или метро..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9"
-            />
+          <div className="flex flex-col gap-1.5">
+            <p className="text-sm font-medium text-foreground">
+              Начните писать адрес (метро, улицу, поселок или район)
+            </p>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Например: Арбат, Тверская, Химки..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="h-12 pl-10 text-base"
+              />
+            </div>
           </div>
 
           <div className="max-h-72 overflow-y-auto rounded-xl border border-border">
