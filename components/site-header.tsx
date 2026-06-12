@@ -31,7 +31,7 @@ export function SiteHeader() {
         <a href="#" className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white p-2 shadow-md">
             <Image
-              src="/media/logo.png"
+              src="/images/logo.png"
               alt="Логотип СмартКардио"
               width={40}
               height={40}

@@ -31,11 +31,11 @@ function GooglePlayLogo() {
 }
 
 function RuStoreLogo() {
-  return <Image src="/media/stores/rustore.svg" alt="" width={44} height={44} className="h-11 w-11 rounded-lg" />
+  return <Image src="/images/stores/rustore.svg" alt="" width={44} height={44} className="h-11 w-11 rounded-lg" />
 }
 
 function AppGalleryLogo() {
-  return <Image src="/media/stores/appgallery.svg" alt="" width={44} height={44} className="h-11 w-11 rounded-lg" />
+  return <Image src="/images/stores/appgallery.svg" alt="" width={44} height={44} className="h-11 w-11 rounded-lg" />
 }
 
 type StoreItem = {

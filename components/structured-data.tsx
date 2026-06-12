@@ -9,7 +9,7 @@ const structuredData = {
       name: "СмартКардио®",
       alternateName: "SmartCardio",
       url: siteUrl,
-      logo: `${siteUrl}/media/logo.png`,
+      logo: `${siteUrl}/images/logo.png`,
       description:
         "Производитель портативного кардиографа СмартКардио® для дистанционного снятия ЭКГ дома и в клинике.",
       sameAs: [],

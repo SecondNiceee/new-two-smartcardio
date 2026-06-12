@@ -3,19 +3,19 @@ const socials = [
     name: "Научно-популярная медицина",
     href: "https://vk.com",
     network: "ВКонтакте",
-    icon: "/media/icon-vk.svg",
+    icon: "/images/icon-vk.svg",
   },
   {
     name: "Для врачей",
     href: "https://t.me",
     network: "Telegram",
-    icon: "/media/icon-telegram.svg",
+    icon: "/images/icon-telegram.svg",
   },
   {
     name: "Наш блог",
     href: "https://dzen.ru",
     network: "Дзен",
-    icon: "/media/icon-dzen.svg",
+    icon: "/images/icon-dzen.svg",
   },
 ]
 
@@ -25,7 +25,7 @@ export function ContactsSection() {
       id="contacts"
       className="relative bg-black py-10 md:py-14"
       style={{
-        backgroundImage: "url('/media/footerBg.png')",
+        backgroundImage: "url('/images/footerBg.png')",
         backgroundAttachment: "fixed",
         backgroundSize: "cover",
         backgroundPosition: "center",

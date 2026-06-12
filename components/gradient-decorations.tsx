@@ -73,14 +73,14 @@ export function GradientDecorations() {
 
       {/* Subtle brand logo watermark - bottom right */}
       <img
-        src="/media/logo.png"
+        src="/images/logo.png"
         alt=""
         className="absolute -right-6 bottom-[6%] h-24 w-auto opacity-[0.05] md:h-32"
       />
 
       {/* Subtle brand logo watermark - top left */}
       <img
-        src="/media/logo.png"
+        src="/images/logo.png"
         alt=""
         className="absolute -left-4 top-[8%] h-16 w-auto opacity-[0.04] md:h-20"
       />

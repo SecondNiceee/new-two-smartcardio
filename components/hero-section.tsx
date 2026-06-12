@@ -13,9 +13,9 @@ export function HeroSection() {
         muted
         loop
         playsInline
-        poster="/media/smartcardio-start.webp"
+        poster="/images/smartcardio-start.webp"
       >
-        <source src="/media/smartcardio.mp4" type="video/mp4" />
+        <source src="/videos/smartcardio.mp4" type="video/mp4" />
       </video>
 
       {/* Overlay for readability */}
