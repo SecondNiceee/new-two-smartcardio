@@ -1,6 +1,6 @@
 // Cross-platform start script — works on Windows (cmd.exe) and Linux/macOS.
 // Set HOST and PORT environment variables to override the defaults.
-const { spawnSync } = require("child_process")
+const { spawn } = require("child_process")
 
 const mode = process.argv[2] === "dev" ? "dev" : "start"
 
@@ -17,10 +17,24 @@ try {
 const host = process.env.HOST || "127.0.0.1"
 const port = process.env.PORT || "3000"
 
-const result = spawnSync(
+const child = spawn(
   "next",
   [mode, "--hostname", host, "--port", port],
   { stdio: "inherit", shell: true }
 )
 
-process.exit(result.status ?? 0)
+child.on("exit", (code) => {
+  process.exit(code ?? 0)
+})
+
+// Forward SIGTERM and SIGINT from PM2 to the child next-server process
+// so it actually dies when `pm2 stop` / `pm2 delete` is called
+const shutdown = (signal) => {
+  if (child && !child.killed) {
+    child.kill(signal)
+  }
+}
+
+process.on("SIGTERM", () => shutdown("SIGTERM"))
+process.on("SIGINT", () => shutdown("SIGINT"))
+process.on("SIGHUP", () => shutdown("SIGHUP"))
