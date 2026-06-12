@@ -61,9 +61,14 @@ export function useScrollAnimation({
           observer.unobserve(element)
         }
       },
-      { 
-        threshold,
-        rootMargin: "-50px 0px"
+      {
+        // threshold: 0 => срабатывает как только хоть один пиксель элемента
+        // пересекает активную область. Это критично для секций, которые
+        // выше вьюпорта: с большим threshold (напр. 0.15) высокая секция
+        // никогда не наберёт нужный процент видимости и анимация не запустится.
+        threshold: 0,
+        // Запускаем чуть раньше, чем верх элемента полностью войдёт снизу.
+        rootMargin: "0px 0px -10% 0px",
       }
     )
 
@@ -71,9 +76,7 @@ export function useScrollAnimation({
 
     // Если элемент уже в viewport в момент подключения observer — проверяем сразу
     const rect = element.getBoundingClientRect()
-    const inView =
-      rect.top < window.innerHeight - 50 &&
-      rect.bottom > 50
+    const inView = rect.top < window.innerHeight && rect.bottom > 0
     if (inView) {
       triggerVisible()
       observer.unobserve(element)
@@ -82,7 +85,7 @@ export function useScrollAnimation({
     return () => {
       observer.disconnect()
     }
-  }, [threshold, delay, hasAnimated, animationEnabled])
+  }, [delay, hasAnimated, animationEnabled])
 
   const getTransform = () => {
     switch (direction) {
