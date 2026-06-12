@@ -41,12 +41,16 @@ async function fetchAndSaveToken() {
   }
 
   try {
-    const url = `${CDEK_AUTH_URL}?grant_type=client_credentials&client_id=${encodeURIComponent(clientId)}&client_secret=${encodeURIComponent(clientSecret)}`
+    const body = new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: clientId,
+      client_secret: clientSecret,
+    })
 
-    const res = await fetch(url, {
+    const res = await fetch(CDEK_AUTH_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
       cache: "no-store",
     })
 
