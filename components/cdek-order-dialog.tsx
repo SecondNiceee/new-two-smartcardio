@@ -218,6 +218,12 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
                   regionCode={formData.regionCode}
                   cityName={formData.city}
                   selectedPvz={selectedPvz}
+                  formData={{
+                    name: formData.name,
+                    phone: formData.phone,
+                    email: formData.email,
+                    comment: formData.comment,
+                  }}
                   onSelect={setSelectedPvz}
                   onBack={() => setStep("delivery-type")}
                   onNext={(sum) => {
@@ -225,6 +231,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
                     setDeliveryTariffCode(TARIFF_PVZ_TO_PVZ)
                     setStep("confirm")
                   }}
+                  onSwitchToCourier={() => setStep("courier")}
                 />
               )}
 

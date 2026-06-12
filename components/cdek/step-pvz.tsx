@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { CheckCircle2, Loader2, MapPin, Package, ChevronRight, ChevronLeft, Search } from "lucide-react"
+import { CheckCircle2, Loader2, MapPin, Package, ChevronRight, ChevronLeft, Search, HelpCircle, Mail, Truck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { PvzLocation, Tariff } from "./types"
@@ -16,28 +16,43 @@ interface RawPvz {
   work_time: string
 }
 
+interface FormData {
+  name: string
+  phone: string
+  email: string
+  comment: string
+}
+
 export function StepPvz({
   cityCode,
   regionCode,
   cityName,
   selectedPvz,
+  formData,
   onSelect,
   onBack,
   onNext,
+  onSwitchToCourier,
 }: {
   cityCode: string
   regionCode: number
   cityName: string
   selectedPvz: PvzLocation | null
+  formData: FormData
   onSelect: (pvz: PvzLocation) => void
   onBack: () => void
   onNext: (deliverySum: number) => void
+  onSwitchToCourier: () => void
 }) {
   const [pvzList, setPvzList] = useState<RawPvz[]>([])
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [tariffs, setTariffs] = useState<Tariff[]>([])
+  const [showNoPvz, setShowNoPvz] = useState(false)
+  const [noPvzSending, setNoPvzSending] = useState(false)
+  const [noPvzSent, setNoPvzSent] = useState(false)
+  const [noPvzError, setNoPvzError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!cityCode) return
@@ -67,6 +82,30 @@ export function StepPvz({
       .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false))
   }, [cityCode])
+
+  async function handleNoPvzNotify() {
+    setNoPvzSending(true)
+    setNoPvzError(null)
+    try {
+      const res = await fetch("/api/cdek/no-pvz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          city: cityName,
+          comment: formData.comment,
+        }),
+      })
+      if (!res.ok) throw new Error("Ошибка отправки")
+      setNoPvzSent(true)
+    } catch {
+      setNoPvzError("Не удалось отправить запрос. Попробуйте ещё раз.")
+    } finally {
+      setNoPvzSending(false)
+    }
+  }
 
   // Tariff 136 = Посылка склад-склад (ПВЗ→ПВЗ)
   const PVZ_TARIFF_CODE = 136
@@ -187,6 +226,64 @@ export function StepPvz({
             })}
           </div>
         </>
+      )}
+
+      {/* "Нет вашего района?" block */}
+      {!showNoPvz ? (
+        <button
+          type="button"
+          onClick={() => setShowNoPvz(true)}
+          className="flex items-center gap-1.5 self-start text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        >
+          <HelpCircle className="h-4 w-4" />
+          Нет вашего района?
+        </button>
+      ) : (
+        <div className="rounded-xl border border-border bg-muted/40 p-4">
+          {noPvzSent ? (
+            <div className="flex items-center gap-2 text-sm text-foreground">
+              <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
+              <span>Мы получили ваш запрос и свяжемся с вами в ближайшее время.</span>
+            </div>
+          ) : (
+            <>
+              <p className="mb-3 text-sm font-medium text-foreground">
+                Выберите, как вам удобно:
+              </p>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1 justify-start gap-2"
+                  onClick={onSwitchToCourier}
+                >
+                  <Truck className="h-4 w-4 shrink-0" />
+                  Доставка курьером
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1 justify-start gap-2"
+                  disabled={noPvzSending}
+                  onClick={handleNoPvzNotify}
+                >
+                  {noPvzSending ? (
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+                  ) : (
+                    <Mail className="h-4 w-4 shrink-0" />
+                  )}
+                  Сообщить нам
+                </Button>
+              </div>
+              {noPvzError && (
+                <p className="mt-2 text-xs text-destructive">{noPvzError}</p>
+              )}
+              <p className="mt-2 text-xs text-muted-foreground">
+                «Сообщить нам» — отправит ваши контактные данные, и мы найдём решение.
+              </p>
+            </>
+          )}
+        </div>
       )}
 
       <div className="flex gap-3">
