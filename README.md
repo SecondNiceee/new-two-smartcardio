@@ -3,14 +3,14 @@
 ## Требования
 
 - Node.js >= 18
-- npm / yarn / pnpm
+- pnpm
 
 ---
 
 ## Установка
 
 ```bash
-npm install
+pnpm install
 ```
 
 ---
@@ -60,7 +60,7 @@ SMTP_PASS=secret
 ### Режим разработки
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Приложение будет доступно по адресу: [http://localhost:3000](http://localhost:3000)
@@ -68,8 +68,8 @@ npm run dev
 ### Продакшн-сборка
 
 ```bash
-npm run build
-npm run start
+pnpm build
+pnpm start
 ```
 
 ---
