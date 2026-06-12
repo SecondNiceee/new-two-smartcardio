@@ -68,21 +68,6 @@ export async function POST(req: Request) {
       requireTLS,
     })
 
-    // Проверяем соединение с SMTP-сервером до отправки — даёт понятную ошибку
-    try {
-      await transporter.verify()
-      console.log("[v0][review] SMTP connection verified OK")
-    } catch (verifyErr) {
-      console.error("[v0][review] SMTP verify failed:", verifyErr)
-      return NextResponse.json(
-        {
-          error: "SMTP connection failed",
-          details: verifyErr instanceof Error ? verifyErr.message : String(verifyErr),
-        },
-        { status: 500 },
-      )
-    }
-
     const stars = "★".repeat(rating) + "☆".repeat(5 - rating)
 
     const info = await transporter.sendMail({
