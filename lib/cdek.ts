@@ -141,6 +141,23 @@ interface CdekCityRaw {
   region_code?: number
 }
 
+/**
+ * Fetch the region_code for a given city by its city_code.
+ * Uses /location/cities?code=<city_code> which returns the full city record
+ * including a reliable region_code.
+ */
+export async function getCityRegionCode(cityCode: number): Promise<number> {
+  try {
+    const data = await cdekFetch<{ region_code?: number }[] | { region_code?: number }>(
+      `/location/cities?code=${cityCode}&country_codes=RU`,
+    )
+    const arr = Array.isArray(data) ? data : [data]
+    return arr[0]?.region_code ?? 0
+  } catch {
+    return 0
+  }
+}
+
 /** Autocomplete cities by name query */
 export async function suggestCities(name: string): Promise<CdekCity[]> {
   const token = readToken()
