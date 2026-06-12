@@ -1,90 +1,92 @@
 /**
- * CDEK OAuth token manager
+ * CDEK OAuth token manager (lazy, in-memory)
  *
- * - Fetches token directly from the proxy (CDEK_BASE_URL)
- * - Stores token on disk in token.json (process.cwd())
- * - startTokenRefreshLoop() runs every 30 minutes at server startup
- * - readToken() is called by every API route to get the current token
+ * - getToken() lazily fetches an OAuth token on first use and caches it in memory
+ * - Token is refreshed automatically when it is missing or about to expire
+ * - On auth failure the cache stays empty, so the NEXT request retries cleanly
+ *   (no server restart required after fixing env vars)
  */
-
-import fs from "fs"
-import path from "path"
-
-const TOKEN_FILE = path.join(process.cwd(), "token.json")
 
 /** CDEK auth endpoint — built from CDEK_BASE_URL env var
- *  CDEK_BASE_URL must include the /cdek path prefix, e.g. https://lk.smartcardio.ru/cdek
+ *  CDEK_BASE_URL must include the /cdek path prefix for the proxy,
+ *  e.g. https://lk.smartcardio.ru/cdek — or the direct API host, e.g. https://api.edu.cdek.ru
  */
-const CDEK_AUTH_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru/cdek"}/v2/oauth/token`
+function authUrl(): string {
+  const base = process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru/cdek"
+  return `${base.replace(/\/+$/, "")}/v2/oauth/token`
+}
 
 interface TokenData {
   access_token: string
   expires_at: number // unix ms
 }
 
-/** Read the current token synchronously from disk */
-export function readToken(): string {
-  try {
-    const raw = fs.readFileSync(TOKEN_FILE, "utf-8")
-    const data = JSON.parse(raw) as TokenData
-    return data.access_token
-  } catch {
-    throw new Error("CDEK token not available — server may still be initialising")
-  }
-}
+let cached: TokenData | null = null
+let inflight: Promise<string> | null = null
 
-async function fetchAndSaveToken() {
+/** Refresh 60s before actual expiry to avoid edge-of-expiry 401s */
+const EXPIRY_SKEW_MS = 60 * 1000
+
+async function fetchToken(): Promise<string> {
   const clientId = process.env.CDEK_CLIENT_ID
   const clientSecret = process.env.CDEK_CLIENT_SECRET
 
   if (!clientId || !clientSecret) {
-    console.error("[cdek-token] Missing CDEK_CLIENT_ID or CDEK_CLIENT_SECRET")
-    return
+    throw new Error("[cdek-token] Missing CDEK_CLIENT_ID or CDEK_CLIENT_SECRET")
   }
 
-  try {
-    const body = new URLSearchParams({
-      grant_type: "client_credentials",
-      client_id: clientId,
-      client_secret: clientSecret,
-    })
+  const body = new URLSearchParams({
+    grant_type: "client_credentials",
+    client_id: clientId,
+    client_secret: clientSecret,
+  })
 
-    const res = await fetch(CDEK_AUTH_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: body.toString(),
-      cache: "no-store",
-    })
+  const url = authUrl()
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
+    cache: "no-store",
+  })
 
-    if (!res.ok) {
-      const text = await res.text()
-      console.error(`[cdek-token] Auth failed ${res.status}: ${text}`)
-      return
-    }
-
-    const data = (await res.json()) as { access_token: string; expires_in: number }
-
-    const tokenData: TokenData = {
-      access_token: data.access_token,
-      expires_at: Date.now() + data.expires_in * 1000,
-    }
-
-    fs.writeFileSync(TOKEN_FILE, JSON.stringify(tokenData, null, 2), "utf-8")
-
-    console.log("[cdek-token] Token refreshed successfully")
-  } catch (err) {
-    console.error("[cdek-token] Error fetching token:", err)
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(`[cdek-token] Auth failed ${res.status} at ${url}: ${text}`)
   }
+
+  const data = (await res.json()) as { access_token: string; expires_in: number }
+
+  cached = {
+    access_token: data.access_token,
+    expires_at: Date.now() + data.expires_in * 1000,
+  }
+
+  console.log("[cdek-token] Token refreshed successfully")
+  return cached.access_token
 }
 
-const REFRESH_INTERVAL_MS = 30 * 60 * 1000 // 30 minutes
+/**
+ * Get a valid CDEK access token.
+ * Returns the cached token if still valid, otherwise fetches a fresh one.
+ * Concurrent callers share a single in-flight request.
+ */
+export async function getToken(): Promise<string> {
+  if (cached && Date.now() < cached.expires_at - EXPIRY_SKEW_MS) {
+    return cached.access_token
+  }
 
+  if (inflight) return inflight
+
+  inflight = fetchToken().finally(() => {
+    inflight = null
+  })
+
+  return inflight
+}
+
+/** Optional warmup at server startup — failures are non-fatal (lazy retry covers it) */
 export function startTokenRefreshLoop() {
-  // Fetch immediately on start
-  fetchAndSaveToken()
-
-  // Then repeat every 30 minutes
-  setInterval(fetchAndSaveToken, REFRESH_INTERVAL_MS)
-
-  console.log("[cdek-token] Token refresh loop started (every 30 min)")
+  getToken().catch((err) => {
+    console.error("[cdek-token] Initial token warmup failed (will retry on demand):", err)
+  })
 }
