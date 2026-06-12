@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   creator: 'СмартКардио®',
   publisher: 'СмартКардио®',
   applicationName: 'СмартКардио®',
-  category: 'health',
+  category: 'Бытовые приборы для здоровья',
   alternates: {
     canonical: '/',
   },
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
       'Снимите ЭКГ за 20 секунд без гелей и проводов. Запись 6 отведений с медицинской точностью и мгновенная расшифровка на основе ИИ.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/images/review-customer.png',
         width: 1200,
         height: 630,
         alt: 'СмартКардио® — портативный кардиограф для снятия ЭКГ',
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     title: 'СмартКардио® — портативный кардиограф для ЭКГ дома и в клинике',
     description:
       'Снимите ЭКГ за 20 секунд без гелей и проводов. Запись 6 отведений и мгновенная расшифровка на основе ИИ.',
-    images: ['/og-image.png'],
+    images: ['/images/review-customer.png'],
   },
   robots: {
     index: true,
