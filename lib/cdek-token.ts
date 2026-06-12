@@ -13,7 +13,7 @@ import path from "path"
 const TOKEN_FILE = path.join(process.cwd(), "token.json")
 
 /** CDEK auth endpoint — built from CDEK_BASE_URL env var */
-const CDEK_AUTH_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru"}/cdek/v2/oauth/token`
+const CDEK_AUTH_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru/cdek"}/v2/oauth/token`
 
 interface TokenData {
   access_token: string
