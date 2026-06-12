@@ -6,11 +6,12 @@
  * Token is managed by lib/cdek-token.ts (file-based, refreshed every 30 min)
  */
 
-import { readToken } from "@/lib/cdek-token"
+import { getToken } from "@/lib/cdek-token"
 import { fromLocation } from "@/lib/cdek-config"
 
-/** CDEK_BASE_URL must include the /cdek path prefix, e.g. https://lk.smartcardio.ru/cdek */
-const CDEK_BASE_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru/cdek"}/v2`
+/** CDEK_BASE_URL must include the /cdek path prefix for the proxy
+ *  (e.g. https://lk.smartcardio.ru/cdek) or be the direct API host (e.g. https://api.edu.cdek.ru) */
+const CDEK_BASE_URL = `${(process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru/cdek").replace(/\/+$/, "")}/v2`
 
 /** Commission charged by CDEK on the payment value (6%) */
 export const CDEK_COMMISSION = 0.06
@@ -107,7 +108,7 @@ async function cdekFetch<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const token = readToken()
+  const token = await getToken()
   const res = await fetch(`${CDEK_BASE_URL}${path}`, {
     ...options,
     headers: {
@@ -161,7 +162,7 @@ export async function getCityRegionCode(cityCode: number): Promise<number> {
 
 /** Autocomplete cities by name query */
 export async function suggestCities(name: string): Promise<CdekCity[]> {
-  const token = readToken()
+  const token = await getToken()
   const res = await fetch(
     `${CDEK_BASE_URL}/location/suggest/cities?name=${encodeURIComponent(name)}&country_codes=RU`,
     {
