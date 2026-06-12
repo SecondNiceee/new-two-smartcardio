@@ -43,11 +43,11 @@ export interface CdekCalcResult {
 
 export interface CdekOrderRequest {
   tariff_code: number
-  /** City the parcel ships from (required for door-based tariffs) */
-  from_location?: { code: number; address?: string }
-  /** PVZ code — required for door-to-warehouse delivery (tariff 138) */
+  /** Код склада-отправителя СДЭК (для тарифов склад-…: 136, 137) */
+  shipment_point?: string
+  /** PVZ code — required for warehouse-to-warehouse delivery (tariff 136) */
   delivery_point?: string
-  /** Destination — used for door-to-door courier delivery (tariff 139) */
+  /** Destination — used for warehouse-to-door courier delivery (tariff 137) */
   to_location?: { code: number; address?: string }
   /** Объявленная ценность отправления (= цена устройства) */
   sum?: number
