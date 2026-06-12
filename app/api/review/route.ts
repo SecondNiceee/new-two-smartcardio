@@ -15,6 +15,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "SMTP env vars not configured" }, { status: 500 })
   }
 
+  // SMTP_SECURE: "true" = всегда SSL, "false" = полностью без SSL/TLS, не задано = SSL только на порту 465
+  const secureExplicitlyOff = process.env.SMTP_SECURE === "false"
   const secure =
     process.env.SMTP_SECURE !== undefined
       ? process.env.SMTP_SECURE === "true"
@@ -29,6 +31,8 @@ export async function POST(req: Request) {
     port,
     secure,
     auth,
+    // Когда SSL явно выключен — запрещаем nodemailer'у апгрейдить соединение до STARTTLS
+    ...(secureExplicitlyOff ? { ignoreTLS: true, requireTLS: false } : {}),
   })
 
   const stars = "★".repeat(rating) + "☆".repeat(5 - rating)
