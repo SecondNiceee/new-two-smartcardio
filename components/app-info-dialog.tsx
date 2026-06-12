@@ -1,7 +1,7 @@
 "use client"
 
 import { type ReactNode } from "react"
-import Image from "next/image"
+import { ResponsivePicture } from "@/components/responsive-picture"
 import {
   Dialog,
   DialogContent,
@@ -22,12 +22,12 @@ export function AppInfoDialog({ trigger }: { trigger: ReactNode }) {
         <div className="mt-2 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-10">
           {/* Image */}
           <div className="mx-auto w-full max-w-xs lg:w-[45%] lg:max-w-none lg:shrink-0">
-            <Image
+            <ResponsivePicture
               src="/images/violations-detection.png"
               alt="Три смартфона с приложением СмартКардио, показывающие цветовую индикацию результатов: зеленый — норма, жёлтый — экстрасистолия, красный — фибрилляция предсердий"
+              className="h-auto w-full"
               width={900}
               height={700}
-              className="h-auto w-full"
             />
           </div>
 

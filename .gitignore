@@ -11,6 +11,9 @@ __v0_jsx-dev-runtime.ts
 .env.*
 !.env.example
 
+# Source images (originals before WebP conversion — not needed in repo)
+src-images/
+
 # Common ignores
 node_modules
 .next/

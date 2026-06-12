@@ -16,6 +16,7 @@ for %%F in (
     src-images\step-app.png
     src-images\step-device.jpeg
     src-images\footerBg.png
+    src-images\violations-detection.png
 ) do (
     REM --- 3840 at 97 quality (for retina / 4K screens) ---
     for %%W in (3840) do (
