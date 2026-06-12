@@ -52,28 +52,28 @@ const stores: StoreItem[] = [
   {
     name: "TestFlight",
     caption: "Загрузить в",
-    href: "#",
+    href: "https://testflight.apple.com/join/ku8iGLOm",
     tile: "bg-gradient-to-br from-sky-500 to-blue-600",
     logo: <AppStoreLogo />,
   },
   {
     name: "Google Play",
     caption: "Доступно в",
-    href: "#",
+    href: "https://play.google.com/store/apps/details?id=com.arytmed.smartcardio",
     tile: "bg-gradient-to-br from-emerald-500 to-green-600",
     logo: <GooglePlayLogo />,
   },
   {
     name: "RuStore",
     caption: "Установите из",
-    href: "#",
+    href: "https://www.rustore.ru/catalog/app/com.arytmed.smartcardio",
     logo: <RuStoreLogo />,
     fullTile: true,
   },
   {
     name: "AppGallery",
     caption: "Скачайте в",
-    href: "#",
+    href: "https://appgallery.huawei.com/app/C111299787",
     logo: <AppGalleryLogo />,
     fullTile: true,
   },
@@ -95,6 +95,8 @@ export function DownloadDialog({ trigger }: { trigger: ReactNode }) {
             <a
               key={store.name}
               href={store.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex items-center gap-4 rounded-xl border border-border bg-background p-4 transition-colors hover:border-primary/40 hover:bg-muted/60"
             >
               {store.fullTile ? (
