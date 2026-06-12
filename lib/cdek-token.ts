@@ -2,10 +2,15 @@
  * CDEK OAuth token manager
  *
  * - Fetches token directly from the proxy (CDEK_BASE_URL)
- * - Stores token in memory (no fs dependency — compatible with Turbopack/Edge)
+ * - Stores token on disk in token.json (process.cwd())
  * - startTokenRefreshLoop() runs every 30 minutes at server startup
  * - readToken() is called by every API route to get the current token
  */
+
+import fs from "fs"
+import path from "path"
+
+const TOKEN_FILE = path.join(process.cwd(), "token.json")
 
 /** CDEK auth endpoint — built from CDEK_BASE_URL env var */
 const CDEK_AUTH_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru"}/cdek/v2/oauth/token`
@@ -15,28 +20,15 @@ interface TokenData {
   expires_at: number // unix ms
 }
 
-// In-memory token store (lives for the lifetime of the server process)
-let tokenData: TokenData | null = null
-
-// Promise that resolves once the first token fetch completes
-let initialTokenPromise: Promise<void> | null = null
-
-export async function getToken(): Promise<string> {
-  if (!tokenData && initialTokenPromise) {
-    await initialTokenPromise
-  }
-  if (!tokenData) {
-    throw new Error("CDEK token not available — check CDEK_CLIENT_ID / CDEK_CLIENT_SECRET")
-  }
-  return tokenData.access_token
-}
-
-/** @deprecated use getToken() instead */
+/** Read the current token synchronously from disk */
 export function readToken(): string {
-  if (!tokenData) {
+  try {
+    const raw = fs.readFileSync(TOKEN_FILE, "utf-8")
+    const data = JSON.parse(raw) as TokenData
+    return data.access_token
+  } catch {
     throw new Error("CDEK token not available — server may still be initialising")
   }
-  return tokenData.access_token
 }
 
 async function fetchAndSaveToken() {
@@ -66,10 +58,12 @@ async function fetchAndSaveToken() {
 
     const data = (await res.json()) as { access_token: string; expires_in: number }
 
-    tokenData = {
+    const tokenData: TokenData = {
       access_token: data.access_token,
       expires_at: Date.now() + data.expires_in * 1000,
     }
+
+    fs.writeFileSync(TOKEN_FILE, JSON.stringify(tokenData, null, 2), "utf-8")
 
     console.log("[cdek-token] Token refreshed successfully")
   } catch (err) {
@@ -80,10 +74,8 @@ async function fetchAndSaveToken() {
 const REFRESH_INTERVAL_MS = 30 * 60 * 1000 // 30 minutes
 
 export function startTokenRefreshLoop() {
-  // Fetch immediately on start; store promise so getToken() can await it
-  initialTokenPromise = fetchAndSaveToken().finally(() => {
-    initialTokenPromise = null
-  })
+  // Fetch immediately on start
+  fetchAndSaveToken()
 
   // Then repeat every 30 minutes
   setInterval(fetchAndSaveToken, REFRESH_INTERVAL_MS)
