@@ -15,6 +15,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "SMTP не настроен" }, { status: 500 })
   }
 
+  // SMTP_SECURE: "true" = всегда SSL, "false" = полностью без SSL/TLS, не задано = SSL только на порту 465
+  const secureExplicitlyOff = process.env.SMTP_SECURE === "false"
   const secure =
     process.env.SMTP_SECURE !== undefined
       ? process.env.SMTP_SECURE === "true"
@@ -22,7 +24,14 @@ export async function POST(req: Request) {
 
   const auth = user && pass ? { user, pass } : undefined
 
-  const transporter = nodemailer.createTransport({ host, port, secure, auth })
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure,
+    auth,
+    // Когда SSL явно выключен — запрещаем nodemailer'у апгрейдить соединение до STARTTLS
+    ...(secureExplicitlyOff ? { ignoreTLS: true, requireTLS: false } : {}),
+  })
 
   await transporter.sendMail({
     from: `"СмартКардио сайт" <${from}>`,
