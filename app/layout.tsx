@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import { StructuredData } from '@/components/structured-data'
 import './globals.css'
 
@@ -116,7 +115,6 @@ export default function RootLayout({
       <body className="font-sans antialiased overflow-x-hidden max-w-full">
         <StructuredData />
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   )
