@@ -5,12 +5,12 @@ export async function POST(req: Request) {
   const { name, serial, date, email, text, rating } = await req.json()
 
   const host = process.env.SMTP_HOST
-  const port = Number(process.env.SMTP_PORT ?? 465)
+  const port = Number(process.env.SMTP_PORT ?? 25)
   const user = process.env.SMTP_USER
   const pass = process.env.SMTP_PASS
   const to = process.env.REVIEW_EMAIL_TO
 
-  if (!host || !user || !pass || !to) {
+  if (!host || !to) {
     return NextResponse.json({ error: "SMTP env vars not configured" }, { status: 500 })
   }
 
@@ -19,17 +19,23 @@ export async function POST(req: Request) {
       ? process.env.SMTP_SECURE === "true"
       : port === 465
 
+  // If SMTP_USER and SMTP_PASS are set — use auth (standard relay).
+  // If not set — open relay mode (no auth).
+  const auth = user && pass ? { user, pass } : undefined
+
   const transporter = nodemailer.createTransport({
     host,
     port,
     secure,
-    auth: { user, pass },
+    auth,
   })
 
   const stars = "★".repeat(rating) + "☆".repeat(5 - rating)
 
   await transporter.sendMail({
-    from: `"СмартКардио сайт" <${user}>`,
+    from: user
+      ? `"СмартКардио сайт" <${user}>`
+      : `"СмартКардио сайт" <noreply@smartcardio.ru>`,
     to,
     subject: `Новый отзыв от ${name || "Аноним"} — ${stars}`,
     text: [
