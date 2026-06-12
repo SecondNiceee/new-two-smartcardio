@@ -16,7 +16,7 @@ import { StepCourier } from "@/components/cdek/step-courier"
 import { StepConfirm } from "@/components/cdek/step-confirm"
 import { StepSuccess } from "@/components/cdek/step-success"
 import type { FormData, PvzLocation, CourierLocation, DeliveryType, Step } from "@/components/cdek/types"
-import { fromLocation } from "@/lib/cdek"
+import { fromLocation } from "@/lib/cdek-config"
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
