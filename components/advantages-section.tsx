@@ -41,10 +41,10 @@ const advantages = [
 ] as const
 
 export function AdvantagesSection() {
-  const { ref, style } = useScrollAnimation({ direction: "bottom" })
+  const { ref } = useScrollAnimation({ direction: "bottom" })
 
   return (
-    <section id="advantages" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-x-hidden bg-slate-900 py-8 md:py-10">
+    <section id="advantages" ref={ref as React.RefObject<HTMLElement>} className="relative overflow-x-hidden bg-slate-900 py-8 md:py-10">
       {/* Background blobs */}
       <div className="pointer-events-none absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-brand-cyan/20 blur-3xl" />
       <div className="pointer-events-none absolute -right-32 bottom-1/3 h-72 w-72 rounded-full bg-brand-teal/20 blur-3xl" />

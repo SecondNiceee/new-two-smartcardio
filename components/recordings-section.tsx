@@ -50,7 +50,7 @@ export function RecordingsSection() {
     startIndex: 1,
   })
   const [selectedIndex, setSelectedIndex] = useState(1)
-  const { ref, style } = useScrollAnimation({ direction: "right" })
+  const { ref } = useScrollAnimation({ direction: "right" })
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
@@ -73,7 +73,7 @@ export function RecordingsSection() {
   }, [emblaApi, onSelect])
 
   return (
-    <section id="recordings" ref={ref as React.RefObject<HTMLElement>} style={style} className="relative overflow-hidden py-8 md:py-8">
+    <section id="recordings" ref={ref as React.RefObject<HTMLElement>} className="relative overflow-hidden py-8 md:py-8">
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         {/* Section header */}
         <div className="mx-auto max-w-2xl text-center">
@@ -147,7 +147,7 @@ export function RecordingsSection() {
                         }
                         images={slides}
                         initialIndex={i}
-                        title="Примеры записей с прибора"
+                        title="��римеры записей с прибора"
                       />
                       <div className="flex items-center justify-center bg-foreground/90 px-4 py-3">
                         <p className="truncate text-center text-sm font-semibold text-background md:text-base">

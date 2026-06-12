@@ -38,12 +38,11 @@ const galleryImages: GalleryImage[] = patents.map((p) => ({
 }))
 
 export function PatentsSection() {
-  const { ref, style } = useScrollAnimation({ direction: "bottom" })
+  const { ref } = useScrollAnimation({ direction: "bottom" })
 
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      style={style}
       className="relative overflow-hidden py-8 md:py-10"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">

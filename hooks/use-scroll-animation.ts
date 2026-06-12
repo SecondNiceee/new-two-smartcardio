@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 
 type AnimationDirection = "left" | "right" | "bottom" | "top"
 
@@ -10,91 +10,58 @@ interface UseScrollAnimationOptions {
   delay?: number
 }
 
+// CSS классы для анимации добавляются через JS после монтирования,
+// поэтому серверный HTML всегда полностью видимый (для ботов/краулеров).
+// Анимация работает через CSS transition + класс "scroll-animated".
 export function useScrollAnimation({
   direction = "bottom",
   threshold = 0.15,
   delay = 0,
 }: UseScrollAnimationOptions = {}) {
   const ref = useRef<HTMLElement>(null)
-  // Стартуем как "не анимировано". Анимацию включаем только после монтирования
-  // на клиенте, чтобы серверный HTML (который видят боты и краулеры) всегда
-  // содержал полностью видимый контент.
-  const [isVisible, setIsVisible] = useState(false)
-  const [hasAnimated, setHasAnimated] = useState(false)
-  const [animationEnabled, setAnimationEnabled] = useState(false)
-
-  useEffect(() => {
-    // Уважаем настройку пользователя «уменьшить движение» — анимацию не запускаем
-    const prefersReducedMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-
-    if (prefersReducedMotion) {
-      setIsVisible(true)
-      setHasAnimated(true)
-      return
-    }
-
-    setAnimationEnabled(true)
-  }, [])
 
   useEffect(() => {
     const element = ref.current
-    if (!element || hasAnimated || !animationEnabled) return
+    if (!element) return
+
+    // Уважаем prefers-reduced-motion — анимацию не запускаем
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReducedMotion) return
+
+    // Добавляем CSS-переменную направления и класс "will-animate"
+    // только на клиенте — сервер видит чистый HTML без скрытого контента
+    const directionMap: Record<AnimationDirection, string> = {
+      bottom: "translateY(60px)",
+      top: "translateY(-60px)",
+      left: "translateX(-60px)",
+      right: "translateX(60px)",
+    }
+
+    element.style.setProperty("--sa-transform", directionMap[direction])
+    element.classList.add("will-animate")
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
+        if (entry.isIntersecting) {
+          const trigger = () => {
+            element.classList.add("scroll-animated")
+            element.classList.remove("will-animate")
+          }
           if (delay > 0) {
-            setTimeout(() => {
-              setIsVisible(true)
-              setHasAnimated(true)
-            }, delay)
+            setTimeout(trigger, delay)
           } else {
-            setIsVisible(true)
-            setHasAnimated(true)
+            trigger()
           }
           observer.unobserve(element)
         }
       },
-      { 
-        threshold,
-        rootMargin: "-50px 0px"
-      }
+      { threshold, rootMargin: "-40px 0px" }
     )
 
     observer.observe(element)
 
-    return () => {
-      observer.disconnect()
-    }
-  }, [threshold, delay, hasAnimated, animationEnabled])
+    return () => observer.disconnect()
+  }, [direction, threshold, delay])
 
-  const getTransform = () => {
-    switch (direction) {
-      case "left":
-        return "translateX(-80px)"
-      case "right":
-        return "translateX(80px)"
-      case "top":
-        return "translateY(-80px)"
-      case "bottom":
-      default:
-        return "translateY(80px)"
-    }
-  }
-
-  // Пока анимация не включена (серверный HTML, боты, отключённый JS,
-  // prefers-reduced-motion) контент всегда полностью видим и без сдвига.
-  const shouldHide = animationEnabled && !isVisible
-
-  const style: React.CSSProperties = {
-    opacity: shouldHide ? 0 : 1,
-    transform: shouldHide ? getTransform() : "translate(0, 0)",
-    transition: animationEnabled
-      ? "opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-      : undefined,
-  }
-
-  return { ref, style, isVisible }
+  return { ref }
 }

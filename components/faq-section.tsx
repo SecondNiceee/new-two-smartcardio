@@ -118,13 +118,12 @@ const faqs = [
 ] as const
 
 export function FaqSection() {
-  const { ref, style } = useScrollAnimation({ direction: "bottom" })
+  const { ref } = useScrollAnimation({ direction: "bottom" })
 
   return (
     <section
       id="faq"
       ref={ref as React.RefObject<HTMLElement>}
-      style={style}
       className="relative overflow-x-hidden py-8 md:py-10"
     >
       <div className="mx-auto max-w-4xl px-4 md:px-8">

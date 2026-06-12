@@ -14,13 +14,12 @@ const audiences = [
 ]
 
 export function GenerationsSection() {
-  const { ref, style } = useScrollAnimation({ direction: "right" })
+  const { ref } = useScrollAnimation({ direction: "right" })
 
   return (
     <section
       id="generations"
       ref={ref as React.RefObject<HTMLElement>}
-      style={style}
       className="relative overflow-hidden py-8 md:py-10"
     >
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
