@@ -307,7 +307,8 @@ function StepPvz({
   selectedPvz: PvzLocation | null
   onSelect: (pvz: PvzLocation) => void
   onBack: () => void
-  onNext: () => void
+  /** deliverySum — итоговая стоимость доставки от СДЭК (без комиссии) */
+  onNext: (deliverySum: number) => void
 }) {
   const [pvzList, setPvzList] = useState<
     {
@@ -378,7 +379,7 @@ function StepPvz({
           <div className="flex items-center gap-2 text-sm text-foreground">
             <Package className="h-4 w-4 text-primary" />
             <span>
-              Доставка до {cityName}:{" "}
+              Доставка ��о {cityName}:{" "}
               <span className="font-semibold text-primary">
                 от {cheapestTariff.delivery_sum} ₽
               </span>
@@ -482,7 +483,7 @@ function StepPvz({
           type="button"
           className="flex-1"
           disabled={!selectedPvz}
-          onClick={onNext}
+          onClick={() => onNext(cheapestTariff?.delivery_sum ?? 0)}
         >
           Подтвердить
           <ChevronRight className="ml-1 h-4 w-4" />
@@ -604,6 +605,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
   const [step, setStep] = useState<Step>("form")
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM)
   const [selectedPvz, setSelectedPvz] = useState<PvzLocation | null>(null)
+  const [deliverySum, setDeliverySum] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [orderUuid, setOrderUuid] = useState<string | null>(null)
@@ -627,13 +629,25 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
     setSubmitting(true)
     setSubmitError(null)
 
+    // Финансовые параметры
+    const DEVICE_PRICE = 15600          // сколько платит покупатель за прибор
+    const COMMISSION = 0.06             // комиссия СДЭК 6%
+    const sellerAmount = Math.round((DEVICE_PRICE * (1 - COMMISSION)) * 100) / 100
+    // deliverySum — итоговая стоимость доставки от СДЭК (total_sum)
+    // Покупатель платит её сверху, поэтому передаём как delivery_recipient_cost
+    const deliveryCost = Math.round(deliverySum * 100) / 100
+
     try {
       const res = await fetch("/api/cdek/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          tariff_code: 136, // Door-to-door standard (Посылка склад-склад)
+          tariff_code: 136, // Посылка склад-склад
           delivery_point: selectedPvz.code,
+          // Объявленная ценность отправления
+          sum: DEVICE_PRICE,
+          // Стоимость доставки, которую оплачивает получатель
+          delivery_recipient_cost: { value: deliveryCost },
           sender: {
             name: "СмартКардио",
             phones: [{ number: "+74951234567" }],
@@ -647,15 +661,17 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
             {
               number: "1",
               weight: 500,
-              length: 20,
-              width: 15,
+              length: 33,
+              width: 24,
               height: 5,
               items: [
                 {
                   name: "СмартКардио® прибор",
                   ware_key: "SMARTCARDIO-001",
-                  payment: { value: 0 },
-                  cost: 15600,
+                  // payment.value — сколько СДЭК берёт с покупателя (цена устройства)
+                  payment: { value: DEVICE_PRICE, vat_sum: 0, vat_rate: 0 },
+                  // cost — сколько СДЭК переводит продавцу (после комиссии 6%)
+                  cost: sellerAmount,
                   weight: 500,
                   amount: 1,
                 },
@@ -722,7 +738,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
                   selectedPvz={selectedPvz}
                   onSelect={setSelectedPvz}
                   onBack={() => setStep("form")}
-                  onNext={() => setStep("confirm")}
+                  onNext={(sum) => { setDeliverySum(sum); setStep("confirm") }}
                 />
               )}
               {step === "confirm" && !isSuccess && selectedPvz && (

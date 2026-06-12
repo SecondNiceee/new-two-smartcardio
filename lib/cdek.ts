@@ -8,6 +8,9 @@
 
 const CDEK_BASE_URL = "https://api.edu.cdek.ru/v2"
 
+/** Commission charged by CDEK on the payment value (6%) */
+export const CDEK_COMMISSION = 0.06
+
 function getEnv() {
   const CLIENT_ID = process.env.CDEK_CLIENT_ID
   const CLIENT_SECRET = process.env.CDEK_CLIENT_SECRET
@@ -84,6 +87,10 @@ export interface CdekCalcResult {
 export interface CdekOrderRequest {
   tariff_code: number
   delivery_point: string        // PVZ code
+  /** Объявленная ценность отправления (= цена устройства) */
+  sum?: number
+  /** Стоимость доставки, которую оплачивает получатель */
+  delivery_recipient_cost?: { value: number }
   sender: {
     name: string
     phones: { number: string }[]
@@ -102,7 +109,9 @@ export interface CdekOrderRequest {
     items?: {
       name: string
       ware_key: string
-      payment: { value: number }
+      /** Сколько СДЭК берёт с покупателя (= цена устройства) */
+      payment: { value: number; vat_sum?: number; vat_rate?: number }
+      /** Сколько СДЭК переводит продавцу (= price * (1 - COMMISSION)) */
       cost: number
       weight: number
       amount: number
