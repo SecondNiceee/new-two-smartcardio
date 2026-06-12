@@ -6,7 +6,7 @@
  * Token is managed by lib/cdek-token.ts (file-based, refreshed every 30 min)
  */
 
-import { readToken } from "@/lib/cdek-token"
+import { getToken } from "@/lib/cdek-token"
 
 const CDEK_BASE_URL = `${process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru"}/cdek/v2`
 
@@ -116,7 +116,7 @@ async function cdekFetch<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const token = readToken()
+  const token = await getToken()
   const res = await fetch(`${CDEK_BASE_URL}${path}`, {
     ...options,
     headers: {
@@ -153,7 +153,7 @@ interface CdekCityRaw {
 
 /** Autocomplete cities by name query */
 export async function suggestCities(name: string): Promise<CdekCity[]> {
-  const token = readToken()
+  const token = await getToken()
   const res = await fetch(
     `${CDEK_BASE_URL}/location/suggest/cities?name=${encodeURIComponent(name)}&country_codes=RU`,
     {

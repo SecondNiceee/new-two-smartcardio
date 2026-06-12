@@ -18,6 +18,20 @@ interface TokenData {
 // In-memory token store (lives for the lifetime of the server process)
 let tokenData: TokenData | null = null
 
+// Promise that resolves once the first token fetch completes
+let initialTokenPromise: Promise<void> | null = null
+
+export async function getToken(): Promise<string> {
+  if (!tokenData && initialTokenPromise) {
+    await initialTokenPromise
+  }
+  if (!tokenData) {
+    throw new Error("CDEK token not available — check CDEK_CLIENT_ID / CDEK_CLIENT_SECRET")
+  }
+  return tokenData.access_token
+}
+
+/** @deprecated use getToken() instead */
 export function readToken(): string {
   if (!tokenData) {
     throw new Error("CDEK token not available — server may still be initialising")
@@ -66,8 +80,10 @@ async function fetchAndSaveToken() {
 const REFRESH_INTERVAL_MS = 30 * 60 * 1000 // 30 minutes
 
 export function startTokenRefreshLoop() {
-  // Fetch immediately on start
-  fetchAndSaveToken()
+  // Fetch immediately on start; store promise so getToken() can await it
+  initialTokenPromise = fetchAndSaveToken().finally(() => {
+    initialTokenPromise = null
+  })
 
   // Then repeat every 30 minutes
   setInterval(fetchAndSaveToken, REFRESH_INTERVAL_MS)
