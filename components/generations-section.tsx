@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import { ResponsivePicture } from "@/components/responsive-picture"
 import { HeartPulse } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import { CdekOrderDialog } from "@/components/cdek-order-dialog"
@@ -40,12 +40,10 @@ export function GenerationsSection() {
             {/* Image */}
             <div className="order-1 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-foreground/5 lg:order-none">
               <div className="relative aspect-[4/3] w-full">
-                <Image
+                <ResponsivePicture
                   src="/media/generations.png"
                   alt="Руки трёх поколений держат прибор СмартКардио"
                   fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
             </div>

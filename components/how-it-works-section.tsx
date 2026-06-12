@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import { ResponsivePicture } from "@/components/responsive-picture"
 import { Button } from "@/components/ui/button"
 import { DownloadDialog } from "@/components/download-dialog"
 import { PlacementDialog } from "@/components/placement-dialog"
@@ -104,12 +104,10 @@ export function HowItWorksSection() {
 
                 {/* Image */}
                 <div className="relative mx-5 mt-5 h-52 overflow-hidden rounded-xl bg-muted">
-                  <Image
+                  <ResponsivePicture
                     src={step.image}
                     alt={step.imageAlt}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover"
                   />
                 </div>
 

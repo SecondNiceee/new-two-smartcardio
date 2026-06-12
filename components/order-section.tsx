@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import Image from "next/image"
+import { ResponsivePicture } from "@/components/responsive-picture"
 import { CdekOrderDialog } from "@/components/cdek-order-dialog"
 
 export function OrderSection() {
@@ -54,13 +54,12 @@ export function OrderSection() {
         {/* Photo (right) */}
         <div className="relative">
           <div className="relative overflow-hidden rounded-2xl shadow-xl ring-1 ring-slate-200">
-            <Image
+            <ResponsivePicture
               src="/images/advantages-bg.png"
               alt="Консультация врача с пациентом и прибором СмартКардио"
+              className="h-auto w-full"
               width={1456}
               height={1080}
-              className="h-auto w-full object-cover"
-              priority={false}
             />
           </div>
         </div>

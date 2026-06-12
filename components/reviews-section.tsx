@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import Image from "next/image"
+import { ResponsivePicture } from "@/components/responsive-picture"
 import useEmblaCarousel from "embla-carousel-react"
 import { Star, MessageSquarePlus } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
@@ -139,13 +139,13 @@ export function ReviewsSection() {
           {/* Photo (left, desktop) */}
           <div className="order-1 hidden lg:block">
             <div className="h-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-              <Image
+              <ResponsivePicture
                 src="/images/review-customer.png"
                 alt="Покупатель СмартКардио держит прибор в руке"
+                className="h-full w-full"
+                imgStyle={{ objectPosition: "-53px center" }}
                 width={420}
                 height={600}
-                className="h-full w-full object-cover"
-                style={{ objectPosition: "-53px center" }}
               />
             </div>
           </div>
@@ -243,12 +243,13 @@ export function ReviewsSection() {
             {/* Photo (mobile only, below carousel) */}
             <div className="mt-6 block lg:hidden">
               <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-                <Image
+                <ResponsivePicture
                   src="/images/review-customer.png"
                   alt="Покупатель СмартКардио держит прибор в руке"
+                  className="h-96 w-full"
+                  imgStyle={{ objectPosition: "top" }}
                   width={420}
                   height={400}
-                  className="h-96 w-full object-cover object-top"
                 />
               </div>
             </div>

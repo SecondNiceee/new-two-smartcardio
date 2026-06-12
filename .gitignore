@@ -7,10 +7,16 @@ __v0_jsx-dev-runtime.ts
 .vercel/
 
 # Environment variables
-.env*.local
+.env
+.env.*
+!.env.example
+
+# Generated responsive WebP images (regenerated after each build)
+public/images/r/
 
 # Common ignores
 node_modules
 .next/
 .DS_Store
 .vercel
+pnpm-lock.yaml
