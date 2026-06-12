@@ -8,7 +8,7 @@
 
 import { readToken } from "@/lib/cdek-token"
 
-const CDEK_BASE_URL = "https://lk.smartcardio.ru/cdek/v2"
+const CDEK_BASE_URL = `${process.env.CDEK_API_URL ?? "https://lk.smartcardio.ru/cdek/v2"}`
 
 /** Commission charged by CDEK on the payment value (6%) */
 export const CDEK_COMMISSION = 0.06

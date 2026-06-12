@@ -12,8 +12,8 @@ import path from "path"
 
 const TOKEN_FILE = path.join(process.cwd(), "token.json")
 
-/** Direct CDEK auth endpoint — always hits the real API, not the proxy */
-const CDEK_AUTH_URL = "https://api.cdek.ru/v2/oauth/token"
+/** Auth endpoint — taken from CDEK_AUTH_URL env var */
+const CDEK_AUTH_URL = `${process.env.CDEK_AUTH_URL ?? "https://api.cdek.ru/v2"}/oauth/token`
 
 interface TokenData {
   access_token: string
