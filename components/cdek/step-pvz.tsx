@@ -44,17 +44,21 @@ export function StepPvz({
     setLoading(true)
     setError(null)
 
-    // Prefer region_code so we get all offices in the region (e.g. Moscow oblast),
-    // fall back to city_code only when region is unavailable.
-    const pvzQuery =
-      regionCode > 0
-        ? `/api/cdek/pvz?region_code=${regionCode}`
-        : `/api/cdek/pvz?city_code=${cityCode}`
+    // Step 1: get region_code from /settlements, then fetch PVZ by region_code.
+    // Fall back to city_code if region_code is unavailable.
+    fetch(`/api/cdek/settlements?code=${cityCode}`)
+      .then((r) => r.json())
+      .then(({ region_code }: { region_code: number }) => {
+        const pvzQuery =
+          region_code > 0
+            ? `/api/cdek/pvz?region_code=${region_code}`
+            : `/api/cdek/pvz?city_code=${cityCode}`
 
-    Promise.all([
-      fetch(pvzQuery).then((r) => r.json()),
-      fetch(`/api/cdek/calc?city_code=${cityCode}`).then((r) => r.json()),
-    ])
+        return Promise.all([
+          fetch(pvzQuery).then((r) => r.json()),
+          fetch(`/api/cdek/calc?city_code=${cityCode}`).then((r) => r.json()),
+        ])
+      })
       .then(([pvzData, calcData]) => {
         if (pvzData.error) throw new Error(pvzData.error)
         setPvzList(pvzData)
