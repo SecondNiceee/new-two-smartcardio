@@ -85,10 +85,16 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
     setStep(deliveryType)
   }
 
-  async function handleSubmitOrder() {
+  async function handleSubmitOrder(withCase: boolean) {
     setSubmitting(true)
     setSubmitError(null)
 
+    const CASE_PRICE = 300
+    const itemPrice = DEVICE_PRICE + (withCase ? CASE_PRICE : 0)
+    const itemName = withCase
+      ? "Прибор СмартКардио® с чехлом для хранения"
+      : "СмартКардио® прибор"
+    const sellerAmount = Math.round(itemPrice * (1 - COMMISSION) * 100) / 100
     const deliveryCost = Math.round(deliverySum * 100) / 100
 
     const basePayload = {
@@ -102,7 +108,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
         latitude: fromLocation.latitude,
         longitude: fromLocation.longitude,
       },
-      sum: DEVICE_PRICE,
+      sum: itemPrice,
       delivery_recipient_cost: { value: deliveryCost },
       sender: {
         name: "СмартКардио",
@@ -122,10 +128,10 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
           height: 5,
           items: [
             {
-              name: "СмартКардио® прибор",
-              ware_key: "SMARTCARDIO-001",
-              payment: { value: DEVICE_PRICE, vat_sum: 0, vat_rate: 0 },
-              cost: SELLER_AMOUNT,
+              name: itemName,
+              ware_key: withCase ? "SMARTCARDIO-001-CASE" : "SMARTCARDIO-001",
+              payment: { value: itemPrice, vat_sum: 0, vat_rate: 0 },
+              cost: sellerAmount,
               weight: 500,
               amount: 1,
             },
@@ -258,7 +264,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
                   courierLocation={courierLocation}
                   deliverySum={deliverySum}
                   onBack={() => setStep(deliveryType ?? "pvz")}
-                  onSubmit={handleSubmitOrder}
+                  onSubmit={(withCase) => handleSubmitOrder(withCase)}
                   loading={submitting}
                   error={submitError}
                 />

@@ -1,10 +1,14 @@
 "use client"
 
-import { Loader2, ChevronLeft } from "lucide-react"
+import { useState } from "react"
+import { Loader2, ChevronLeft, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import type { FormData, PvzLocation, CourierLocation, DeliveryType } from "./types"
 
 const DEVICE_PRICE = 15600
+const CASE_PRICE = 300
 
 export function StepConfirm({
   data,
@@ -23,10 +27,11 @@ export function StepConfirm({
   courierLocation: CourierLocation | null
   deliverySum: number
   onBack: () => void
-  onSubmit: () => void
+  onSubmit: (withCase: boolean) => void
   loading: boolean
   error: string | null
 }) {
+  const [withCase, setWithCase] = useState(false)
   const deliveryRows =
     deliveryType === "pvz" && pvz
       ? [
@@ -42,7 +47,11 @@ export function StepConfirm({
           ]
         : []
 
-  const totalPrice = DEVICE_PRICE + Math.round(deliverySum)
+  const deviceTotal = DEVICE_PRICE + (withCase ? CASE_PRICE : 0)
+  const totalPrice = deviceTotal + Math.round(deliverySum)
+  const itemName = withCase
+    ? "Прибор СмартКардио® с чехлом для хранения"
+    : "Прибор СмартКардио®"
 
   const rows = [
     { label: "Получатель", value: data.name },
@@ -67,9 +76,29 @@ export function StepConfirm({
         ))}
       </div>
 
+      {/* Case upsell */}
+      <label
+        htmlFor="add-case"
+        className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3 transition-colors hover:bg-muted/70 has-[[data-state=checked]]:border-primary/40 has-[[data-state=checked]]:bg-primary/5"
+      >
+        <Checkbox
+          id="add-case"
+          checked={withCase}
+          onCheckedChange={(v) => setWithCase(!!v)}
+          className="mt-0.5 shrink-0"
+        />
+        <div className="flex flex-1 items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Package className="h-4 w-4 shrink-0 text-muted-foreground" />
+            <span className="text-sm font-medium">Добавить чехол для хранения прибора</span>
+          </div>
+          <span className="shrink-0 text-sm font-semibold text-primary">+{CASE_PRICE} ₽</span>
+        </div>
+      </label>
+
       <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 px-4 py-3">
-        <span className="text-sm text-muted-foreground">Прибор</span>
-        <span className="text-sm font-medium">{DEVICE_PRICE.toLocaleString("ru-RU")} ₽</span>
+        <span className="text-sm text-muted-foreground">{itemName}</span>
+        <span className="text-sm font-medium">{deviceTotal.toLocaleString("ru-RU")} ₽</span>
       </div>
       <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 px-4 py-3">
         <span className="text-sm text-muted-foreground">Доставка</span>
@@ -91,7 +120,7 @@ export function StepConfirm({
           <ChevronLeft className="mr-1 h-4 w-4" />
           Назад
         </Button>
-        <Button type="button" className="flex-1" onClick={onSubmit} disabled={loading}>
+        <Button type="button" className="flex-1" onClick={() => onSubmit(withCase)} disabled={loading}>
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
