@@ -35,17 +35,17 @@ async function fetchToken(): Promise<string> {
     throw new Error("[cdek-token] Missing CDEK_CLIENT_ID or CDEK_CLIENT_SECRET")
   }
 
-  const body = new URLSearchParams({
+  const searchParams = new URLSearchParams({
     grant_type: "client_credentials",
     client_id: clientId,
     client_secret: clientSecret,
   })
 
   const url = authUrl()
-  const res = await fetch(url, {
+  const res = await fetch(`${url}?${searchParams}`, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: body.toString(),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({}),
     cache: "no-store",
   })
 
