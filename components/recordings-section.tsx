@@ -91,17 +91,17 @@ export function RecordingsSection() {
         {/* Embla carousel */}
         <div className="relative mt-10">
           {/* Left fade */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent sm:w-24 md:w-32" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-background to-transparent sm:w-28 md:w-40" />
           {/* Right fade */}
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent sm:w-24 md:w-32" />
-          <div className="overflow-hidden" ref={emblaRef}>
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-background to-transparent sm:w-28 md:w-40" />
+          <div className="overflow-hidden px-16 sm:px-20 md:px-24" ref={emblaRef}>
             <div className="flex touch-pan-y">
               {slides.map((slide, i) => {
                 const isActive = i === selectedIndex
                 return (
                   <div
                     key={i}
-                    className="min-w-0 shrink-0 grow-0 basis-[72%] pl-4 sm:basis-[55%] md:basis-[46%]"
+                    className="min-w-0 shrink-0 grow-0 basis-[80%] pl-4 sm:basis-[62%] md:basis-[52%]"
                   >
                     <div
                       className={[
@@ -147,7 +147,7 @@ export function RecordingsSection() {
                         }
                         images={slides}
                         initialIndex={i}
-                        title="Примеры записей с прибора"
+                        title="��римеры записей с прибора"
                       />
                       <div className="flex items-center justify-center bg-foreground/90 px-4 py-3">
                         <p className="truncate text-center text-sm font-semibold text-background md:text-base">
@@ -165,7 +165,7 @@ export function RecordingsSection() {
           <button
             onClick={scrollPrev}
             aria-label="Предыдущая запись"
-            className="absolute left-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:left-4"
+            className="absolute left-4 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-background shadow-md ring-1 ring-border backdrop-blur-sm transition-colors hover:bg-muted sm:left-6 md:left-8"
           >
             <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -174,7 +174,7 @@ export function RecordingsSection() {
           <button
             onClick={scrollNext}
             aria-label="Следующая запись"
-            className="absolute right-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 shadow backdrop-blur-sm transition-colors hover:bg-background md:right-4"
+            className="absolute right-4 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-background shadow-md ring-1 ring-border backdrop-blur-sm transition-colors hover:bg-muted sm:right-6 md:right-8"
           >
             <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
