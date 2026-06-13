@@ -1,19 +1,19 @@
 const socials = [
   {
     name: "Научно-популярная медицина",
-    href: "https://vk.com",
+    href: "https://vk.com/smart_cardio",
     network: "ВКонтакте",
     icon: "/images/icon-vk.svg",
   },
   {
     name: "Для врачей",
-    href: "https://t.me",
+    href: "https://t.me/smart_cardio",
     network: "Telegram",
     icon: "/images/icon-telegram.svg",
   },
   {
     name: "Наш блог",
-    href: "https://dzen.ru",
+    href: "https://dzen.ru/smartcardio",
     network: "Дзен",
     icon: "/images/icon-dzen.svg",
   },
