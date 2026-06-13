@@ -27,22 +27,47 @@ let inflight: Promise<string> | null = null
 /** Refresh 60s before actual expiry to avoid edge-of-expiry 401s */
 const EXPIRY_SKEW_MS = 60 * 1000
 
+/** true — прокси smartcardio (prod), false — тестовый api.edu.cdek.ru */
+const isProduction = process.env.IS_PRODUCTION !== "false"
+
 async function fetchToken(): Promise<string> {
   const baseUrl = authUrl()
+  let url: string
+  let fetchOptions: RequestInit
 
-  const params = new URLSearchParams({ grant_type: "client_credentials" })
-  const clientId = process.env.CDEK_CLIENT_ID
-  const clientSecret = process.env.CDEK_CLIENT_SECRET
-  if (clientId) params.set("client_id", clientId)
-  if (clientSecret) params.set("client_secret", clientSecret)
+  if (isProduction) {
+    // Prod: credentials в query-параметрах, пустой JSON body
+    const params = new URLSearchParams({ grant_type: "client_credentials" })
+    const clientId = process.env.CDEK_CLIENT_ID
+    const clientSecret = process.env.CDEK_CLIENT_SECRET
+    if (clientId) params.set("client_id", clientId)
+    if (clientSecret) params.set("client_secret", clientSecret)
+    url = `${baseUrl}?${params}`
+    fetchOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+      cache: "no-store",
+    }
+  } else {
+    // Test (api.edu.cdek.ru): стандартный OAuth2 x-www-form-urlencoded
+    const clientId = process.env.CDEK_CLIENT_ID ?? "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI"
+    const clientSecret = process.env.CDEK_CLIENT_SECRET ?? "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG"
+    const body = new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: clientId,
+      client_secret: clientSecret,
+    })
+    url = baseUrl
+    fetchOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+      cache: "no-store",
+    }
+  }
 
-  const url = `${baseUrl}?${params}`
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({}),
-    cache: "no-store",
-  })
+  const res = await fetch(url, fetchOptions)
 
   if (!res.ok) {
     const text = await res.text()
