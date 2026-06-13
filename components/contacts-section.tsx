@@ -1,3 +1,5 @@
+import { ResponsivePicture } from "@/components/responsive-picture"
+
 const socials = [
   {
     name: "Научно-популярная медицина",
@@ -24,14 +26,12 @@ export function ContactsSection() {
     <section
       id="contacts"
       className="relative bg-black py-10 md:py-14"
-      style={{
-        backgroundImage: "url('/images/footerBg.png')",
-        backgroundAttachment: "fixed",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
     >
+      <ResponsivePicture
+        src="/images/footerBg.png"
+        alt=""
+        fill
+      />
       <div className="absolute inset-0 bg-black/60 pointer-events-none" aria-hidden="true" />
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         <div className="text-center">
