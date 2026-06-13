@@ -14,6 +14,7 @@ const navItems = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
+  const [orderOpen, setOrderOpen] = useState(false)
 
   const handleNav = (href: string) => {
     setOpen(false)
@@ -120,20 +121,22 @@ export function SiteHeader() {
               }
             />
             <div className="mt-2 pt-2 border-t border-white/10">
-              <CdekOrderDialog
-                trigger={
-                  <button
-                    onClick={() => setOpen(false)}
-                    className="block w-full text-center rounded-md bg-white px-4 py-2.5 text-sm font-medium text-foreground shadow-sm hover:bg-white/90 transition-colors"
-                  >
-                    Заказать прибор
-                  </button>
-                }
-              />
+              <button
+                onClick={() => {
+                  setOpen(false)
+                  setOrderOpen(true)
+                }}
+                className="block w-full text-center rounded-md bg-white px-4 py-2.5 text-sm font-medium text-foreground shadow-sm hover:bg-white/90 transition-colors"
+              >
+                Заказать прибор
+              </button>
             </div>
           </nav>
         </div>
       )}
+
+      {/* Controlled order dialog (always mounted) */}
+      <CdekOrderDialog open={orderOpen} onOpenChange={setOrderOpen} />
     </header>
   )
 }
