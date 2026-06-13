@@ -28,7 +28,15 @@ let inflight: Promise<string> | null = null
 const EXPIRY_SKEW_MS = 60 * 1000
 
 async function fetchToken(): Promise<string> {
-  const url = authUrl()
+  const baseUrl = authUrl()
+
+  const params = new URLSearchParams({ grant_type: "client_credentials" })
+  const clientId = process.env.CDEK_CLIENT_ID
+  const clientSecret = process.env.CDEK_CLIENT_SECRET
+  if (clientId) params.set("client_id", clientId)
+  if (clientSecret) params.set("client_secret", clientSecret)
+
+  const url = `${baseUrl}?${params}`
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
