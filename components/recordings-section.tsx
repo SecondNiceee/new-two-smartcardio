@@ -111,44 +111,57 @@ export function RecordingsSection() {
                           : "scale-[0.88] opacity-40",
                       ].join(" ")}
                     >
-                      <GalleryDialog
-                        trigger={
-                          <div className="group relative cursor-pointer">
-                            <div className="relative aspect-[4/3] w-full">
-                              <Image
-                                src={slide.src}
-                                alt={slide.caption || ""}
-                                fill
-                                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                sizes="(max-width: 640px) 72vw, (max-width: 768px) 55vw, 46vw"
-                                priority={i === 0}
-                                draggable={false}
-                              />
-                              {/* Magnifying glass overlay */}
-                              <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40">
-                                <div className="flex h-14 w-14 scale-0 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-300 group-hover:scale-100">
-                                  <svg
-                                    className="h-6 w-6 text-foreground"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2}
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6"
-                                    />
-                                  </svg>
+                      {isActive ? (
+                        <GalleryDialog
+                          trigger={
+                            <div className="group relative cursor-pointer">
+                              <div className="relative aspect-[4/3] w-full">
+                                <Image
+                                  src={slide.src}
+                                  alt={slide.caption || ""}
+                                  fill
+                                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                  sizes="(max-width: 640px) 72vw, (max-width: 768px) 55vw, 46vw"
+                                  priority={i === 0}
+                                  draggable={false}
+                                />
+                                {/* Magnifying glass overlay */}
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40">
+                                  <div className="flex h-14 w-14 scale-0 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-300 group-hover:scale-100">
+                                    <svg
+                                      className="h-6 w-6 text-foreground"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      strokeWidth={2}
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6"
+                                      />
+                                    </svg>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        }
-                        images={slides}
-                        initialIndex={i}
-                        title="��римеры записей с прибора"
-                      />
+                          }
+                          images={slides}
+                          initialIndex={i}
+                          title="Примеры записей с прибора"
+                        />
+                      ) : (
+                        <div className="relative aspect-[4/3] w-full">
+                          <Image
+                            src={slide.src}
+                            alt={slide.caption || ""}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 72vw, (max-width: 768px) 55vw, 46vw"
+                            draggable={false}
+                          />
+                        </div>
+                      )}
                       <div className="flex items-center justify-center bg-foreground/90 px-4 py-3">
                         <p className="truncate text-center text-sm font-semibold text-background md:text-base">
                           {slide.caption}
