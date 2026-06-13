@@ -49,8 +49,22 @@ const STEP_TITLE: Partial<Record<Step, string>> = {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
-  const [open, setOpen] = useState(false)
+export function CdekOrderDialog({
+  trigger,
+  open: openProp,
+  onOpenChange: onOpenChangeProp,
+}: {
+  trigger?: ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}) {
+  const isControlled = openProp !== undefined
+  const [openInternal, setOpenInternal] = useState(false)
+  const open = isControlled ? openProp : openInternal
+  const setOpen = (next: boolean) => {
+    if (!isControlled) setOpenInternal(next)
+    onOpenChangeProp?.(next)
+  }
   const [step, setStep] = useState<Step>("form")
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM)
   const [deliveryType, setDeliveryType] = useState<DeliveryType | null>(null)
@@ -182,7 +196,7 @@ export function CdekOrderDialog({ trigger }: { trigger: ReactNode }) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <span onClick={() => setOpen(true)}>{trigger}</span>
+      {trigger ? <span onClick={() => setOpen(true)}>{trigger}</span> : null}
 
       <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-2xl">
         {isSuccess ? (
