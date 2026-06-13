@@ -28,21 +28,8 @@ let inflight: Promise<string> | null = null
 const EXPIRY_SKEW_MS = 60 * 1000
 
 async function fetchToken(): Promise<string> {
-  const clientId = process.env.CDEK_CLIENT_ID
-  const clientSecret = process.env.CDEK_CLIENT_SECRET
-
-  if (!clientId || !clientSecret) {
-    throw new Error("[cdek-token] Missing CDEK_CLIENT_ID or CDEK_CLIENT_SECRET")
-  }
-
-  const searchParams = new URLSearchParams({
-    grant_type: "client_credentials",
-    client_id: clientId,
-    client_secret: clientSecret,
-  })
-
   const url = authUrl()
-  const res = await fetch(`${url}?${searchParams}`, {
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({}),
