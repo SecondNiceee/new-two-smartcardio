@@ -2,21 +2,56 @@
 
 import { Button } from "@/components/ui/button"
 import { Activity, ArrowRight } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export function HeroSection() {
+  // Only mount the heavy autoplay video on larger screens. On phones we keep a
+  // lightweight static poster instead of downloading the 3MB+ MP4.
+  const [showVideo, setShowVideo] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)")
+    // Respect data-saver mode if the browser exposes it.
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    const update = () => setShowVideo(mq.matches && !conn?.saveData)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-x-hidden">
-      {/* Background video */}
-      <video
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="/images/smartcardio-start.webp"
-      >
-        <source src="/videos/smartcardio.mp4" type="video/mp4" />
-      </video>
+      {/* Background poster — lightweight on mobile, full-res on desktop.
+          Acts as the base layer (and the only media on phones). */}
+      <picture className="absolute inset-0 h-full w-full">
+        <source
+          media="(max-width: 767px)"
+          srcSet="/images/smartcardio-start-mobile.webp"
+          type="image/webp"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/smartcardio-start.webp"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          fetchPriority="high"
+          decoding="async"
+        />
+      </picture>
+
+      {/* Background video — desktop only, layered above the poster */}
+      {showVideo && (
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/images/smartcardio-start.webp"
+        >
+          <source src="/videos/smartcardio.mp4" type="video/mp4" />
+        </video>
+      )}
 
       {/* Overlay for readability */}
       <div className="absolute inset-0 bg-black/60" />
