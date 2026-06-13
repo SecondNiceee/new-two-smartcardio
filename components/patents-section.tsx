@@ -7,25 +7,25 @@ import { GalleryDialog, type GalleryImage } from "@/components/gallery-dialog"
 
 const patents = [
   {
-    src: "/images/patents/patent-206009.png",
+    src: "/images/patents/patent-206009.webp",
     alt: "Патент на полезную модель №206009 - Автономное устройство для регистрации жизненноважных показателей",
     title: "Патент на полезную модель",
     number: "№206009",
   },
   {
-    src: "/images/patents/patent-2766759.png",
+    src: "/images/patents/patent-2766759.webp",
     alt: "Патент на изобретение №2766759 - Многофункциональное портативное устройство для регистрации и анализа жизненно важных показателей",
     title: "Патент на изобретение",
     number: "№2766759",
   },
   {
-    src: "/images/patents/certificate-2022663045.png",
+    src: "/images/patents/certificate-2022663045.webp",
     alt: "Свидетельство о государственной регистрации программы для ЭВМ №2022663045 - Cardioxium Backend",
     title: "Свидетельство ПО",
     number: "№2022663045",
   },
   {
-    src: "/images/patents/certificate-989247.png",
+    src: "/images/patents/certificate-989247.webp",
     alt: "Свидетельство на товарный знак №989247 - SMARTCARDIO",
     title: "Товарный знак",
     number: "№989247",

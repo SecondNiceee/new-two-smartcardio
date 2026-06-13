@@ -7,7 +7,7 @@ export function CtaFooter() {
         <div className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
           <div className="flex items-center gap-2.5">
             <Image
-              src="/images/logo.png"
+              src="/images/logo.webp"
               alt="Логотип СмартКардио"
               width={32}
               height={32}
