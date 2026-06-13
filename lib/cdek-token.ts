@@ -1,12 +1,26 @@
 /**
  * CDEK OAuth token manager (lazy, in-memory)
+ * CDEK OAuth token manager (lazy, in-memory)
  *
  * - getToken() lazily fetches an OAuth token on first use and caches it in memory
  * - Token is refreshed automatically when it is missing or about to expire
  * - On auth failure the cache stays empty, so the NEXT request retries cleanly
  *   (no server restart required after fixing env vars)
  */
+ * - getToken() lazily fetches an OAuth token on first use and caches it in memory
+ * - Token is refreshed automatically when it is missing or about to expire
+ * - On auth failure the cache stays empty, so the NEXT request retries cleanly
+ *   (no server restart required after fixing env vars)
+ */
 
+/** CDEK auth endpoint — built from CDEK_BASE_URL env var
+ *  CDEK_BASE_URL must include the /cdek path prefix for the proxy,
+ *  e.g. https://lk.smartcardio.ru/cdek — or the direct API host, e.g. https://api.edu.cdek.ru
+ */
+function authUrl(): string {
+  const base = process.env.CDEK_BASE_URL ?? "https://lk.smartcardio.ru/cdek"
+  return `${base.replace(/\/+$/, "")}/v2/oauth/token`
+}
 /** CDEK auth endpoint — built from CDEK_BASE_URL env var
  *  CDEK_BASE_URL must include the /cdek path prefix for the proxy,
  *  e.g. https://lk.smartcardio.ru/cdek — or the direct API host, e.g. https://api.edu.cdek.ru
@@ -73,9 +87,18 @@ async function fetchToken(): Promise<string> {
     const text = await res.text()
     throw new Error(`[cdek-token] Auth failed ${res.status} at ${url}: ${text}`)
   }
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(`[cdek-token] Auth failed ${res.status} at ${url}: ${text}`)
+  }
 
   const data = (await res.json()) as { access_token: string; expires_in: number }
+  const data = (await res.json()) as { access_token: string; expires_in: number }
 
+  cached = {
+    access_token: data.access_token,
+    expires_at: Date.now() + data.expires_in * 1000,
+  }
   cached = {
     access_token: data.access_token,
     expires_at: Date.now() + data.expires_in * 1000,
@@ -105,7 +128,34 @@ export async function getToken(): Promise<string> {
 }
 
 /** Optional warmup at server startup — failures are non-fatal (lazy retry covers it) */
+  console.log("[cdek-token] Token refreshed successfully")
+  return cached.access_token
+}
+
+/**
+ * Get a valid CDEK access token.
+ * Returns the cached token if still valid, otherwise fetches a fresh one.
+ * Concurrent callers share a single in-flight request.
+ */
+export async function getToken(): Promise<string> {
+  if (cached && Date.now() < cached.expires_at - EXPIRY_SKEW_MS) {
+    return cached.access_token
+  }
+
+  if (inflight) return inflight
+
+  inflight = fetchToken().finally(() => {
+    inflight = null
+  })
+
+  return inflight
+}
+
+/** Optional warmup at server startup — failures are non-fatal (lazy retry covers it) */
 export function startTokenRefreshLoop() {
+  getToken().catch((err) => {
+    console.error("[cdek-token] Initial token warmup failed (will retry on demand):", err)
+  })
   getToken().catch((err) => {
     console.error("[cdek-token] Initial token warmup failed (will retry on demand):", err)
   })
