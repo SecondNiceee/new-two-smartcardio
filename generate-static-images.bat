@@ -1,3 +1,4 @@
+
 @echo off
 REM =========================================================
 REM  generate-static-images.bat
