@@ -103,7 +103,7 @@ export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
                   name="question"
                   required
                   placeholder="Напишите ваш вопрос..."
-                  rows={4}
+                  rows={7}
                 />
               </div>
 
