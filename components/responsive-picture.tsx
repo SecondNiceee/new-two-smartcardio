@@ -54,10 +54,14 @@ export function ResponsivePicture({
   // Derive the base filename from src if name not provided
   const baseName = name ?? src.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "image"
 
+  // <picture> is inline by default in some contexts — always force block so it
+  // behaves identically to a replaced element and doesn't add unwanted baseline space.
   const fillClass = fill ? "absolute inset-0 w-full h-full" : ""
-  const pictureClass = [fillClass, className].filter(Boolean).join(" ")
+  const pictureClass = ["block", fillClass, className].filter(Boolean).join(" ")
+  // Only apply object-cover by default when imgStyle doesn't specify objectFit
+  const defaultObjectFit = imgStyle?.objectFit ? "" : "object-cover"
   const imgClass = [
-    "object-cover",
+    defaultObjectFit,
     fill ? "absolute inset-0 w-full h-full" : "",
     className,
   ]

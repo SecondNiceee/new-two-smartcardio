@@ -1,7 +1,7 @@
 "use client"
 
-import Image from "next/image"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { ResponsivePicture } from "@/components/responsive-picture"
 import { ShieldCheck } from "lucide-react"
 import { GalleryDialog, type GalleryImage } from "@/components/gallery-dialog"
 
@@ -73,12 +73,12 @@ export function PatentsSection() {
                 <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-card/50 p-3 ring-1 ring-border/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:ring-primary/30 hover:shadow-xl sm:p-4">
                   {/* Image Container */}
                   <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-muted/30">
-                    <Image
+                    <ResponsivePicture
                       src={patent.src}
                       alt={patent.alt}
                       fill
-                      className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+                      className="p-2 transition-transform duration-300 group-hover:scale-105"
+                      imgStyle={{ objectFit: "contain" }}
                     />
                     {/* Magnifying glass overlay */}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/30">
