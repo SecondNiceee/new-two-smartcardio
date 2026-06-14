@@ -121,7 +121,7 @@ export function DownloadDialog({ trigger }: { trigger: ReactNode }) {
         {/* Apple instruction button */}
         <div className="mt-4 border-t border-border pt-4">
           <a
-            href="/pdf/instruction.pdf"
+            href="/api/redirect?to=iphone_manual"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"

@@ -5,6 +5,7 @@ const ALLOWED_DESTINATIONS: Record<string, string> = {
   googleplay: "https://play.google.com/store/apps/details?id=com.arytmed.smartcardio",
   rustore: "https://www.rustore.ru/catalog/app/com.arytmed.smartcardio",
   appgallery: "https://appgallery.huawei.com/app/C111299787",
+  iphone_manual: "/videos/iphone_manual.mp4",
 }
 
 export function GET(request: NextRequest) {
