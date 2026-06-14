@@ -1,19 +1,19 @@
-import Image from "next/image"
 import Link from "next/link"
 import { CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ResponsivePicture } from "@/components/responsive-picture"
 
 export default function CongratulationPage() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-16 text-center">
       {/* Background image — full width/height, darkened */}
       <div className="absolute inset-0">
-        <Image
+        <ResponsivePicture
           src="/images/footerBg.png"
           alt=""
           fill
-          className="object-cover"
-          priority
+          fetchPriority="high"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-black/60" />
       </div>
