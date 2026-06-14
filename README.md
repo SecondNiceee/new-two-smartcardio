@@ -62,6 +62,7 @@ SMTP_FROM=sender@example.com # опционально: адрес отправи
 | `SMTP_PASS` | нет | Пароль (без него — open relay) |
 | `SMTP_FROM` | нет | Email отправителя (без него — SMTP_USER или noreply@smartcardio.ru) |
 | `REVIEW_EMAIL_TO` | да | Email, на который приходят отзывы |
+| `QUESTION_EMAIL_TO` | да | Email, на который приходят вопросы с сайта |
 
 ### СДЭК
 

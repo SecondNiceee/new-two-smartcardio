@@ -79,7 +79,7 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-h-[95vh] overflow-hidden sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle className="text-center text-xl">Куда именно приложить прибор</DialogTitle>
+          <DialogTitle className="text-center text-xl md:text-2xl">Куда именно приложить прибор</DialogTitle>
           <DialogDescription className="text-center">
             Прибор можно использовать в нескольких удобных положениях. Выберите то, что подходит именно вам.
           </DialogDescription>

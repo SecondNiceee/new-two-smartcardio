@@ -1,38 +1,73 @@
 import { NextResponse } from "next/server"
+import nodemailer from "nodemailer"
 
 export async function POST(req: Request) {
-  const { name, phone, email } = await req.json()
+  try {
+    const { name, phone, email } = await req.json()
 
-  const botToken = process.env.TELEGRAM_BOT_TOKEN
-  const chatId = process.env.TELEGRAM_CHAT_ID
+    const host = process.env.SMTP_HOST
+    const port = Number(process.env.SMTP_PORT ?? 25)
+    const user = process.env.SMTP_USER
+    const pass = process.env.SMTP_PASS
+    const to = process.env.QUESTION_EMAIL_TO
+    const from = process.env.SMTP_FROM ?? (user ?? "noreply@smartcardio.ru")
+    const fromName = process.env.SMTP_FROM_NAME ?? "СмартКардио сайт"
 
-  if (!botToken || !chatId) {
-    return NextResponse.json({ error: "Telegram env vars not configured" }, { status: 500 })
+    if (!host || !to) {
+      return NextResponse.json({ error: "SMTP env vars not configured" }, { status: 500 })
+    }
+
+    // SMTP_SECURE: "true" = всегда SSL (порт 465), "false" или не задано при порте != 465 = без SSL/TLS
+    const secure =
+      process.env.SMTP_SECURE === "true" ? true
+      : process.env.SMTP_SECURE === "false" ? false
+      : port === 465
+
+    // Если соединение не зашифровано — полностью запрещаем STARTTLS-апгрейд
+    const ignoreTLS = !secure
+    const requireTLS = false
+
+    const auth = user && pass ? { user, pass } : undefined
+
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure,
+      auth,
+      ignoreTLS,
+      requireTLS,
+    })
+
+    const contact = phone ? `Телефон: ${phone}` : `Email: ${email}`
+
+    const info = await transporter.sendMail({
+      from: `"${fromName}" <${from}>`,
+      to,
+      subject: `Новый вопрос с сайта — ${name || "Аноним"}`,
+      text: [
+        `Новый вопрос с сайта СмартКардио`,
+        ``,
+        `Имя: ${name || "—"}`,
+        contact,
+      ].join("\n"),
+      html: `
+        <h2>Новый вопрос с сайта СмартКардио</h2>
+        <p><b>Имя:</b> ${name || "—"}</p>
+        <p><b>${phone ? "Телефон" : "Email"}:</b> ${phone || email || "—"}</p>
+      `,
+    })
+
+    console.log("[question] Mail sent OK:", { messageId: info.messageId, response: info.response })
+
+    return NextResponse.json({ ok: true })
+  } catch (err) {
+    console.error("[question] Unhandled error:", err)
+    return NextResponse.json(
+      {
+        error: "Failed to send question",
+        details: err instanceof Error ? err.message : String(err),
+      },
+      { status: 500 },
+    )
   }
-
-  const contact = phone ? `Телефон: ${phone}` : `Email: ${email}`
-
-  const message = [
-    "📩 *Новый вопрос с сайта СмартКардио*",
-    "",
-    `*Имя:* ${name || "—"}`,
-    contact,
-  ].join("\n")
-
-  const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: message,
-      parse_mode: "Markdown",
-    }),
-  })
-
-  if (!res.ok) {
-    const err = await res.text()
-    return NextResponse.json({ error: `Telegram error: ${err}` }, { status: 502 })
-  }
-
-  return NextResponse.json({ ok: true })
 }
