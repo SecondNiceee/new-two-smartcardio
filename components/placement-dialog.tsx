@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect, useCallback, type ReactNode } from "react"
-import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
+import { ResponsivePicture } from "@/components/responsive-picture"
 import {
   Dialog,
   DialogContent,
@@ -14,17 +14,17 @@ import {
 
 const uniqueSlides = [
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xvxvTVVaDnRWoAvfeqO1tPvvf7QRVC.png",
+    src: "/images/placement/placement-ankle.png",
     title: "Лодыжка левой ноги",
     description: "Приложите прибор к лодыжке для быстрой регистрации показателей.",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-BTOW02BMQAlGnf8j4Dg71MZct4gCKp.png",
+    src: "/images/placement/placement-knee.png",
     title: "Колено левой ноги",
     description: "Для комфортной записи из положения сидя разместите прибор на колене левой ноги.",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xTdHDUzqNrb63c0Omq2PCZgJsxBLYj.png",
+    src: "/images/placement/placement-abdomen.png",
     title: "Левая область живота",
     description:
       "Положение прибора в левой области живота позволяет измерять не только основные показатели, но и дыхательные движения.",
@@ -102,14 +102,14 @@ export function PlacementDialog({ trigger }: { trigger: ReactNode }) {
                       ].join(" ")}
                     >
                       <div className="relative h-[18rem] w-full sm:h-[24rem]">
-                        <Image
-                          src={slide.src || "/placeholder.svg"}
+                        <ResponsivePicture
+                          src={slide.src}
                           alt={slide.title}
                           fill
-                          className="object-cover object-top"
-                          sizes="(max-width: 640px) 80vw, 55vw"
-                          priority={i === 0}
-                          draggable={false}
+                          webpDir="/images/r/placement"
+                          imgStyle={{ objectPosition: "top" }}
+                          fetchPriority={i === 0 ? "high" : undefined}
+                          loading={i === 0 ? "eager" : "lazy"}
                         />
                       </div>
                       <div className="bg-foreground/90 px-5 py-4">

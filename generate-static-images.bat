@@ -76,6 +76,38 @@ for %%F in (
     )
 )
 
+REM =========================================================
+REM  Placement — output to public\images\r\placement\<width>\
+REM =========================================================
+
+for %%F in (
+    src-images\placement\placement-ankle.png
+    src-images\placement\placement-knee.png
+    src-images\placement\placement-abdomen.png
+) do (
+    for %%W in (3840) do (
+        mkdir public\images\r\placement\%%W 2>nul
+        magick.exe %%F -resize %%Wx -quality 97 ^
+            -define webp:image-hint=photo ^
+            -define webp:method=6 ^
+            -define webp:pass=10 ^
+            -define webp:auto-filter=true ^
+            public\images\r\placement\%%W\%%~nF.webp
+        echo [%%W] %%~nF.webp
+    )
+
+    for %%W in (1560 1440 1200 1140 1024 768 576 480 360) do (
+        mkdir public\images\r\placement\%%W 2>nul
+        magick.exe %%F -resize %%Wx -quality 99 ^
+            -define webp:image-hint=photo ^
+            -define webp:method=6 ^
+            -define webp:pass=10 ^
+            -define webp:auto-filter=true ^
+            public\images\r\placement\%%W\%%~nF.webp
+        echo [%%W] %%~nF.webp
+    )
+)
+
 echo.
 echo Done! Output: public\images\r\
 pause
