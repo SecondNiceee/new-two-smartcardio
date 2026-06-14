@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Textarea } from "@/components/ui/textarea"
 
 type ContactMode = "phone" | "email"
 
@@ -38,6 +39,7 @@ export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
           name: fd.get("name"),
           phone: fd.get("phone") ?? null,
           email: fd.get("email") ?? null,
+          question: fd.get("question") ?? null,
         }),
       })
       if (!res.ok) throw new Error("Ошибка отправки")
@@ -90,6 +92,19 @@ export function QuestionDialog({ trigger }: { trigger: ReactNode }) {
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="question-name">Ваше имя:</Label>
                 <Input id="question-name" name="name" placeholder="Иван" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="question-text">
+                  Вопрос: <span className="text-destructive">*</span>
+                </Label>
+                <Textarea
+                  id="question-text"
+                  name="question"
+                  required
+                  placeholder="Напишите ваш вопрос..."
+                  rows={4}
+                />
               </div>
 
               {/* Contact type toggle */}
