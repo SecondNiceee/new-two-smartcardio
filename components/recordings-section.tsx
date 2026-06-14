@@ -1,42 +1,42 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
+import { ResponsivePicture } from "@/components/responsive-picture"
 import { GalleryDialog, type GalleryImage } from "@/components/gallery-dialog"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const slides: GalleryImage[] = [
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image.png-Zq2OBOOaxRwy4cCxS5l3duFEVe83Dt.jpeg",
+    src: "/images/recordings/recording-01-atrial-tachycardia.jpeg",
     caption: "Эпизод предсердной тахикардии",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-qEatb2pnLqJaFqSgxgXAwZuKUIvGQ7.png",
+    src: "/images/recordings/recording-02-sinus-norm.png",
     caption: "Синусовый ритм, вариант нормы",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image.png-kVzBSNPHSDFK3O8rjBfxv9K1U8VFHL.jpeg",
+    src: "/images/recordings/recording-03-bigeminy.jpeg",
     caption: "Желудочковая бигеминия с дефицитом пульса",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%98%D0%92%D0%A0-SV4dSVvbOLNmxGNHsABgdIFIzKj08S.png",
+    src: "/images/recordings/recording-04-ivr.png",
     caption: "Эпизод ускоренного идиовентрикулярного ритма",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%90%D0%92%D0%91-prPzed7Eno6VScGwVcyozOgmZBH7oq.png",
+    src: "/images/recordings/recording-05-avb.png",
     caption: "Полная атриовентрикулярная блокада",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D1%82%D0%B0%D1%85%D0%B8-alsjHiLAf3KOiGG49UPHT7fNG9BGIc.png",
+    src: "/images/recordings/recording-06-tachycardia.png",
     caption: "Синусовая тахикардия",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%B8%D1%88%D0%B5%D0%BC%D0%B8%D1%8F-VoJm6BCyMbnija1iY3rJwnH3rtAN8f.png",
+    src: "/images/recordings/recording-07-ischemia.png",
     caption: "Острая ишемия миокарда",
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D0%96%D0%AD%D0%A1-8SmfC3HjlReUPUYXgRReVAax3xYDRd.png",
+    src: "/images/recordings/recording-08-ves.png",
     caption: "Частая желудочковая экстрасистолия",
   },
 ]
@@ -116,14 +116,14 @@ export function RecordingsSection() {
                           trigger={
                             <div className="group relative cursor-pointer">
                               <div className="relative aspect-[4/3] w-full">
-                                <Image
+                                <ResponsivePicture
                                   src={slide.src}
                                   alt={slide.caption || ""}
                                   fill
-                                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                  sizes="(max-width: 640px) 72vw, (max-width: 768px) 55vw, 46vw"
-                                  priority={i === 0}
-                                  draggable={false}
+                                  webpDir="/images/r/recordings"
+                                  className="transition-transform duration-300 group-hover:scale-105"
+                                  fetchPriority={i === 0 ? "high" : undefined}
+                                  loading={i === 0 ? "eager" : "lazy"}
                                 />
                                 {/* Magnifying glass overlay */}
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40">
@@ -152,13 +152,11 @@ export function RecordingsSection() {
                         />
                       ) : (
                         <div className="relative aspect-[4/3] w-full">
-                          <Image
+                          <ResponsivePicture
                             src={slide.src}
                             alt={slide.caption || ""}
                             fill
-                            className="object-cover"
-                            sizes="(max-width: 640px) 72vw, (max-width: 768px) 55vw, 46vw"
-                            draggable={false}
+                            webpDir="/images/r/recordings"
                           />
                         </div>
                       )}

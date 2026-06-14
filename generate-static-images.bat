@@ -108,6 +108,43 @@ for %%F in (
     )
 )
 
+REM =========================================================
+REM  Recordings — output to public\images\r\recordings\<width>\
+REM =========================================================
+
+for %%F in (
+    src-images\recordings\recording-01-atrial-tachycardia.jpeg
+    src-images\recordings\recording-02-sinus-norm.png
+    src-images\recordings\recording-03-bigeminy.jpeg
+    src-images\recordings\recording-04-ivr.png
+    src-images\recordings\recording-05-avb.png
+    src-images\recordings\recording-06-tachycardia.png
+    src-images\recordings\recording-07-ischemia.png
+    src-images\recordings\recording-08-ves.png
+) do (
+    for %%W in (3840) do (
+        mkdir public\images\r\recordings\%%W 2>nul
+        magick.exe %%F -resize %%Wx -quality 97 ^
+            -define webp:image-hint=photo ^
+            -define webp:method=6 ^
+            -define webp:pass=10 ^
+            -define webp:auto-filter=true ^
+            public\images\r\recordings\%%W\%%~nF.webp
+        echo [%%W] %%~nF.webp
+    )
+
+    for %%W in (1560 1440 1200 1140 1024 768 576 480 360) do (
+        mkdir public\images\r\recordings\%%W 2>nul
+        magick.exe %%F -resize %%Wx -quality 99 ^
+            -define webp:image-hint=photo ^
+            -define webp:method=6 ^
+            -define webp:pass=10 ^
+            -define webp:auto-filter=true ^
+            public\images\r\recordings\%%W\%%~nF.webp
+        echo [%%W] %%~nF.webp
+    )
+)
+
 echo.
 echo Done! Output: public\images\r\
 pause
