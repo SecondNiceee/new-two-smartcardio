@@ -43,6 +43,39 @@ for %%F in (
     )
 )
 
+REM =========================================================
+REM  Patents / certificates — output to public\images\r\patents\<width>\
+REM =========================================================
+
+for %%F in (
+    src-images\patents\certificate-2022663045.png
+    src-images\patents\certificate-989247.png
+    src-images\patents\patent-206009.png
+    src-images\patents\patent-2766759.png
+) do (
+    for %%W in (3840) do (
+        mkdir public\images\r\patents\%%W 2>nul
+        magick.exe %%F -resize %%Wx -quality 97 ^
+            -define webp:image-hint=photo ^
+            -define webp:method=6 ^
+            -define webp:pass=10 ^
+            -define webp:auto-filter=true ^
+            public\images\r\patents\%%W\%%~nF.webp
+        echo [%%W] %%~nF.webp
+    )
+
+    for %%W in (1560 1440 1200 1140 1024 768 576 480 360) do (
+        mkdir public\images\r\patents\%%W 2>nul
+        magick.exe %%F -resize %%Wx -quality 99 ^
+            -define webp:image-hint=photo ^
+            -define webp:method=6 ^
+            -define webp:pass=10 ^
+            -define webp:auto-filter=true ^
+            public\images\r\patents\%%W\%%~nF.webp
+        echo [%%W] %%~nF.webp
+    )
+)
+
 echo.
 echo Done! Output: public\images\r\
 pause

@@ -24,6 +24,8 @@ interface ResponsivePictureProps {
   alt: string
   /** Base name without extension, e.g. "generations". Defaults to filename from src. */
   name?: string
+  /** Override the WebP directory. Defaults to "/images/r". E.g. "/images/r/patents" */
+  webpDir?: string
   /** CSS classes forwarded to both <picture> and <img> */
   className?: string
   /** Inline styles forwarded to <img> only (e.g. objectPosition) */
@@ -42,6 +44,7 @@ export function ResponsivePicture({
   src,
   alt,
   name,
+  webpDir = "/images/r",
   className = "",
   imgStyle,
   fill = false,
@@ -76,7 +79,7 @@ export function ResponsivePicture({
       <source
         key={w}
         media={`(max-width: ${next - 1}px)`}
-        srcSet={`/images/r/${w}/${baseName}.webp`}
+        srcSet={`${webpDir}/${w}/${baseName}.webp`}
         type="image/webp"
       />
     )
@@ -87,7 +90,7 @@ export function ResponsivePicture({
   sources.push(
     <source
       key={largest}
-      srcSet={`/images/r/${largest}/${baseName}.webp`}
+      srcSet={`${webpDir}/${largest}/${baseName}.webp`}
       type="image/webp"
     />
   )

@@ -77,6 +77,7 @@ export function PatentsSection() {
                       src={patent.src}
                       alt={patent.alt}
                       fill
+                      webpDir="/images/r/patents"
                       className="p-2 transition-transform duration-300 group-hover:scale-105"
                       imgStyle={{ objectFit: "contain" }}
                     />
