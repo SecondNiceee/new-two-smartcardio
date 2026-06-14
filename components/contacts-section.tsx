@@ -25,7 +25,7 @@ export function ContactsSection() {
   return (
     <section
       id="contacts"
-      className="relative bg-black py-10 md:py-14"
+      className="relative bg-black py-16 md:py-24"
     >
       <ResponsivePicture
         src="/images/footerBg.png"
@@ -34,7 +34,7 @@ export function ContactsSection() {
         className="object-cover object-center"
         loading="lazy"
       />
-      <div className="absolute inset-0 bg-black/60 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-black/80 pointer-events-none" aria-hidden="true" />
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         <div className="text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight text-white md:text-4xl">
