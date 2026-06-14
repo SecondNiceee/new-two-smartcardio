@@ -3,7 +3,7 @@ import nodemailer from "nodemailer"
 
 export async function POST(req: Request) {
   try {
-    const { name, phone, email } = await req.json()
+    const { name, phone, email, question } = await req.json()
 
     const host = process.env.SMTP_HOST
     const port = Number(process.env.SMTP_PORT ?? 25)
@@ -49,11 +49,14 @@ export async function POST(req: Request) {
         ``,
         `Имя: ${name || "—"}`,
         contact,
+        ``,
+        `Вопрос: ${question || "—"}`,
       ].join("\n"),
       html: `
         <h2>Новый вопрос с сайта СмартКардио</h2>
         <p><b>Имя:</b> ${name || "—"}</p>
         <p><b>${phone ? "Телефон" : "Email"}:</b> ${phone || email || "—"}</p>
+        <p><b>Вопрос:</b> ${question || "—"}</p>
       `,
     })
 
