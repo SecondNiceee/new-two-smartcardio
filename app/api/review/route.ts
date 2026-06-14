@@ -17,19 +17,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "SMTP env vars not configured" }, { status: 500 })
     }
 
-    // Порт 465 = implicit SSL (secure: true)
-    // Порт 587 = STARTTLS (secure: false + requireTLS: true)
-    // SMTP_SECURE=true форсирует implicit SSL независимо от порта
-    // SMTP_SECURE=false форсирует plain (без шифрования)
-    const smtpSecureEnv = process.env.SMTP_SECURE
+    // SMTP_SECURE: "true" = всегда SSL (порт 465), "false" или не задано при порте != 465 = без SSL/TLS
     const secure =
-      smtpSecureEnv === "true" ? true
-      : smtpSecureEnv === "false" ? false
+      process.env.SMTP_SECURE === "true" ? true
+      : process.env.SMTP_SECURE === "false" ? false
       : port === 465
 
-    // STARTTLS нужен только на порту 587 (или явно не задан secure и порт не 465)
-    const requireTLS = !secure && port === 587
-    const ignoreTLS = !secure && !requireTLS
+    // Если соединение не зашифровано — полностью запрещаем STARTTLS-апгрейд
+    const ignoreTLS = !secure
+    const requireTLS = false
 
     const auth = user && pass ? { user, pass } : undefined
 
@@ -38,12 +34,8 @@ export async function POST(req: Request) {
       port,
       secure,
       auth,
-      requireTLS,
       ignoreTLS,
-      tls: {
-        // Не отклонять self-signed сертификаты
-        rejectUnauthorized: false,
-      },
+      requireTLS,
     })
 
     const stars = "★".repeat(rating) + "☆".repeat(5 - rating)
