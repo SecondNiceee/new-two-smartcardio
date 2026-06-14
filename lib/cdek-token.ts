@@ -28,7 +28,7 @@ let inflight: Promise<string> | null = null
 const EXPIRY_SKEW_MS = 60 * 1000
 
 /** true — прокси smartcardio (prod), false — тестовый api.edu.cdek.ru */
-const isProduction = process.env.IS_PRODUCTION !== "false"
+const isProduction = process.env.CDEK_IS_PRODUCTION !== "false"
 
 async function fetchToken(): Promise<string> {
   const baseUrl = authUrl()
