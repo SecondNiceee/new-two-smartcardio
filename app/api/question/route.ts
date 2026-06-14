@@ -11,6 +11,7 @@ export async function POST(req: Request) {
     const pass = process.env.SMTP_PASS
     const to = process.env.QUESTION_EMAIL_TO
     const from = process.env.SMTP_FROM ?? (user ?? "noreply@smartcardio.ru")
+    const fromName = process.env.SMTP_FROM_NAME ?? "СмартКардио сайт"
 
     if (!host || !to) {
       return NextResponse.json({ error: "SMTP env vars not configured" }, { status: 500 })
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
     const contact = phone ? `Телефон: ${phone}` : `Email: ${email}`
 
     const info = await transporter.sendMail({
-      from: `"СмартКардио сайт" <${from}>`,
+      from: `"${fromName}" <${from}>`,
       to,
       subject: `Новый вопрос с сайта — ${name || "Аноним"}`,
       text: [
